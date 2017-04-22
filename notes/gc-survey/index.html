@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.20.2" />
+  <meta name="author" content="Mike Appleby">
+  
+
+  
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/academicons.min.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  <link rel="alternate" href="http://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
+  <link rel="feed" href="http://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="http://app.leby.org/notes/gc-survey/">
+
+  
+
+  <title>Notes: Uniprocessor Garbage Collection Techniques | appleby</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">appleby</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/notes/">
+            
+            <span>Notes</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+  <div class="article-container">
+    <h1 itemprop="name">Notes: Uniprocessor Garbage Collection Techniques</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2014-07-20 00:00:00 &#43;0000 &#43;0000" itemprop="datePublished">
+      Sun, Jul 20, 2014
+    </time>
+  </span>
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<h1 id="overview">Overview</h1>
+
+<p>This page contains notes on a paper by Paul R. Wilson titled,
+&ldquo;Uniprocessor Garbage Collection Techniques&rdquo;.</p>
+
+<h1 id="sect-2-basic-garbage-collection-techniques">&sect; 2 Basic Garbage Collection Techniques</h1>
+
+<h2 id="sect-2-1-reference-counting">&sect; 2.1 Reference Counting</h2>
+
+<h3 id="pros">Pros</h3>
+
+<ul>
+<li>Incremental nature of operations makes it suitable for real time
+applications.</li>
+<li>Space efficient, able to operate with very low space overhead.</li>
+<li>Garbage typically collected immediately, which can be beneficial
+for object finalizers.</li>
+<li>May improve locality of reference.</li>
+<li>Easier to implement than full gc.</li>
+<li>Easier to reason about object lifetimes.</li>
+</ul>
+
+<h3 id="cons">Cons</h3>
+
+<ul>
+<li>Difficult to make efficient.
+
+<ul>
+<li>Cost of collection is generally proportional to amount of work
+done by the program, with a large constant of proportionality.</li>
+<li>E.g., if a variable is reassigned from one pointer to another,
+both pointers ref counts must be updated.</li>
+<li>Short lived stack variables can incur a large overhead if args
+are incref&rsquo;ed decref&rsquo;ed even for short lived functions. One
+solution is <em>defered reference counting</em> [DB76].
+
+<ul>
+<li>&ldquo;Much of this cost can be optimized away by special
+treatment of local variables [DB76]. Rather than adjusting
+reference counts and reclaiming objects whose counts become
+zero, references from the local variables are not included
+in this bookkeeping most of the time&hellip; Garbage collection
+can only be done when references from the stack are taken
+into account.&rdquo;</li>
+</ul></li>
+<li>There is also the cost of reclamation. &ldquo;It is difficult to
+make these reclamation operations take less than serveral
+instructions per object, and the cost is therefore
+proportional to the number of objects allocated by the running
+program.&rdquo;</li>
+</ul></li>
+<li>Must deal with cycles.
+
+<ul>
+<li>ref counting is <em>conservative</em>.</li>
+<li>ref counting systems often include some other kind of
+collector to deal with cyclic structures.</li>
+</ul></li>
+<li>Other techniques are generally more efficient and reliable.</li>
+</ul>
+
+<h2 id="sect-2-2-mark-sweep-collection">&sect; 2.2 Mark-Sweep Collection</h2>
+
+<h3 id="pros-1">Pros</h3>
+
+<ul>
+<li>Reasonably simple to implement.</li>
+<li>With the right optimizations, performance can be comparable to
+copy collectors.</li>
+</ul>
+
+<h3 id="cons-1">Cons</h3>
+
+<ul>
+<li>Fragmentation
+
+<ul>
+<li>Mitigated by keeping separate free lists for objects of
+different sizes and merging adjacent free space.</li>
+<li>Must decide whether to alloc new memory for small objects or
+split up large contiguous blocks.</li>
+</ul></li>
+<li>Cost of collection is proportional to the size of the heap.
+
+<ul>
+<li>Can be mitigated by using a bitmap to track live objects in the
+heap. If live objects are clustered, then the cost of marking
+may be greatly reduced.</li>
+</ul></li>
+<li>Poor locality of reference due to fragmentation.
+
+<ul>
+<li>Not as terrible as it may at first seem, since groups of related
+objects are often allocated/destroyed together.</li>
+</ul></li>
+</ul>
+
+<h2 id="sect-2-3-mark-compact-collection">&sect; 2.3 Mark-Compact Collection</h2>
+
+<h3 id="pros-2">Pros</h3>
+
+<ul>
+<li>Avoids fragmentation problems of mark-sweep.</li>
+<li>Allocation can be done as pointer increment.</li>
+<li>Easy to allocate different sized objects.</li>
+</ul>
+
+<h3 id="cons-2">Cons</h3>
+
+<ul>
+<li>Potentially slow due to multiple passes over the heap.</li>
+</ul>
+
+<h2 id="sect-2-4-copying-garage-collection">&sect; 2.4 Copying Garage Collection</h2>
+
+<h3 id="a-simple-copying-collector-stop-and-copy-using-semispaces">A Simple Copying Collector: &ldquo;Stop-and-Copy&rdquo; Using Semispaces</h3>
+
+<p>See also: Semispace collector [FY69]. Cheney algorithm [Che70].</p>
+
+<h4 id="pros-3">Pros</h4>
+
+<ul>
+<li>All the advantages of Mark-Compact (no frag, fast alloc, etc.).</li>
+<li>Integrate tracing and copying phases, so most objects only need to
+be traversed once.</li>
+<li>Work done proportional only to amount of live data (not heap size)</li>
+</ul>
+
+<h4 id="cons-3">Cons</h4>
+
+<ul>
+<li>Requires double the heap space.</li>
+<li>Breadth-first approach of Cheney alg may result in poor locality
+of reference.</li>
+</ul>
+
+<h3 id="efficiency-of-copying-collection">Efficiency of Copying Collection</h3>
+
+<p>Since gc work is proportional to the number of live objects only and
+not heap size, one way to make copy collection more efficient is to
+increase the heap size, which allows more garbage to be generated
+before gc is required.</p>
+
+<h2 id="sect-2-5-non-copying-implicit-collection">&sect; 2.5 Non-Copying Implicit Collection</h2>
+
+<blockquote>
+<p>Recently, Baker [Bak92] has proposed a new kind of non-copying
+collector that with some of the efficiency advantages of a copying
+scheme. Baker&rsquo;s insight is that in a copying collector, the
+&ldquo;spaces&rdquo; of the collector are really just a particular
+implementation of sets. Another implementation of sets could do
+just as well, provided that it has similar performance
+characteristics. In particular, given a pointer to an object, it
+must be easy to determine which set it is a member of; in
+addition, it must be easy to switch the roles of the sets, just
+fromspace and tospace roles are exchanged in copy collector.</p>
+</blockquote>
+
+<p>The basic idea is that only one heap exists, and blocks are linked
+in a doubly-linked list, and each block has a flag that indicates
+which &ldquo;space&rdquo; it belongs to. At gc time, live objects are unlinked
+from the list and their space flag is flipped to indicate they have
+been &ldquo;moved&rdquo;.</p>
+
+<h3 id="pros-4">Pros</h3>
+
+<ul>
+<li>Tracing cost for large objects is lower than traditional copying
+collector (since objects aren&rsquo;t copied).</li>
+<li>Since objects aren&rsquo;t moved, pointers don&rsquo;t need to be updated.</li>
+</ul>
+
+<h3 id="cons-4">Cons</h3>
+
+<ul>
+<li>Fragmentation</li>
+<li>Slightly higher per-object constant factor.</li>
+</ul>
+
+<h2 id="sect-2-6-choosing-among-basic-techniques">&sect; 2.6 Choosing Among Basic Techniques</h2>
+
+<p>Three basic cost components:</p>
+
+<ol>
+<li>Initial work required at each collection, such as root set
+scanning.</li>
+<li>Work done per unit of allocation.</li>
+<li>Work done during garbage detection (tracing).</li>
+</ol>
+
+<p>Basically: there is no clear winner among the simple collectors
+presented above. It depends on how your program is allocating
+memory, and on various constant factors for a particular
+implementation.</p>
+
+<h2 id="sect-2-7-problems-with-a-simple-garbage-collector">&sect; 2.7 Problems with a Simple Garbage Collector</h2>
+
+<ul>
+<li>Poor locality of allocation and reclamation cycles will generally
+cause paging. For example, if all pages in the heap must be
+allocated before a reclamation cycle begins. For this reason, it&rsquo;s
+generally not worthwhile to have a heap that&rsquo;s too large to fit in
+physical memory.</li>
+<li>By the time memory is reclaimed and reused, it&rsquo;s likely to have
+been paged out.</li>
+<li>Compaction is helpful, but generally &ldquo;too little, too late.&rdquo; A
+simpleminded semispace copying collector is like to have more
+locality problems that mark-sweep simply because the copy
+collector uses twice the memory.</li>
+<li>GC pauses are annoying at best.</li>
+</ul>
+
+<h1 id="sect-3-incremental-tracing-collectors">&sect; 3 Incremental Tracing Collectors</h1>
+
+<blockquote>
+<p>The difficulty with incremental tracing is that while the
+collector is tracing out the graph of reachable data structures,
+the graph may change&mdash;the running program may <em>mutate</em> the graph
+while the collector &ldquo;isn&rsquo;t looking.&rdquo;&hellip; An incremental scheme must
+have some way of keeping track of the changes to the graph of
+reachable objects, perhaps re-computing parts of its traversal in
+the face of those changes.</p>
+
+<p>An important characteristic of incremental techniques is their
+degree of conservatism with respect to changes made by the mutator
+during garbage collection.</p>
+</blockquote>
+
+<h2 id="sect-3-1-tricolor-marking">&sect; 3.1 Tricolor Marking</h2>
+
+<blockquote>
+<p>Garbage collection algorithms can be described as a process of
+traversing the graph of reachable objects and coloring them. The
+objects subject to garbage collection are conceptually colored
+white, and by the end of collection, those that will be retained
+must be colored black&hellip;</p>
+
+<p>the mutator can&rsquo;t be allowed to change things &ldquo;behind the
+collector&rsquo;s back&rdquo; in such a way that the collector will fail to
+find all reachable objects.</p>
+
+<p>To understand and prevent such interactions between the mutator
+and the collector, it is useful to introduce a third color, grey,
+to signify that an object has been reached by the traversal, but
+that <em>its descendants may not have been</em>&hellip;</p>
+
+<p>The importance of this invariant is that the collector must be
+able to assume that it is &ldquo;finished with&rdquo; black objects, and can
+continue to traverse grey objects and move the wavefront forward.
+If the mutator creates a pointer from a black object to a white
+one, it must somehow coordinate with the collector, to ensure that
+the collector&rsquo;s bookkeeping is brought up to date.</p>
+</blockquote>
+
+<h3 id="incremental-approaches">Incremental approaches</h3>
+
+<p>Two basic approaches to coordinating the mutator and collector:</p>
+
+<dl>
+<dt>Read barrier</dt>
+<dd>Detects when mutator attempts to read a pointer to a white
+object and immediately colors the object grey.</dd>
+<dt>Write barrier</dt>
+<dd><p>When mutator attempts to write to a pointer, the write is
+trapped or recorded. To foil the gc&rsquo;s marking traversal, the
+mutator must 1) write a pointer to a white object into a black
+object, and 2) destroy the original pointer to the white object
+before the collector sees it. Write barriers fall into two basic
+categories depending on which of the above conditions they
+address:</p>
+
+<ul>
+<li><em>Snapshot-at-beginning</em> collectors ensure that the second
+condition can not happen&mdash;rather than allow pointer to be
+overwritten, they are first saved so that the collector can
+find them. Thus no paths to white objects can be broken
+without providing an alternative path for the collector to
+reach them.</li>
+<li><em>Incremental update</em> collectors only record pointers to white
+objects that are stored into black objects (condition 1
+above).  When such a write is detected, the black object (or
+part of it) is reverted to grey.  Alternatively, the
+pointed-to white object is immediately greyed.</li>
+</ul></dd>
+</dl>
+
+<h2 id="sect-3-2-baker-s-incremental-copying">&sect; 3.2 Baker&rsquo;s Incremental Copying</h2>
+
+<p>Baker&rsquo;s collector is a variation of the simple copying scheme in
+&sect; 2.4 that uses a read barrier for coordination with the
+mutator.</p>
+
+<p>Breadth-first copying proceeds interleaved with mutator operation.
+Any allocations done by the mutator are placed in the tospace, and
+therefore won&rsquo;t be gc&rsquo;ed until the next cycle.</p>
+
+<p>In order to ensure that all live objects are copied before new
+allocations exhaust tospace, gc is tied to allocations so that an
+incremental amount of gc is done for each allocation.</p>
+
+<p>Additionally, the mutator is prevented from storing pointers into
+fromspace. If the mutator attempts to read a pointer to an object in
+fromspace, it&rsquo;s immediately copied to tospace and the pointer is
+updated.</p>
+
+<p>The read barrier has the downside of being slow compared to a direct
+pointer access, since every pointer read must be checked and
+possibly redirected. Brook&rsquo;s proposed a variation where every
+object is accesses via an indirection pointer contained in the
+object. If the object lives in tospace, the object&rsquo;s indirection
+pointer points to itself. If the object is an obsolete copy in the
+fromspace, the indirection pointer points to the new version in
+tospace. Always accessing the pointer through indirection is
+slightly cheaper than conditional indirection, but still expensive
+compared to normal pointer access.</p>
+
+<h2 id="sect-3-3-the-treadmill">&sect; 3.3 The Treadmill</h2>
+
+<p>The Treadmill scheme is a combination of Baker&rsquo;s scheme from the
+previous section and the non-copying collector described in &sect;
+2.5.</p>
+
+<p>The basic idea is that the freelist, from-space, to-space, and
+new-space are all linked together in a circular structure. At the
+start of gc, the new-space and to-space are both empty. Root objects
+are moved from the from-space list to the to-space list and marked
+grey. Scanning proceeds through the to-space marking scanned objects
+black. Allocation during gc happens in the new-space by following a
+pointer to the next block on the freelist. Newly allocated objects
+are immediately marked black. At the end of the gc cycle, the
+from-space can be appended to the freelist, and the new-space and
+to-space will become the new from-space on the next cycle.</p>
+
+<p><img src="/img/treadmill-gc.png" alt="" title="Treadmill GC" /></p>
+
+<p>See also:
+<a href="http://www.pipeline.com/~hbaker1/NoMotionGC.html">http://www.pipeline.com/~hbaker1/NoMotionGC.html</a></p>
+
+<h2 id="sect-3-4-snapshot-at-beginning-write-barrier-algorithms">&sect; 3.4 Snapshot-at-Beginning Write-Barrier Algorithms</h2>
+
+<p>When using a non-copying collector, there is no need for a read
+barrier. A write barrier can be used instead to prevent the mutator
+from overwriting a pointer to a live object.</p>
+
+<p>Conceptually, at the beginning of GC, a virtual copy-on-write copy
+of the graph of reachable objects is made.</p>
+
+<p>One simple and well-known snapshot algorithm is Yuasa&rsquo;s. If a
+location is written to, the overwritten value is first saved and
+pushed on a marking stack for later examination.</p>
+
+<h3 id="pros-5">Pros</h3>
+
+<ul>
+<li>Write barriers are much cheaper than read barriers on stock
+hardware, because pointer reads are much more common than pointer
+writes.</li>
+<li>Normal pointer dereferencing and comparison do not incur overhead.</li>
+</ul>
+
+<h3 id="cons-5">Cons</h3>
+
+<ul>
+<li>Yusasa&rsquo;s scheme is more conservative than Baker&rsquo;s. Not only will
+object&rsquo;s that are allocated during GC not get reclaimed until the
+next cycle, but no objects can be freed during GC (all overwritten
+pointers are preserved).</li>
+</ul>
+
+<h2 id="sect-3-5-incremental-update-write-barrier-algorithms">&sect; 3.5 Incremental Update Write-Barrier Algorithms</h2>
+
+<p>Best known alg due to Dijkstra <em>et al.</em> [DLM+78], which is similar
+to [Ste75], but simpler because it doesn&rsquo;t deal with compacting.</p>
+
+<p>Rather than retaining everything that&rsquo;s live at the <em>beginning</em> of
+gc, incremental update algorithms heuristically (and conservatively)
+attempt to retain all objects that are live at the <em>end</em> of gc.
+Objects that die during collection&ndash;and before being reached by
+marking traversal&ndash;are not traversed and marked.</p>
+
+<p>Writes to pointers are trapped and the collector is notified if the
+mutator stores a pointer to a white object into a black object. The
+black object is then effectively greyed and re-scanned before gc
+terminates.</p>
+
+<p>Thus, objects that become garbage during collection may be reclaimed
+at the end of the gc cycle, similar to Baker&rsquo;s read-barrier
+algorithm.</p>
+
+<p>Incremental Update is less conservative than Baker or Yuasa&rsquo;s
+schemes w.r.t. newly allocated objects. In Baker&rsquo;s scheme, newly
+allocated objects are allocated &ldquo;black&rdquo;, i.e. assumed to be live
+objects. In the Dijkstra <em>et al.</em> scheme, objects are allocated
+&ldquo;white&rdquo;, and only marked when the set of roots is traversed.</p>
+
+<h3 id="pros-6">Pros</h3>
+
+<ul>
+<li>Garbage generated during gc can be reclaimed in the same cycle,
+rather than waiting for the next cycle.</li>
+<li>New objects are allocated white, allowing for fast reclamation of
+short-lived objects.</li>
+</ul>
+
+<h3 id="cons-6">Cons</h3>
+
+<ul>
+<li>There is a computational cost to allocating objects white, since
+you must then re-scan the root to determine which objects are
+still live (as opposed to allocating objects black and assuming
+they are reachable).</li>
+</ul>
+
+<h2 id="sect-3-6-choosing-among-incremental-techniques">&sect; 3.6 Choosing Among Incremental Techniques</h2>
+
+<blockquote>
+<p>The choice of a read- or write-barrier scheme is likely to be made
+on the basis of the available hardware. Without specialized
+hardware support, a write-barrier appears to be easier to
+implement efficiently, because heap pointer writes are much less
+common than pointer traversals.</p>
+
+<p>Appel, Ellis and Li [AEL88] use virtual memory (pagewise) access
+protection facilities as a coarse approximation of Baker&rsquo;s read
+barrier&hellip;</p>
+
+<p>Of write barrier schemes, incremental update appears to be more
+effective than snapshot approaches&hellip;</p>
+
+<p>Careful attention should be paid to write barrier implementation.
+Boehm, Demers and Shenker&rsquo;s incremental update algorithm uses
+virtual memory dirty bits as a coarse pagewise write barrier&hellip;</p>
+
+<p>In a system with compiler support for garbage collection, a list
+of stored-into locations can be kept, or dirty bits can maintained
+(in software) for small areas of memory&hellip;</p>
+</blockquote>
+
+<h1 id="sect-4-generational-garbage-collection">&sect; 4 Generational Garbage Collection</h1>
+
+<blockquote>
+<p>Given a realistic amount of memory, efficiency of simple copying
+garbage collection is limited by the fact that the system must
+copy all live data at a collection. In most programs in a variety
+of languages, <em>most objects live a very short time, while a small
+percentatge of them live much longer.</em>&hellip;</p>
+
+<p>Even if garbage collections are fairly close together, separated
+by only a few kilobytes of allocation, most objects die before a
+collection and never need to be copied. Of the ones that do
+survive to be copied once, however, <em>a large fraction survive
+through many collections.</em> These objects are copied at every
+scavenge, over and over, and the garbage collector spends most of
+its time copying the same old objects repeatedly. This is the
+major source of inefficiency in simple garbage collectors.</p>
+
+<p><em>Generational collection</em> avoids much of this repeated copying by
+segregating objects into multiple areas by age, and scavenging
+areas containing older objects less often than the younger ones.</p>
+
+<p>&hellip; The choice of copying or marking collection is essentially
+orthogonal to the issue of generation collection&hellip;</p>
+</blockquote>
+
+<h2 id="sect-4-2-detecting-intergenerational-references">&sect; 4.2 Detecting Intergenerational References</h2>
+
+<p>In order for the generational scheme to work, it&rsquo;s necessary to be
+able to detect references from older generations to newer
+generations when scavenging, otherwise some live objects in the
+newer generation may be reclaimed, or else pointers to the object
+will not be updated when it&rsquo;s copied.</p>
+
+<blockquote>
+<p>In the original generational scheme, no pointer in old memory may
+point directly to an object in new memory; instead it must point
+to a cell in an indirection table, which is used as part of the
+root set.</p>
+</blockquote>
+
+<p>On stock hardware, the indirection table introduces an overhead
+similar to Baker&rsquo;s read barrier, in which case it might make more
+sense to use a <em>pointer recording</em> technique.</p>
+
+<blockquote>
+<p>Rather than indirecting pointers from old objects to young ones,
+normal (direct) pointers are allowed, but the locations of such
+pointers are noted so that they can be foind at scavenge time.
+This requires something like a write barrier; that is, the running
+program cannot freely modify the reachability graph by storing
+pointers into objects in older generation&hellip;</p>
+
+<p>The important point is that all references from old to new memory
+must be located at scavenge time, and used as roots for the
+copying traversal&hellip;</p>
+
+<p>As in an incremental collector, this use of a write barrier
+results in a <em>conservative approximation</em> of true liveness; any
+pointers from old to new memory are used as roots, but not all of
+these roots are necessarily live themselves.</p>
+</blockquote>
+
+<p>Within a generational collector, the write barrier cost is likely to
+be the most expensive operation.</p>
+
+<p>Several important questions regarding generational collectors
+remain:</p>
+
+<ol>
+<li><p><em>Advancement policy.</em> How long must an object survive in one
+generation before it is advanced to the next?</p></li>
+
+<li><p><em>Heap organization.</em> How should storage space be divided between
+and within generations? How does the resulting reuse pattern
+affect locality at the virtual memory level? At the cache level?</p></li>
+
+<li><p><em>Traversal algorithms.</em> In a tracing collector, the traversal of
+live objects may have an important impact on locality. In a
+copying collector, objects are also reordered as they are copied.
+What affect does this have on locality, and what traversal yields
+the best results?</p></li>
+
+<li><p><em>Collection scheduling.</em> For a non-incremental collector, how
+might we avoid disruptive pauses? Can we improve efficiency by
+opportunistic scheduling? Can this be adapted to incremental
+schemes to reduce floating garbage?</p></li>
+
+<li><p><em>Intergenerational references.</em> What is the best way to detect
+intergenerational references?</p></li>
+</ol>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="http://app.leby.org/notes/hoare-hints/"><span
+      aria-hidden="true">&larr;</span> Notes: Hints on Programming Language Design</a></li>
+    
+
+    
+    <li class="next"><a href="http://app.leby.org/notes/lisp/">Notes: Lisp In Small Pieces <span
+      aria-hidden="true">&rarr;</span></a></li>
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="/js/jquery-1.12.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89952512-1', 'auto');
+        ga('send', 'pageview');
+
+         
+        var links = document.querySelectorAll('a');
+        Array.prototype.map.call(links, function(item) {
+            if (item.host != document.location.host) {
+                item.addEventListener('click', function() {
+                    var action = item.getAttribute('data-action') || 'follow';
+                    ga('send', 'event', 'outbound', action, item.href);
+                });
+            }
+        });
+    </script>
+    
+
+    
+    
+
+    
+    
+
+  </body>
+</html>
+

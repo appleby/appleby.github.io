@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.20.2" />
+  <meta name="author" content="Mike Appleby">
+  
+
+  
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/academicons.min.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  <link rel="alternate" href="http://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
+  <link rel="feed" href="http://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="http://app.leby.org/notes/recursive/">
+
+  
+
+  <title>Notes: Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part 1 | appleby</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">appleby</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/notes/">
+            
+            <span>Notes</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+  <div class="article-container">
+    <h1 itemprop="name">Notes: Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part 1</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2014-05-14 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Wed, May 14, 2014
+    </time>
+  </span>
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<h1 id="sect-2-functions-and-function-definitions">&sect; 2 Functions and Function Definitions</h1>
+
+<p>Introduces the notion of a conditional expression!</p>
+
+<p>Tidbit: McCarthy proposed the addition of a cond-like expression to Algol 60,
+but it was rejected in favor of the English equivalent, <code>if ... then ... else</code>.</p>
+
+<p>Review of concepts:</p>
+
+<dl>
+<dt>a. Partial Function</dt>
+<dd>a function that is only defined on part of it&rsquo;s domain.</dd>
+<dt>b. Propositional Expressions and Predicates</dt>
+<dd>$T, F, \wedge, \lor, \lnot, etc.$</dd>
+<dt>c. Conditional Expressions</dt>
+<dd>$(p_1 \rightarrow e_1, \cdots, p_n \rightarrow e_n)$</dd>
+<dt>d. Recursive Function Definitions</dt>
+<dd>$n! = (n=0 \rightarrow 1, T \rightarrow n (n - 1)!)$</dd>
+<dt>e. Functions and Forms</dt>
+<dd>Describes $\lambda$-expressions and the distinction between &ldquo;forms&rdquo; and
+ &ldquo;functions.&rdquo; The term &ldquo;form&rdquo; is borrowed from Church.</dd>
+<dt>f. Expressions for Recursive Funcitons</dt>
+<dd>$label(a, \mathcal{E})$ allows the definition of a recursive expression by
+ giving the expression $\epsilon$ the label $a$ and permitting references
+ to $a$ inside $\epsilon$.</dd>
+</dl>
+
+<h1 id="sect-3-recursive-functions-of-symbolic-expressions">&sect; 3 Recursive Functions of Symbolic Expressions</h1>
+
+<p>Defines S-expressions, plus five (five!) elementary functions and predicates,
+and builds up from those five, culminating in $apply$.</p>
+
+<h3 id="a-a-class-of-symbolic-expressions">a. <em>A class of Symbolic Expressions</em></h3>
+
+<ol>
+<li>Atomic symbols are S-expressions</li>
+<li>If $e_1$ and $e_2$ are S-expressions, so is $(e_1 \cdot e_2)$.</li>
+<li>$(m)$ stands for $(m \cdot NIL)$</li>
+<li>$(m_1, \cdots, m_n)$ stands for $(m_1 \cdot ( \cdots (m_n \cdot NIL) \cdots ))$</li>
+<li>$(m_1, \cdots, m_n \cdot x)$ stands for $(m_1 \cdot ( \cdots (m_n \cdot x) \cdots ))$</li>
+</ol>
+
+<h3 id="b-functions-of-s-expressions-and-the-expressions-that-represent-them">b. <em>Functions of S-expressions and the Expressions that Represent Them</em></h3>
+
+<p>Introduces M-expressions (meta-expressions)
+<div>
+$$
+car[x]
+$$
+$$
+car[cons[(A \cdot B);x]]
+$$
+</div></p>
+
+<h3 id="c-the-elementary-s-functions-and-predicates">c. <em>The Elementary S-functions and Predicates</em>.</h3>
+
+<div>
+$$
+\begin{aligned}
+atom[X] &= T \\
+atom[(X \cdot A)] &= F \\
+\\
+eq[X;X] &= T \\
+eq[X;Y] &= F \\
+eq[X;(X \cdot A)] &= \bot \\
+\\
+car[(e_1 \cdot e_2)] &= e_1 \\
+car[X] &= \bot \\
+\\
+cdr[(e_1 \cdot e_2)] &= e_2 \\
+cdr[X] &= \bot \\
+\\
+cons[e_1;e_2] &= (e_1 \cdot e_2)
+\end{aligned}
+$$
+</div>
+
+<h3 id="d-recursive-s-functions">d. <em>Recursive S-functions</em></h3>
+
+<p>cond + recursion allows us to express all computable functions.</p>
+
+<p>Here are some useful recursive functions.
+<div>
+$$
+\begin{align}
+\text{ff}[x] = [&amp;atom[x] \rightarrow x;T \rightarrow \text{ff}[car[x]]] \\<br />
+subst [x; y; z] = [&amp;atom[z] \rightarrow [eq[z; y] \rightarrow x; T \rightarrow z]; \\<br />
+                   &amp;T \rightarrow cons [subst[x; y; car [z]]; subst[x; y; cdr [z]]]] \\<br />
+equal [x; y] = [&amp;atom[x] \wedge atom[y] \wedge  eq[x; y]] \lor \\<br />
+               [&amp;\lnot atom[x] \wedge \lnot atom[y] \wedge equal[car[x]; car[y]] \wedge equal[cdr[x]; cdr[y]]] \\<br />
+null[x] = &amp;atom[x] \wedge eq[x;NIL]
+\end{align}
+$$
+</div></p>
+
+<p>And some functions on lists.</p>
+
+<div>
+$$
+\begin{aligned}
+append[x; y] = [&null[x] \rightarrow y; T \rightarrow cons[car[x]; append[cdr[x]; y]]] \\
+among[x; y]  =  &\lnot null[y] \wedge [equal[x; car[y]] \lor among[x; cdr[y]]] \\
+pair[x; y]   = [&null[x] \wedge null[y] \rightarrow NIL; \\
+                &\lnot atom[x] \wedge \lnot atom[y] \rightarrow cons[list[car[x]; car[y]]; pair[cdr[x]; cdr[y]]] \\
+assoc[x; y]  = &eq[caar[y]; x] \rightarrow cadar[y];T \rightarrow assoc[x; cdr[y]]] \\
+sub2[x; z]   = [&null[x] \rightarrow z; eq[caar[x]; z] \rightarrow cadar[x];T \rightarrow sub2[cdr[x]; z]] \\
+sublis[x; y] = [&atom[y] \rightarrow sub2[x; y];T \rightarrow cons[sublis[x; car[y]]; sublis[x; cdr[y]]]
+\end{aligned}
+$$
+</div>
+
+<h3 id="e-representation-of-s-functions-by-s-expressions">e. <em>Representation of S-Functions by S-Expressions</em></h3>
+
+<p>How to translate M-expressions into S-expressions.</p>
+
+<p>&ldquo;The translation is determined by the following rules in which we denote
+the translation of an M-expression $\mathcal{E}$ by $\mathcal{E}^{\ast}$&rdquo;</p>
+
+<ol>
+<li>If $\mathcal{E}$ is an S-expression, $\mathcal{E}^{\ast}$ is $(QUOTE, \mathcal{E})$.</li>
+<li>Symbols get converted to uppercase. $car^{\ast} \mapsto CAR, subst^{\ast} \mapsto SUBST$</li>
+<li>$f[e_1; \cdots; e_n] \mapsto (f^{\ast}, e_1^{\ast}, \cdots, e_n^{\ast})$. Thus,
+$cons[car[x]; cdr[x]]^{\ast} \mapsto (CONS, (CAR, X), (CDR, X))$.</li>
+<li>${[p_1 \rightarrow e_1; \cdots; p_n \rightarrow e_n]}^{\ast} \mapsto
+(COND, (p_1^{\ast},e_1^{\ast}), \cdots, (p_n^{\ast},e_n^{\ast}))$</li>
+<li>${[\lambda[[x_1;\cdots;x_n];\mathcal{E}]}^{\ast} \mapsto
+(LAMBDA, (x_1^{\ast},\cdots,x_n^{\ast}), \mathcal{E}^{\ast})$</li>
+<li>${label[a;\mathcal{E}]}^{\ast} \mapsto (LABEL, a^{\ast}, \mathcal{E}^{\ast})$</li>
+</ol>
+
+<h3 id="f-the-universal-s-funciton-apply">f. <em>The Universal S-Funciton, $apply$</em></h3>
+
+<p>Behold!</p>
+
+<p>The S-function apply is defined by
+<div>
+$$
+apply[f; args] = eval[cons[f; appq[args]];NIL],
+$$
+</div></p>
+
+<p>where</p>
+
+<div>
+$$
+appq[m] = [null[m] \rightarrow NIL;T \rightarrow cons[list[QUOTE; car[m]]; appq[cdr[m]]]]
+$$
+</div>
+
+<p>and<sup class="footnote-ref" id="fnref:I-have-corrected"><a rel="footnote" href="#fn:I-have-corrected">1</a></sup></p>
+
+<pre><code>eval[e; a] = [
+    atom[e] --&gt; assoc[e; a];
+    atom[car[e]] --&gt; [
+        eq[car[e]; QUOTE] --&gt; cadr[e];
+        eq[car[e]; ATOM] --&gt; atom[eval[cadr[e]; a]];
+        eq[car[e]; EQ] --&gt; [eval[cadr[e]; a] = eval[caddr[e]; a]];
+        eq[car[e]; COND] --&gt; evcon[cdr[e]; a];
+        eq[car[e]; CAR] --&gt; car[eval[cadr[e]; a]];
+        eq[car[e]; CDR] --&gt; cdr[eval[cadr[e]; a]];
+        eq[car[e]; CONS] --&gt; cons[eval[cadr[e]; a]; eval[caddr[e]; a]];
+        T --&gt; eval[cons[assoc[car[e]; a]; cdr[e]]; a]];
+    eq[caar[e]; LABEL] --&gt; eval[cons[caddar[e]; cdr[e]];
+                                cons[list[cadar[e]; car[e]]; a];
+    eq[caar[e]; LAMBDA] --&gt; eval[caddar[e]; append[pair[cadar[e]; evlis[cdr[e]; a];
+                                 a]]]
+</code></pre>
+
+<p>and</p>
+
+<div>
+$$
+evcon[c; a] = [eval[caar[c]; a] \rightarrow eval[cadar[c]; a];T \rightarrow evcon[cdr[c]; a]]
+$$
+</div>
+
+<p>and</p>
+
+<div>
+$$
+evlis[m; a] = [null[m] \rightarrow NIL;T \rightarrow cons[eval[car[m]; a]; evlis[cdr[m]; a]]]
+$$
+</div>
+
+<h3 id="g-functions-with-functions-as-arguments">g. <em>Functions with Functions as Arguments</em></h3>
+
+<div>
+$$
+maplist[x; f] = [null[x] \rightarrow NIL;T \rightarrow cons[f[x];maplist[cdr[x]; f]]]
+$$
+</div>
+
+<div>
+$$
+search[x; p; f; u] = [null[x] \rightarrow u; p[x] \rightarrow f[x];T \rightarrow search[cdr[x]; p; f; u]
+$$
+</div>
+
+<h1 id="sect-4-the-lisp-programming-system">&sect; 4 The LISP Programming System</h1>
+
+<h3 id="a-representation-of-s-functions-by-list-structure">a. <em>Representation of S-Functions by List Structure</em></h3>
+
+<p>Introduces the boxes &amp; arrows notation for cons cells. Substructure can be
+shared, but cycles are <strong>not</strong> allowed. Symbols are represented as
+&ldquo;association lists&rdquo; (property lists in modern usage) where the car is a
+magic constant indicating the cons is a symbol.</p>
+
+<h3 id="b-association-lists-p-lists">b. Association Lists (P-lists)</h3>
+
+<p>P-list may contain:
+* print name
+* symbol value (number, sexp, function)</p>
+
+<p>A P-list is not a sexp. For example, the print name of a symbol is
+represented as follows:</p>
+
+<pre>
+         +--------+-------+        +--------+-------+
+... ---> | pname  |     --+------->|        |     --+-------> ...
+         +--------+-------+        +----+---+-------+
+                                        |
+    +-----------------------------------+
++---v----+-------+        +--------+-------+        +--------+-------+
+|        |     --+------->|        |     --+------->|        |       |
++---+----+-------+        +--------+-------+        +--------+-------+
+    |                         |                         |
+    |                         |                         |
++---v----+                +---v----+                +---v----+
+| DIFFER |                | ENTIAT |                | E????? |
++--------+                +--------+                +--------+
+</pre>
+
+<h3 id="c-free-storage-list">c. <em>Free-Storage List</em></h3>
+
+<ul>
+<li>The system starts with ~15k words on the free list.</li>
+<li>Some fixed register contains the start address of the free list.</li>
+<li>To cons, pop words from the head of the free list.</li>
+<li>gc works as follows (standard mark &amp; sweep):
+
+<ul>
+<li>a fixed set of base registers serve as gc roots.</li>
+<li>don&rsquo;t collect until out of blocks on the free-list</li>
+<li>when oom:
+
+<ul>
+<li>start from roots and mark all reachable words by negating the
+signs (essentially, first bit is a mark bit).</li>
+<li>if you find reg with sign, assume it&rsquo;s already been visited.</li>
+<li>sweep through the heap and put any un-marked words back on the
+free list and revert mark bits.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>McCarthy notes that a gc cycle took several <strong>seconds</strong> to run!</p>
+
+<h3 id="d-elementary-s-functions-in-the-computer">d. <em>Elementary S-Functions in the Computer</em></h3>
+
+<p>S-expressions are passed/returned to/from functions as pointers to words.</p>
+
+<dl>
+<dt>atom</dt>
+<dd>Test car for magic value, return symbol $T$/$F$, unless appearing in
+$cond$, in which case transfer control directly without generating
+$T$/$F$.</dd>
+<dt>eq</dt>
+<dd>pointer compare on address fields. As above, generate $T$/$F$ or
+$cond$ transfer.</dd>
+<dt>car</dt>
+<dd>access &ldquo;contents of address register&rdquo;.</dd>
+<dt>cdr</dt>
+<dd>access &ldquo;contents of decrement register&rdquo;.</dd>
+<dt>cons</dt>
+<dd>$cons[x;y]$ returns the location of a word with $x$ in the car and
+$y$ in the cdr. Doesn&rsquo;t search for existing cons, just pulls a new
+one from the free list. $cons$ is responsible for kicking off a gc
+cycle on oom.</dd>
+</dl>
+
+<h3 id="e-representation-of-s-functions-by-programs">e. <em>Representation of S-Functions by Programs</em></h3>
+
+<dl>
+<dt>SAVE/UNSAVE</dt>
+<dd>push/pop registers from/onto the &ldquo;public pushdown list&rdquo;
+(a.k.a. stack). Only used for recursive functions?</dd>
+</dl>
+
+<h3 id="f-status-of-the-lisp-programming-system-feb-1960">f. <em>Status of the LISP Programming System (Feb. 1960)</em></h3>
+
+<ol>
+<li>Can define S-Functions via S-expressions. Can call user-defined and
+builtin functions.</li>
+<li>Can compute values of S-Functions.</li>
+<li>Can read/print S-expressions.</li>
+<li>Includes some error diagnostics and selective tracing.</li>
+<li>May compile selected S-Functions.</li>
+<li>Allows assignment and <code>go to</code>, ala ALGOL.</li>
+<li>Floating point possible, but slow.</li>
+<li>LISP 1.5 manual coming soon!</li>
+</ol>
+
+<h1 id="sect-5-another-formalism-for-functions-of-s-expressions">&sect; 5 Another Formalism for Functions of S-expressions</h1>
+
+<p>So-called, L-expressions (Linear LISP).</p>
+
+<ol>
+<li>Permit a finite list of chars</li>
+<li>Any string of permitted chars is an L-expr, including the null string,
+denoted $\Lambda$.</li>
+</ol>
+
+<p>There are three functions:</p>
+
+<ol>
+<li>$first[x]$ is the first char of $x$. $first[\Lambda] = \bot$.</li>
+<li>$rest[x]$ is the string of chars remaining after first is deleted.
+$rest[\Lambda] = \bot.$</li>
+<li>$combine[x;y]$ is the string formed by prefixing $x$ to $y$.</li>
+</ol>
+
+<p>There are also three predicates:</p>
+
+<ol>
+<li>$char[x] = T \iff x$ is a single char.</li>
+<li>$null[x] = T \iff x = \Lambda$</li>
+<li>$x = y$ is defined for $x$ and $y$ characters.</li>
+</ol>
+
+<h1 id="sect-6-flowcharts-and-recursion">&sect; 6 Flowcharts and Recursion</h1>
+
+<p>Presents an interesting scheme for converting program blocks + branches into
+recursive functions. Considers each program block as a function $f$ from the
+current program state $\xi$ to a new state $\xi&rsquo;$, i.e. $\xi&rsquo; = f[\xi]$. Blocks
+can be combined by decision elements, represent with the symbol $\pi$.</p>
+
+<p><img src="/img/dot/recursive-flowchart.png" alt="Figure 5" title="Figure 5" /></p>
+
+<blockquote>
+<p>We give as an example the flowcart of figure 5. Let us describe the function
+$r[\xi]$ that gives the transformation of the vector $\xi$ between entrance
+and exit of the whole block. We shall define it in conjunction with the
+functions $s(\xi)$, and $t[\xi]$, which give the transformations that $\xi$
+undergoes between the points $S$ and $T$, respectively, and the exit. We have</p>
+</blockquote>
+
+<div>
+$$
+\begin{aligned}
+r[\xi] &= [\pi_1[\xi] \rightarrow S[f_1[\xi]];T \rightarrow S[f_2[\xi]]] \\
+S[\xi] &= [\pi_2[\xi] \rightarrow r[\xi];T \rightarrow t[f_3[\xi]]] \\
+t[\xi] &= [\pi_{3_1}[\xi] \rightarrow f_4[\xi]; \pi_{3_2}[\xi] \rightarrow r[\xi];T \rightarrow t[f_3[\xi]]]
+\end{aligned}
+$$
+</div>
+
+<p style="clear:both"></p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:I-have-corrected">I have corrected a couple of minor errors in $eval$, namely a missplaced bracket in the $LABEL$ clause and an extraneous evlis that caused double-evaluation of function arguments when calling a procedure bound to a variable. <a class="footnote-return" href="#fnref:I-have-corrected"><sup>^</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+
+    
+    <li class="next"><a href="http://app.leby.org/notes/hoare-hints/">Notes: Hints on Programming Language Design <span
+      aria-hidden="true">&rarr;</span></a></li>
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="/js/jquery-1.12.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89952512-1', 'auto');
+        ga('send', 'pageview');
+
+         
+        var links = document.querySelectorAll('a');
+        Array.prototype.map.call(links, function(item) {
+            if (item.host != document.location.host) {
+                item.addEventListener('click', function() {
+                    var action = item.getAttribute('data-action') || 'follow';
+                    ga('send', 'event', 'outbound', action, item.href);
+                });
+            }
+        });
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
+    
+
+  </body>
+</html>
+

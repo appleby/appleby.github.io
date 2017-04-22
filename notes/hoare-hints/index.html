@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.20.2" />
+  <meta name="author" content="Mike Appleby">
+  
+
+  
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/academicons.min.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  <link rel="alternate" href="http://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
+  <link rel="feed" href="http://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="http://app.leby.org/notes/hoare-hints/">
+
+  
+
+  <title>Notes: Hints on Programming Language Design | appleby</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">appleby</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/notes/">
+            
+            <span>Notes</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+  <div class="article-container">
+    <h1 itemprop="name">Notes: Hints on Programming Language Design</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2014-06-25 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Wed, Jun 25, 2014
+    </time>
+  </span>
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<h1 id="overview">Overview</h1>
+
+<p>This page contains notes on a paper by C.A.R. Hoare titled, &ldquo;Hints on
+Programming Language Design.&rdquo; Here is a summary of the major points that jumped
+out at me.</p>
+
+<p>Hoare is for:</p>
+
+<ul>
+<li>Languages that aid the programmer in design, documentation, and debugging</li>
+<li>Small, simple designs</li>
+<li>Static analysis and typing</li>
+<li>Safety (bounds checking, etc.)</li>
+<li>Fast compilation and efficient code</li>
+<li>Readability</li>
+<li>Dumpable images</li>
+<li>A superb comment convention!</li>
+<li>Mutable state (for efficiency)</li>
+<li>Type extensions + operator overloading</li>
+<li>Consolidating best of existing features when designing a new language</li>
+</ul>
+
+<p>Hoare is against:</p>
+
+<ul>
+<li>Separate debug &amp; production builds</li>
+<li>Implicit type conversions/coercion</li>
+<li>Reference types and pointers</li>
+<li>&ldquo;Independent&rdquo; compilation</li>
+<li>Syntactic extensions of any kind</li>
+<li>Including untried/unproven ideas in a new language</li>
+</ul>
+
+<p>The following sections contain notes and quotes from the corresponding sections
+of the paper.</p>
+
+<h1 id="sect-2-principles">&sect; 2 Principles</h1>
+
+<h3 id="design-documentation-and-debugging">Design, Documentation, and Debugging</h3>
+
+<blockquote>
+<p>If a programming language is regarded as a tool to aid the programmer, it
+should give him the greatest assistance in the most difficult aspects of his
+art, namely program design, documentation, and debugging.</p>
+</blockquote>
+
+<h3 id="program-debugging">Program Debugging</h3>
+
+<blockquote>
+<p>Certain programming errors cannot always be detected in this way<sup class="footnote-ref" id="fnref:i-e-at-compile-t"><a rel="footnote" href="#fn:i-e-at-compile-t">1</a></sup>, and must be cheaply detectable at run time; in no case can
+they be allowed to give rise to machine or implementation dependent effects,
+which are inexplicable in terms of the language itself. This is a criterion
+to which I give the name &ldquo;security&rdquo;.</p>
+</blockquote>
+
+<h3 id="kiss">KISS</h3>
+
+<blockquote>
+<p>A necessary condition for the achievement of any of these objectives is the
+utmost simplicity in the design of the language. Without simplicity, even the
+language designer himself cannot evaluate the consequences of his design
+decisions. Without simplicity, the compiler writer cannot achieve even
+reliability, and certainly cannot construct compact, fast and
+efficient compilers. But the main beneficiary of simplicity is the user of
+the language.</p>
+</blockquote>
+
+<p>I agree with the principle here. But do my language preferences actually back
+this up? I haven&rsquo;t used scheme much, but I naturally gravitated towards common
+lisp, warts and all, because it provides lots of pragmatic niceties<sup class="footnote-ref" id="fnref:loop-complex-lam"><a rel="footnote" href="#fn:loop-complex-lam">2</a></sup> that no doubt
+drastically increase the burden on the implementor, but provide useful features
+for the user. Likewise, the complexity of C++ is staggering to the point that
+I&rsquo;m disgusted, but I&rsquo;m on the fence as to whether I&rsquo;d prefer to trade the
+usefulness of the STL and other C++ features for the simplicity of ANSI C.
+There&rsquo;s no doubt I prefer the <em>idea</em> of C, but would I actually choose it for a
+new project over C++ (assuming I was limited to those two options)&hellip; Two years
+ago I would have definitely chosen C. Having now used C++ (just enough to be
+dangerous), I&rsquo;m not sure which I&rsquo;d choose.</p>
+
+<h1 id="sect-3-discussion">&sect; 3 Discussion</h1>
+
+<p>Hoare&rsquo;s five &ldquo;catch-phrases&rdquo; that summarize good language design:</p>
+
+<ol>
+<li>Simplicity</li>
+<li>Security</li>
+<li>Fast Translation</li>
+<li>Efficient object code</li>
+<li>Readability</li>
+</ol>
+
+<h2 id="sect-3-1-simplicity">&sect; 3.1 Simplicity</h2>
+
+<h3 id="simplicity-modularity-orthogonality">Simplicity != Modularity != Orthogonality</h3>
+
+<blockquote>
+<p>Some language designers have replaced the objective of simplicity by that of
+modularity, by which they mean that a programmer who cannot understand the
+whole of his language can get by with a limited under- standing of only part
+of it&hellip;</p>
+
+<p>Another replacement of simplicity as an objective has been orthogonality of
+design&hellip; In the early days of hardware design, some very ingenious but
+arbitrary features turned up in order codes as a result of orthogonal
+combinations of the function bits of an instruction, on the grounds that some
+clever programmer would find a use for them, &ndash; and some clever programmer
+always did. Hardware designers have now learned more sense; but language
+designers are clever programmers and have not.</p>
+</blockquote>
+
+<h2 id="sect-3-1-security">&sect; 3.1 Security</h2>
+
+<p>Hoare argues in favor of static checks and of having no distinction between
+debug and production builds.</p>
+
+<blockquote>
+<p>What would we think of a sailing enthusiast who wears his lifejacket when
+training on dry land, but takes it off as soon as he goes to sea?</p>
+</blockquote>
+
+<h2 id="sect-3-3-fast-translation">&sect; 3.3 Fast Translation</h2>
+
+<p>Argues in favor of fast compilers and against independent compilation.</p>
+
+<blockquote>
+<p>instead of constructing a fast translator, language designers turned to
+independent compilation, which permits a programmer to avoid recompiling
+parts of his program which he has not changed since the last time. But this
+is a poor substitute for fast compilation, and has many practical
+disadvantages&hellip;</p>
+</blockquote>
+
+<p>Suggests the following strategies for fast compilers:</p>
+
+<dl>
+<dt>Prescan</dt>
+<dd>Pre scan and lex the input and store it in a compact format.</dd>
+<dt>Precompile</dt>
+<dd><blockquote>
+<p>This is a directive which can be given to the compiler after submitting
+any initial segment of a large program. It causes the compiler to make a
+complete dump of its workspace including dictionary and object code, in a
+specified user file.</p>
+</blockquote>
+
+<p>It&rsquo;s unclear how the above is substantially different/better from
+independent compilation.</p></dd>
+<dt>Dump</dt>
+<dd><blockquote>
+<p>an instruction which can be called by the user program during execution,
+and causes a complete binary dump of its code and workspace into a named
+user file.</p>
+</blockquote>
+
+<p>Similar to SBCL&rsquo;s <code>save-lisp-and-die</code> or to SmallTalk images.</p></dd>
+</dl>
+
+<h2 id="sect-3-4-efficient-object-code">&sect; 3.4 Efficient Object Code</h2>
+
+<blockquote>
+<p>There is another argument which is all too prevalent among enthusiastic
+language designers, that efficiency of object code is no longer important;
+that the speed and-capacity of computers is increasing and their price is
+coming down, and the programming language designer might as well take
+advantage of this. This is an argument that would be quite acceptable if used
+to justify an efficiency loss of ten or twenty percent, or even thirty and
+forty percent. But all too frequently it is used to justify an efficiency
+loss of a factor of two, or ten, or even more; and worse, the overhead is not
+only in time taken but in space occupied by the running program. In no other
+engineering discipline would such avoidable overhead be tolerated, and it
+should not be in programming language design&hellip;</p>
+</blockquote>
+
+<p>The above was written in 1978. It&rsquo;s tempting to dismiss Hoare&rsquo;s arguments in
+light of the last 30 years of hardware advances, but I believe his central
+point is still valid. Many people complain about the slowness of interpreted
+languages like Python and Ruby, and look for faster, yet equally expressive
+alternatives (Pyston, PyPy, Julia, etc.). Even in domains where speed is not
+important <em>in fact</em>, it&rsquo;s always important <em>in principle</em>. Given two equally
+expressive alternatives, people will prefer the faster implementation.</p>
+
+<p>Hoare goes on to make some arguments against optimizing compilers. Having never
+written a compiler, I&rsquo;m not really qualified to say whether his fears are
+justified, but it does seem like no one in the last 30 years took too much
+notice of his objections. I&rsquo;m struggling to think of any &ldquo;production quality&rdquo;
+compiler toolchain that doesn&rsquo;t do serious optimization.</p>
+
+<h1 id="sect-4-comment-conventions">&sect; 4 Comment Conventions</h1>
+
+<blockquote>
+<p>If the purpose of a programming language is to assist in the documentation of
+programs, the <strong>design of a superb comment convention is obviously our most
+important concern.</strong> <sup class="footnote-ref" id="fnref:Emphasis-mine"><a rel="footnote" href="#fn:Emphasis-mine">3</a></sup></p>
+</blockquote>
+
+<p>Wow! Bold statement! He presents some good arguments in favor of
+newline-terminated comments (as opposed to open/close pairs like in
+ANSI C).</p>
+
+<h1 id="sect-6-arithmetic-expressions">&sect; 6 Arithmetic Expressions</h1>
+
+<p>What&rsquo;s so great about arithmetic notation like $E + F$? Well, a lot! Hoare
+lists six &ldquo;fundamental principles of structuring&rdquo;:</p>
+
+<p>#. Transparency of meaning and purpose
+#. Independence of parts
+#. Recursive application
+#. Narrow interfaces
+#. Manifestness of structure</p>
+
+<p>Hoare likes operators that can accept and return composite data structures.</p>
+
+<blockquote>
+<p>Often the programmer wishes to deal with much larger data structures, for
+example, vectors or matrices or lists; and languages such as APL and LISP
+have permitted the use of expressions with these structures as operands and
+results. This seems to be an excellent direction of advance in programming
+language design, particularly for special purpose languages.</p>
+</blockquote>
+
+<p>Indeed! Goes on to suggest that a compromise for efficiency is to provide
+operators that specifically do in-place updates. I.e. <code>A.+B</code> instead of <code>A := A
++ B</code> for matrices, or <code>L1.append(L2)</code> for lists. Hmmm, did Guido read this
+paper?</p>
+
+<p>Hoare also likes extensible languages, but not <strong>syntactic</strong> extensions. Sorry,
+macros! He only wants the ability to define new types, including low-level
+details like their layout in memory, and then the ability to define
+overloaded operators on those types.</p>
+
+<p>Also, Hoare is not amused by implicit type conversions.</p>
+
+<blockquote>
+<p>A solution to this problem is to design a general purpose language which
+provides the programmer with the tools to design and implement his own
+representation for data and code the operations upon it. This is the main
+justification for the design of &ldquo;extensible&rdquo; languages, which so many
+designers have aimed at, with rather great lack of success. In order to
+succeed, it will be necessary to recognize the following:</p>
+
+<p>(1) The need for an exceptionally efficient base language in order to define
+the extensions.
+(2) The avoidance of any form of syntactic extension to the language. All
+that is needed is to extend the meaning of the existing operators of the
+language, an idea which was called &ldquo;overloading&rdquo; by McCarthy.
+(3) The complete avoidance of any form of automatic type transfer, coercion,
+or default convention, other than those implemented as an extension by the
+programmer himself.</p>
+</blockquote>
+
+<h1 id="sect-7-program-structure">&sect; 7 Program Structure</h1>
+
+<p>Hoare gives an example of ugly syntax, ALGOL 60&rsquo;s <code>switch</code> statement:</p>
+
+<pre><code>switch SS = L1, L2, L3;
+...
+go to SS[i];
+
+L1: Q1; go to L;
+L2: Q2; go to L;
+L3: Q3;
+ L:
+</code></pre>
+
+<p>which is clearly terrible. I enjoy finding relics like this in old
+papers. It gives you an appreciation for how much work has gone into
+improving languages over the years, even little details like decent
+syntax for a switch statement, which we now take for granted.
+Speaking of a newfound appreciation for language features which we
+now take for granted, earlier in the section Hoare praises ALGOL 60
+for innvoations such as &ldquo;its compound, conditional, for, and
+procedure statements.&rdquo; Useful, those!  He continues:</p>
+
+<blockquote>
+<p>The advantages of the use of these program structures is becoming apparent
+even to programmers using languages which do not provide the notations to
+express them.</p>
+</blockquote>
+
+<p>Poor bastards.</p>
+
+<p>Another intersting historical tid-bit: Hoare apparently was the inventor of the
+<code>case</code> statement, which he concieved as an improvement over ALGOL 60&rsquo;s
+<code>switch</code>.</p>
+
+<pre><code>case i of
+  {Q1,
+   Q2,
+   Q3};
+</code></pre>
+
+<h1 id="sect-8-variables">&sect; 8 Variables</h1>
+
+<p>Hoare is not a fan of reference types or pointers:</p>
+
+<blockquote>
+<p>References are like jumps, leading wildly from one part of a data structure
+to another. Their introduction into high level languages has been a step
+backward from which we may never recover.</p>
+</blockquote>
+
+<h1 id="sect-10-procedures-parameters">&sect; 10 Procedures &amp; Parameters</h1>
+
+<p>Procedure calls should:</p>
+
+<ul>
+<li>produce compact code (no long prelude/postlude).</li>
+<li>indicate which arguments, if any, are modified.</li>
+</ul>
+
+<h1 id="sect-11-types">&sect; 11 Types</h1>
+
+<p>Argues in favor of static typing and against implicit type coercion.</p>
+
+<h1 id="sect-12-language-feature-design">&sect; 12 Language Feature Design</h1>
+
+<p>Language design != feature design.</p>
+
+<p>When designing a feature:</p>
+
+<ul>
+<li>focus on one feature at a time</li>
+<li>ensure the new feature is an improvement and doesn&rsquo;t break anything</li>
+<li>know how to implement the feature efficiently</li>
+<li>write docs explaining and motivating the feature, with examples</li>
+<li>write example programs using the feature</li>
+</ul>
+
+<p>When designing a language:</p>
+
+<ul>
+<li>should be familiar with many alternate features and have excellent judgement
+to choose the best among competing alternatives</li>
+<li>must be able to reconcile minor inconsistencies among features to present a
+coherent whole.</li>
+<li>must have a clear idea of the scope &amp; purpose of the new language</li>
+<li>should have resources to write the implementation <em>and</em> good docs</li>
+<li>should have political will &amp; resources to sell the language</li>
+<li>should <strong>not</strong> include untried ideas of his own! &ldquo;His task is consolodation,
+not innovation.&rdquo;</li>
+</ul>
+
+<h1 id="sect-13-conclusion">&sect; 13 Conclusion</h1>
+
+<blockquote>
+<p>A final hint: listen carefully to what language users say they want, until
+you have an understanding of what they really want. Then find some way of
+achieving the latter at a small fraction of the cost of the former.  This
+is the test of success in language design, and of progress in programming
+methodology.</p>
+</blockquote>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:i-e-at-compile-t">i.e., at compile time <a class="footnote-return" href="#fnref:i-e-at-compile-t"><sup>^</sup></a></li>
+<li id="fn:loop-complex-lam"><code>loop</code>, complex lambda lists with keyword and optional args, etc. <a class="footnote-return" href="#fnref:loop-complex-lam"><sup>^</sup></a></li>
+<li id="fn:Emphasis-mine">Emphasis mine. <a class="footnote-return" href="#fnref:Emphasis-mine"><sup>^</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="http://app.leby.org/notes/recursive/"><span
+      aria-hidden="true">&larr;</span> Notes: Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part 1</a></li>
+    
+
+    
+    <li class="next"><a href="http://app.leby.org/notes/gc-survey/">Notes: Uniprocessor Garbage Collection Techniques <span
+      aria-hidden="true">&rarr;</span></a></li>
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="/js/jquery-1.12.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89952512-1', 'auto');
+        ga('send', 'pageview');
+
+         
+        var links = document.querySelectorAll('a');
+        Array.prototype.map.call(links, function(item) {
+            if (item.host != document.location.host) {
+                item.addEventListener('click', function() {
+                    var action = item.getAttribute('data-action') || 'follow';
+                    ga('send', 'event', 'outbound', action, item.href);
+                });
+            }
+        });
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
+    
+
+  </body>
+</html>
+
