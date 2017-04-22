@@ -5,7 +5,7 @@
     
     <url>
     
-      <loc>http://app.leby.org/notes/lisp/</loc>
+      <loc>https://app.leby.org/notes/lisp/</loc>
       <lastmod>2014-09-19T00:00:00+00:00</lastmod>
     </url>
     
@@ -14,7 +14,7 @@
     
     <url>
     
-      <loc>http://app.leby.org/notes/gc-survey/</loc>
+      <loc>https://app.leby.org/notes/gc-survey/</loc>
       <lastmod>2014-07-20T00:00:00+00:00</lastmod>
     </url>
     
@@ -23,7 +23,7 @@
     
     <url>
     
-      <loc>http://app.leby.org/notes/hoare-hints/</loc>
+      <loc>https://app.leby.org/notes/hoare-hints/</loc>
       <lastmod>2014-06-25T00:00:00+00:00</lastmod>
     </url>
     
@@ -32,7 +32,7 @@
     
     <url>
     
-      <loc>http://app.leby.org/notes/recursive/</loc>
+      <loc>https://app.leby.org/notes/recursive/</loc>
       <lastmod>2014-05-14T00:00:00+00:00</lastmod>
     </url>
     
@@ -41,7 +41,7 @@
     
     <url>
     
-      <loc>http://app.leby.org/categories/</loc>
+      <loc>https://app.leby.org/categories/</loc>
       <priority>0</priority>
     </url>
     
@@ -50,7 +50,7 @@
     
     <url>
     
-      <loc>http://app.leby.org/notes/</loc>
+      <loc>https://app.leby.org/notes/</loc>
       <lastmod>2014-09-19T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -60,7 +60,7 @@
     
     <url>
     
-      <loc>http://app.leby.org/publication_types/</loc>
+      <loc>https://app.leby.org/publication_types/</loc>
       <priority>0</priority>
     </url>
     
@@ -69,7 +69,7 @@
     
     <url>
     
-      <loc>http://app.leby.org/tags/</loc>
+      <loc>https://app.leby.org/tags/</loc>
       <priority>0</priority>
     </url>
     
@@ -78,7 +78,7 @@
     
     <url>
     
-      <loc>http://app.leby.org/</loc>
+      <loc>https://app.leby.org/</loc>
       <lastmod>2016-04-20T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
