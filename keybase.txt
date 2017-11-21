@@ -1,0 +1,52 @@
+https://keybase.io/appleby
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://app.leby.org
+  * I am appleby (https://keybase.io/appleby) on keybase.
+  * I have a public key ASBQJVgyWd_PVhsKIb8ZFfNjAAkfKXUPiINy5d0-EY4QQgo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01205025583259dfcf561b0a21bf1915f36300091f29750f888372e5dd3e118e10420a",
+      "host": "keybase.io",
+      "kid": "01205025583259dfcf561b0a21bf1915f36300091f29750f888372e5dd3e118e10420a",
+      "uid": "81194b52eca62cf2df39d46af8782b19",
+      "username": "appleby"
+    },
+    "merkle_root": {
+      "ctime": 1511290775,
+      "hash": "1f4155c16910a7b89c53d71e2034612c6daa48125ac0ac3a1bcb49c9b78afd06e73b86b8247e657716189b925985361cc8d51301e1d5fd581433c011aef8f702",
+      "hash_meta": "e711998f8fd3aeb655cd1b253327b5a346656ac9e9d576c44af071ed166c9257",
+      "seqno": 1727018
+    },
+    "service": {
+      "hostname": "app.leby.org",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "1.0.33"
+  },
+  "ctime": 1511290811,
+  "expire_in": 504576000,
+  "prev": "d60a4fff7489eafcfecca1dadbe0e92dda509fa12d2bc4d2da8e68c4928aa38f",
+  "seqno": 8,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgUCVYMlnfz1YbCiG/GRXzYwAJHyl1D4iDcuXdPhGOEEIKp3BheWxvYWTFA0N7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwNTAyNTU4MzI1OWRmY2Y1NjFiMGEyMWJmMTkxNWYzNjMwMDA5MWYyOTc1MGY4ODgzNzJlNWRkM2UxMThlMTA0MjBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwNTAyNTU4MzI1OWRmY2Y1NjFiMGEyMWJmMTkxNWYzNjMwMDA5MWYyOTc1MGY4ODgzNzJlNWRkM2UxMThlMTA0MjBhIiwidWlkIjoiODExOTRiNTJlY2E2MmNmMmRmMzlkNDZhZjg3ODJiMTkiLCJ1c2VybmFtZSI6ImFwcGxlYnkifSwibWVya2xlX3Jvb3QiOnsiY3RpbWUiOjE1MTEyOTA3NzUsImhhc2giOiIxZjQxNTVjMTY5MTBhN2I4OWM1M2Q3MWUyMDM0NjEyYzZkYWE0ODEyNWFjMGFjM2ExYmNiNDljOWI3OGFmZDA2ZTczYjg2YjgyNDdlNjU3NzE2MTg5YjkyNTk4NTM2MWNjOGQ1MTMwMWUxZDVmZDU4MTQzM2MwMTFhZWY4ZjcwMiIsImhhc2hfbWV0YSI6ImU3MTE5OThmOGZkM2FlYjY1NWNkMWIyNTMzMjdiNWEzNDY2NTZhYzllOWQ1NzZjNDRhZjA3MWVkMTY2YzkyNTciLCJzZXFubyI6MTcyNzAxOH0sInNlcnZpY2UiOnsiaG9zdG5hbWUiOiJhcHAubGVieS5vcmciLCJwcm90b2NvbCI6Imh0dHBzOiJ9LCJ0eXBlIjoid2ViX3NlcnZpY2VfYmluZGluZyIsInZlcnNpb24iOjF9LCJjbGllbnQiOnsibmFtZSI6ImtleWJhc2UuaW8gZ28gY2xpZW50IiwidmVyc2lvbiI6IjEuMC4zMyJ9LCJjdGltZSI6MTUxMTI5MDgxMSwiZXhwaXJlX2luIjo1MDQ1NzYwMDAsInByZXYiOiJkNjBhNGZmZjc0ODllYWZjZmVjY2ExZGFkYmUwZTkyZGRhNTA5ZmExMmQyYmM0ZDJkYThlNjhjNDkyOGFhMzhmIiwic2Vxbm8iOjgsInRhZyI6InNpZ25hdHVyZSJ9o3NpZ8RA2EKw7znXKcXMStEPz1Yy1KHoREvbs2OMCmoXGYKt3rMptDIWSnf7Cbvz6canr4PWWie1TFaYYjqLwHYDM4vTB6hzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIAXqBtNyaDvmXRmO7Kdd9JZF0pcF8p+6G+fk1FsvpiVBo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/appleby
