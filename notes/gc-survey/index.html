@@ -1,139 +1,77 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme" content="hugo-ugly">
+    <meta name="author" content="Appleby">
+    <meta name="generator" content="Hugo 0.37.1" />
+    <meta name="description" content="Notes on the paper _Uniprocessor Garbage Collection Techniques_, by Paul R. Wilson.">
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.30.2" />
-  <meta name="author" content="Mike Appleby">
-  
-
-  
-  
-  
     
-  
-  
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.0/css/academicons.min.css" integrity="sha512-GGGNUPDhnG8LEAEDsjqYIQns+Gu8RBs4j5XGlxl7UfRaZBhCCm5jenJkeJL8uPuOXGqgl8/H1gjlWQDRjd3cUQ==" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
-  
-  
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
-  <link rel="stylesheet" href="/css/hugo-academic.css">
-  
-
-  
     <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', 'UA-89952512-1', 'auto');
-      ga('require', 'eventTracker');
-      ga('require', 'outboundLinkTracker');
-      ga('require', 'urlChangeTracker');
-      ga('send', 'pageview');
+     if (window.location.hostname !== 'localhost') {
+       window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+       ga('create', 'UA-89952512-1', 'auto');
+       ga('require', 'eventTracker');
+       ga('require', 'outboundLinkTracker');
+       ga('require', 'urlChangeTracker');
+       ga('send', 'pageview');
+     }
     </script>
     <script async src="//www.google-analytics.com/analytics.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
     
-    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
-    
-  
-
-  <link rel="alternate" href="https://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
-  <link rel="feed" href="https://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
-
-  <link rel="icon" type="image/png" href="/img/icon.png">
-  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
-
-  <link rel="canonical" href="https://app.leby.org/notes/gc-survey/">
-
-  
-
-  <title>Notes: Uniprocessor Garbage Collection Techniques | appleby</title>
-
-</head>
-<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
-
-<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
-  <div class="container">
 
     
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-              data-target=".navbar-collapse" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">appleby</a>
-    </div>
-
+    <link rel="alternate" href="https://app.leby.org/index.xml" type="application/rss+xml" title="app.leby.org">
+    <link rel="feed" href="https://app.leby.org/index.xml" type="application/rss+xml" title="app.leby.org">
     
-    <div class="collapse navbar-collapse">
 
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/png" href="/img/icon.png">
+    <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+    <link rel="canonical" href="https://app.leby.org/notes/gc-survey/">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+    <title>Uniprocessor Garbage Collection Techniques | app.leby.org</title>
+  </head>
+  <body>
+
+
+<div>
+  <h1>Uniprocessor Garbage Collection Techniques</h1>
+  <div>
+    <span>
       
-      <ul class="nav navbar-nav navbar-right">
-        
+      <time datetime="2014-07-20 00:00:00 &#43;0000 &#43;0000">
+	Jul 20, 2014
+      </time>
+    </span>
 
-        
+    
 
-        <li class="nav-item">
-          <a href="/#about">
-            
-            <span>Home</span>
-          </a>
-        </li>
+    
+    <span>
+  | tags:
+  
+  <a href="/tags%25!/%28MISSING%29notes">notes</a>
+  , 
+  
+  <a href="/tags%25!/%28MISSING%29papers">papers</a>
+  , 
+  
+  <a href="/tags%25!/%28MISSING%29gc">gc</a>
+  
+  
+</span>
 
-        
-        
 
-        
-      </ul>
-
-    </div>
+    
   </div>
-</nav>
-
-
-<article class="article" itemscope itemtype="http://schema.org/Article">
 
   
-
-
-  <div class="article-container">
-    <h1 itemprop="name">Notes: Uniprocessor Garbage Collection Techniques</h1>
-    
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    <time datetime="2014-07-20 00:00:00 &#43;0000 &#43;0000" itemprop="datePublished">
-      Sun, Jul 20, 2014
-    </time>
-  </span>
-
-  
-  
-  
-  
-
-  
-  
-  
-  
-
-  
-  
-
-  
-
-</div>
-
-    <div class="article-style" itemprop="articleBody">
-      
 
 <h1 id="overview">Overview</h1>
 
@@ -395,29 +333,13 @@ the collector&rsquo;s bookkeeping is brought up to date.</p>
 
 <dl>
 <dt>Read barrier</dt>
-<dd>Detects when mutator attempts to read a pointer to a white
-object and immediately colors the object grey.</dd>
+<dd>Detects when mutator attempts to read a pointer to a white object and immediately colors the object grey.</dd>
 <dt>Write barrier</dt>
-<dd><p>When mutator attempts to write to a pointer, the write is
-trapped or recorded. To foil the gc&rsquo;s marking traversal, the
-mutator must 1) write a pointer to a white object into a black
-object, and 2) destroy the original pointer to the white object
-before the collector sees it. Write barriers fall into two basic
-categories depending on which of the above conditions they
-address:</p>
+<dd>When mutator attempts to write to a pointer, the write is trapped or recorded. To foil the gc&rsquo;s marking traversal, the mutator must 1) write a pointer to a white object into a black object, and 2) destroy the original pointer to the white object before the collector sees it. Write barriers fall into two basic categories depending on which of the above conditions they address:
 
 <ul>
-<li><em>Snapshot-at-beginning</em> collectors ensure that the second
-condition can not happen&mdash;rather than allow pointer to be
-overwritten, they are first saved so that the collector can
-find them. Thus no paths to white objects can be broken
-without providing an alternative path for the collector to
-reach them.</li>
-<li><em>Incremental update</em> collectors only record pointers to white
-objects that are stored into black objects (condition 1
-above).  When such a write is detected, the black object (or
-part of it) is reverted to grey.  Alternatively, the
-pointed-to white object is immediately greyed.</li>
+<li><em>Snapshot-at-beginning</em> collectors ensure that the second condition can not happen&mdash;rather than allow pointer to be overwritten, they are first saved so that the collector can find them. Thus no paths to white objects can be broken without providing an alternative path for the collector to reach them.</li>
+<li><em>Incremental update</em> collectors only record pointers to white objects that are stored into black objects (condition 1 above).  When such a write is detected, the black object (or part of it) is reverted to grey.  Alternatively, the pointed-to white object is immediately greyed.</li>
 </ul></dd>
 </dl>
 
@@ -665,73 +587,13 @@ schemes to reduce floating garbage?</p></li>
 intergenerational references?</p></li>
 </ol>
 
-    </div>
-  </div>
-
-</article>
-
-<div class="container">
-  <nav>
-  <ul class="pager">
-    
-    <li class="previous"><a href="https://app.leby.org/notes/hoare-hints/"><span
-      aria-hidden="true">&larr;</span> Notes: Hints on Programming Language Design</a></li>
-    
-
-    
-    <li class="next"><a href="https://app.leby.org/notes/lisp/">Notes: Lisp In Small Pieces <span
-      aria-hidden="true">&rarr;</span></a></li>
-    
-  </ul>
-</nav>
 
 </div>
 
-<div class="article-container">
-  
 
-</div>
 
-<footer class="site-footer">
-  <div class="container">
-    <p class="powered-by">
 
-      
 
-      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
-      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
-
-      <span class="pull-right" aria-hidden="true">
-        <a href="#" id="back_to_top">
-          <span class="button_icon">
-            <i class="fa fa-chevron-up fa-2x"></i>
-          </span>
-        </a>
-      </span>
-
-    </p>
-  </div>
-</footer>
-
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
-    
-    <script src="/js/hugo-academic.js"></script>
-    
-
-    
-    
-
-    
-    
-
-    
-
-  </body>
+</body>
 </html>
 

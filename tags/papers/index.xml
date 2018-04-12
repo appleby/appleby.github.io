@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Papers on app.leby.org</title>
+    <link>https://app.leby.org/tags/papers/</link>
+    <description>Recent content in Papers on app.leby.org</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 20 Jul 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://app.leby.org/tags/papers/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Uniprocessor Garbage Collection Techniques</title>
+      <link>https://app.leby.org/notes/gc-survey/</link>
+      <pubDate>Sun, 20 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://app.leby.org/notes/gc-survey/</guid>
+      <description>Overview This page contains notes on a paper by Paul R. Wilson titled, &amp;ldquo;Uniprocessor Garbage Collection Techniques&amp;rdquo;.
+&amp;sect; 2 Basic Garbage Collection Techniques &amp;sect; 2.1 Reference Counting Pros  Incremental nature of operations makes it suitable for real time applications. Space efficient, able to operate with very low space overhead. Garbage typically collected immediately, which can be beneficial for object finalizers. May improve locality of reference. Easier to implement than full gc.</description>
+    </item>
+    
+    <item>
+      <title>Hints on Programming Language Design</title>
+      <link>https://app.leby.org/notes/hoare-hints/</link>
+      <pubDate>Wed, 25 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://app.leby.org/notes/hoare-hints/</guid>
+      <description>Overview This page contains notes on a paper by C.A.R. Hoare titled, &amp;ldquo;Hints on Programming Language Design.&amp;rdquo; Here is a summary of the major points that jumped out at me.
+Hoare is for:
+ Languages that aid the programmer in design, documentation, and debugging Small, simple designs Static analysis and typing Safety (bounds checking, etc.) Fast compilation and efficient code Readability Dumpable images A superb comment convention! Mutable state (for efficiency) Type extensions + operator overloading Consolidating best of existing features when designing a new language  Hoare is against:</description>
+    </item>
+    
+    <item>
+      <title>Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part 1</title>
+      <link>https://app.leby.org/notes/recursive/</link>
+      <pubDate>Wed, 14 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://app.leby.org/notes/recursive/</guid>
+      <description>&amp;sect; 2 Functions and Function Definitions Introduces the notion of a conditional expression!
+Tidbit: McCarthy proposed the addition of a cond-like expression to Algol 60, but it was rejected in favor of the English equivalent, if ... then ... else.
+Review of concepts:
+ a. Partial Function a function that is only defined on part of it&amp;rsquo;s domain. b. Propositional Expressions and Predicates $T, F, \wedge, \lor, \lnot, etc.$ c.</description>
+    </item>
+    
+  </channel>
+</rss>

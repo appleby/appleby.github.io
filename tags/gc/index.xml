@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gc on app.leby.org</title>
+    <link>https://app.leby.org/tags/gc/</link>
+    <description>Recent content in Gc on app.leby.org</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 20 Jul 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://app.leby.org/tags/gc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Uniprocessor Garbage Collection Techniques</title>
+      <link>https://app.leby.org/notes/gc-survey/</link>
+      <pubDate>Sun, 20 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://app.leby.org/notes/gc-survey/</guid>
+      <description>Overview This page contains notes on a paper by Paul R. Wilson titled, &amp;ldquo;Uniprocessor Garbage Collection Techniques&amp;rdquo;.
+&amp;sect; 2 Basic Garbage Collection Techniques &amp;sect; 2.1 Reference Counting Pros  Incremental nature of operations makes it suitable for real time applications. Space efficient, able to operate with very low space overhead. Garbage typically collected immediately, which can be beneficial for object finalizers. May improve locality of reference. Easier to implement than full gc.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,139 +1,77 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme" content="hugo-ugly">
+    <meta name="author" content="Appleby">
+    <meta name="generator" content="Hugo 0.37.1" />
+    <meta name="description" content="Notes on the paper _Hints on Programming Language Design_, by C.A.R. Hoare.">
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.30.2" />
-  <meta name="author" content="Mike Appleby">
-  
-
-  
-  
-  
     
-  
-  
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.0/css/academicons.min.css" integrity="sha512-GGGNUPDhnG8LEAEDsjqYIQns+Gu8RBs4j5XGlxl7UfRaZBhCCm5jenJkeJL8uPuOXGqgl8/H1gjlWQDRjd3cUQ==" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
-  
-  
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
-  <link rel="stylesheet" href="/css/hugo-academic.css">
-  
-
-  
     <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', 'UA-89952512-1', 'auto');
-      ga('require', 'eventTracker');
-      ga('require', 'outboundLinkTracker');
-      ga('require', 'urlChangeTracker');
-      ga('send', 'pageview');
+     if (window.location.hostname !== 'localhost') {
+       window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+       ga('create', 'UA-89952512-1', 'auto');
+       ga('require', 'eventTracker');
+       ga('require', 'outboundLinkTracker');
+       ga('require', 'urlChangeTracker');
+       ga('send', 'pageview');
+     }
     </script>
     <script async src="//www.google-analytics.com/analytics.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
     
-    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
-    
-  
-
-  <link rel="alternate" href="https://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
-  <link rel="feed" href="https://app.leby.org/index.xml" type="application/rss+xml" title="appleby">
-
-  <link rel="icon" type="image/png" href="/img/icon.png">
-  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
-
-  <link rel="canonical" href="https://app.leby.org/notes/hoare-hints/">
-
-  
-
-  <title>Notes: Hints on Programming Language Design | appleby</title>
-
-</head>
-<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
-
-<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
-  <div class="container">
 
     
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-              data-target=".navbar-collapse" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">appleby</a>
-    </div>
-
+    <link rel="alternate" href="https://app.leby.org/index.xml" type="application/rss+xml" title="app.leby.org">
+    <link rel="feed" href="https://app.leby.org/index.xml" type="application/rss+xml" title="app.leby.org">
     
-    <div class="collapse navbar-collapse">
 
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/png" href="/img/icon.png">
+    <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+    <link rel="canonical" href="https://app.leby.org/notes/hoare-hints/">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+    <title>Hints on Programming Language Design | app.leby.org</title>
+  </head>
+  <body>
+
+
+<div>
+  <h1>Hints on Programming Language Design</h1>
+  <div>
+    <span>
       
-      <ul class="nav navbar-nav navbar-right">
-        
+      <time datetime="2014-06-25 00:00:00 &#43;0000 UTC">
+	Jun 25, 2014
+      </time>
+    </span>
 
-        
+    
 
-        <li class="nav-item">
-          <a href="/#about">
-            
-            <span>Home</span>
-          </a>
-        </li>
+    
+    <span>
+  | tags:
+  
+  <a href="/tags%25!/%28MISSING%29notes">notes</a>
+  , 
+  
+  <a href="/tags%25!/%28MISSING%29papers">papers</a>
+  , 
+  
+  <a href="/tags%25!/%28MISSING%29programming-languages">programming languages</a>
+  
+  
+</span>
 
-        
-        
 
-        
-      </ul>
-
-    </div>
+    
   </div>
-</nav>
-
-
-<article class="article" itemscope itemtype="http://schema.org/Article">
 
   
-
-
-  <div class="article-container">
-    <h1 itemprop="name">Notes: Hints on Programming Language Design</h1>
-    
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    <time datetime="2014-06-25 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-      Wed, Jun 25, 2014
-    </time>
-  </span>
-
-  
-  
-  
-  
-
-  
-  
-  
-  
-
-  
-  
-
-  
-
-</div>
-
-    <div class="article-style" itemprop="articleBody">
-      
 
 <h1 id="overview">Overview</h1>
 
@@ -184,7 +122,7 @@ art, namely program design, documentation, and debugging.</p>
 <h3 id="program-debugging">Program Debugging</h3>
 
 <blockquote>
-<p>Certain programming errors cannot always be detected in this way<sup class="footnote-ref" id="fnref:i-e-at-compile-t"><a rel="footnote" href="#fn:i-e-at-compile-t">1</a></sup>, and must be cheaply detectable at run time; in no case can
+<p>Certain programming errors cannot always be detected in this way<sup class="footnote-ref" id="fnref:i-e-at-compile-t"><a href="#fn:i-e-at-compile-t">1</a></sup>, and must be cheaply detectable at run time; in no case can
 they be allowed to give rise to machine or implementation dependent effects,
 which are inexplicable in terms of the language itself. This is a criterion
 to which I give the name &ldquo;security&rdquo;.</p>
@@ -204,7 +142,7 @@ the language.</p>
 
 <p>I agree with the principle here. But do my language preferences actually back
 this up? I haven&rsquo;t used scheme much, but I naturally gravitated towards common
-lisp, warts and all, because it provides lots of pragmatic niceties<sup class="footnote-ref" id="fnref:loop-complex-lam"><a rel="footnote" href="#fn:loop-complex-lam">2</a></sup> that no doubt
+lisp, warts and all, because it provides lots of pragmatic niceties<sup class="footnote-ref" id="fnref:loop-complex-lam"><a href="#fn:loop-complex-lam">2</a></sup> that no doubt
 drastically increase the burden on the implementor, but provide useful features
 for the user. Likewise, the complexity of C++ is staggering to the point that
 I&rsquo;m disgusted, but I&rsquo;m on the fence as to whether I&rsquo;d prefer to trade the
@@ -267,30 +205,32 @@ is a poor substitute for fast compilation, and has many practical
 disadvantages&hellip;</p>
 </blockquote>
 
-<p>Suggests the following strategies for fast compilers:</p>
+<p>Suggests the following strategies for fast compilers.</p>
 
-<dl>
-<dt>Prescan</dt>
-<dd>Pre scan and lex the input and store it in a compact format.</dd>
-<dt>Precompile</dt>
-<dd><blockquote>
+<h3 id="prescan">Prescan</h3>
+
+<p>Pre scan and lex the input and store it in a compact format.</p>
+
+<h3 id="precompile">Precompile</h3>
+
+<blockquote>
 <p>This is a directive which can be given to the compiler after submitting
 any initial segment of a large program. It causes the compiler to make a
 complete dump of its workspace including dictionary and object code, in a
 specified user file.</p>
 </blockquote>
 
-<p>It&rsquo;s unclear how the above is substantially different/better from
-independent compilation.</p></dd>
-<dt>Dump</dt>
-<dd><blockquote>
+<p>It&rsquo;s unclear how the above is substantially different/better from independent compilation.</p>
+
+<h3 id="dump">Dump</h3>
+
+<blockquote>
 <p>an instruction which can be called by the user program during execution,
 and causes a complete binary dump of its code and workspace into a named
 user file.</p>
 </blockquote>
 
-<p>Similar to SBCL&rsquo;s <code>save-lisp-and-die</code> or to SmallTalk images.</p></dd>
-</dl>
+<p>Similar to SBCL&rsquo;s <code>save-lisp-and-die</code> or to SmallTalk images.</p>
 
 <h2 id="sect-3-4-efficient-object-code">&sect; 3.4 Efficient Object Code</h2>
 
@@ -327,7 +267,7 @@ compiler toolchain that doesn&rsquo;t do serious optimization.</p>
 <blockquote>
 <p>If the purpose of a programming language is to assist in the documentation of
 programs, the <strong>design of a superb comment convention is obviously our most
-important concern.</strong> <sup class="footnote-ref" id="fnref:Emphasis-mine"><a rel="footnote" href="#fn:Emphasis-mine">3</a></sup></p>
+important concern.</strong> <sup class="footnote-ref" id="fnref:Emphasis-mine"><a href="#fn:Emphasis-mine">3</a></sup></p>
 </blockquote>
 
 <p>Wow! Bold statement! He presents some good arguments in favor of
@@ -339,11 +279,13 @@ ANSI C).</p>
 <p>What&rsquo;s so great about arithmetic notation like $E + F$? Well, a lot! Hoare
 lists six &ldquo;fundamental principles of structuring&rdquo;:</p>
 
-<p>#. Transparency of meaning and purpose
-#. Independence of parts
-#. Recursive application
-#. Narrow interfaces
-#. Manifestness of structure</p>
+<ol>
+<li>Transparency of meaning and purpose</li>
+<li>Independence of parts</li>
+<li>Recursive application</li>
+<li>Narrow interfaces</li>
+<li>Manifestness of structure</li>
+</ol>
 
 <p>Hoare likes operators that can accept and return composite data structures.</p>
 
@@ -497,80 +439,19 @@ methodology.</p>
 </ol>
 </div>
 
-    </div>
-  </div>
-
-</article>
-
-<div class="container">
-  <nav>
-  <ul class="pager">
-    
-    <li class="previous"><a href="https://app.leby.org/notes/recursive/"><span
-      aria-hidden="true">&larr;</span> Notes: Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part 1</a></li>
-    
-
-    
-    <li class="next"><a href="https://app.leby.org/notes/gc-survey/">Notes: Uniprocessor Garbage Collection Techniques <span
-      aria-hidden="true">&rarr;</span></a></li>
-    
-  </ul>
-</nav>
 
 </div>
 
-<div class="article-container">
-  
 
-</div>
 
-<footer class="site-footer">
-  <div class="container">
-    <p class="powered-by">
 
-      
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+</script>
 
-      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
-      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
 
-      <span class="pull-right" aria-hidden="true">
-        <a href="#" id="back_to_top">
-          <span class="button_icon">
-            <i class="fa fa-chevron-up fa-2x"></i>
-          </span>
-        </a>
-      </span>
 
-    </p>
-  </div>
-</footer>
-
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
-    
-    <script src="/js/hugo-academic.js"></script>
-    
-
-    
-    
-
-    
-    
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
-    </script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
-    
-    
-
-    
-
-  </body>
+</body>
 </html>
 
