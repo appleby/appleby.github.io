@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Fun With X</title>
+      <link>https://app.leby.org/tags/fun-with-x/</link>
+      <pubDate>Fri, 04 May 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://app.leby.org/tags/fun-with-x/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Gc</title>
       <link>https://app.leby.org/tags/gc/</link>
       <pubDate>Sun, 20 Jul 2014 00:00:00 +0000</pubDate>
@@ -30,9 +39,18 @@
     </item>
     
     <item>
+      <title>Javascript</title>
+      <link>https://app.leby.org/tags/javascript/</link>
+      <pubDate>Fri, 04 May 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://app.leby.org/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Lisp</title>
       <link>https://app.leby.org/tags/lisp/</link>
-      <pubDate>Fri, 19 Sep 2014 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 04 May 2018 00:00:00 -0500</pubDate>
       
       <guid>https://app.leby.org/tags/lisp/</guid>
       <description></description>
@@ -53,6 +71,15 @@
       <pubDate>Sun, 20 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://app.leby.org/tags/papers/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Parenscript</title>
+      <link>https://app.leby.org/tags/parenscript/</link>
+      <pubDate>Fri, 04 May 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://app.leby.org/tags/parenscript/</guid>
       <description></description>
     </item>
     

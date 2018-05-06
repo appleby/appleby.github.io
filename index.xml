@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>Fun with Parenscript</title>
+      <link>https://app.leby.org/post/fun-with-parenscript/</link>
+      <pubDate>Fri, 04 May 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://app.leby.org/post/fun-with-parenscript/</guid>
+      <description>About this post This post is a stream-of-consciousness rambling as I kick the tires of Parenscript. This is my first time using Parenscript. See the Parenscript homepage for docs, tutorials and the like. The lisp code in this post was only tested on SBCL, but in theory should work with any lisp implementation that Parenscript supports.
+About Parenscript Parenscript is a Common Lisp library that compiles a subset of Common Lisp down to dependency-free, readable JavaScript.</description>
+    </item>
+    
+    <item>
       <title>All About Appleby</title>
       <link>https://app.leby.org/about/</link>
       <pubDate>Fri, 06 Apr 2018 11:36:29 -0500</pubDate>
