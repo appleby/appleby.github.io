@@ -682,6 +682,8 @@ by `svg-id'.&quot;
 
 <h2 id="reduce-sometimes-ignores-it-s-init-argument"><code>reduce</code> sometimes ignores it&rsquo;s <code>init</code> argument</h2>
 
+<p>Update(May 2019): this now <a href="https://github.com/vsedach/Parenscript/issues/40">fixed</a>.</p>
+
 <p>As I <a href="#reduce-note">noted above</a>, there appears to be a bug in the implementation of <code>reduce</code> in <code>*ps-lisp-library*</code> which ignores its <code>init</code> argument whenever the caller passes something that evaluates as false in JavaScript. The <code>init</code> argument is sometimes ignored because <code>reduce</code> contains an expression to initialize the accumulator that compiles down to the following JavaScript:</p>
 
 <pre><code class="language-javascript">acc = init ? init : list[0]
@@ -713,6 +715,8 @@ reduce((acc,e) =&gt; acc, [&quot;foo&quot;, &quot;bar&quot;], &quot;&quot;)     
 <p>For comparison, SBCL, CCL, and CLISP all signals errors complaining that the let binding is malformed. Of course, it&rsquo;s not really fair to compare Parenscript to production-grade Common Lisp implementations, I just happened to notice it when reading over Parenscript&rsquo;s <code>let</code> implementation. Besides, who&rsquo;s to say this is a bug and not a feature!</p>
 
 <h2 id="ps-encode-js-identifier-deprecation-warnings"><code>ps::encode-js-identifier</code> deprecation warnings</h2>
+
+<p>Update(May 2019): this is now <a href="https://github.com/vsedach/Parenscript/issues/41">fixed</a>.</p>
 
 <p>The implementation of <code>ps::encode-js-identifier</code> in <code>utils.lisp</code> issues a warning if the user creates an identifier with an embedded dot (<code>.</code>) or sqaure brackets (<code>[]</code>), which is a useful shorthand for referencing object properties or indexing into arrays (and was presumably supported in older versions of Parenscript). For example, <code>foo.bar</code> or <code>foobar[3]</code>. I believe the current recommendation is to use the <code>@</code> macro instead, like so: <code>(@ foo bar)</code> or <code>(@ foobar 3)</code>. However, <code>ps::encode-js-identifier</code> will only issue the warning about embedded dot and/or square brackets if certain other special characters are present in the identifier name which cause Parenscript name mangling rules to kick in. I assume this is a bug, and the intention is to always warn about embedded dot/bracket characters, but I&rsquo;m not sure.</p>
 
