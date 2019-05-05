@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Fun With X on app.leby.org</title>
+    <title>fun-with-x on app.leby.org</title>
     <link>https://app.leby.org/tags/fun-with-x/</link>
-    <description>Recent content in Fun With X on app.leby.org</description>
+    <description>Recent content in fun-with-x on app.leby.org</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 04 May 2018 00:00:00 -0500</lastBuildDate>
@@ -17,8 +17,7 @@
       <pubDate>Fri, 04 May 2018 00:00:00 -0500</pubDate>
       
       <guid>https://app.leby.org/post/fun-with-parenscript/</guid>
-      <description>About this post This post is a stream-of-consciousness rambling as I kick the tires of Parenscript. This is my first time using Parenscript. See the Parenscript homepage for docs, tutorials and the like. The lisp code in this post was only tested on SBCL, but in theory should work with any lisp implementation that Parenscript supports.
-About Parenscript Parenscript is a Common Lisp library that compiles a subset of Common Lisp down to dependency-free, readable JavaScript.</description>
+      <description>A stream-of-consciousness rambling as I kick the tires of Parenscript</description>
     </item>
     
   </channel>

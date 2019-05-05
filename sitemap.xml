@@ -18,6 +18,42 @@
   </url>
   
   <url>
+    <loc>https://app.leby.org/post/</loc>
+    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://app.leby.org/tags/</loc>
+    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://app.leby.org/tags/fun-with-x/</loc>
+    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://app.leby.org/tags/javascript/</loc>
+    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://app.leby.org/tags/lisp/</loc>
+    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://app.leby.org/tags/parenscript/</loc>
+    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://app.leby.org/notes/</loc>
     <lastmod>2018-04-06T14:06:17-05:00</lastmod>
   </url>
@@ -38,71 +74,14 @@
   </url>
   
   <url>
-    <loc>https://app.leby.org/notes/gc-survey/</loc>
-    <lastmod>2014-07-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://app.leby.org/notes/hoare-hints/</loc>
-    <lastmod>2014-06-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://app.leby.org/notes/recursive/</loc>
-    <lastmod>2014-05-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://app.leby.org/tags/compilers/</loc>
     <lastmod>2014-09-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://app.leby.org/tags/fun-with-x/</loc>
-    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://app.leby.org/tags/gc/</loc>
-    <lastmod>2014-07-20T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://app.leby.org/tags/javascript/</loc>
-    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://app.leby.org/tags/lisp/</loc>
-    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://app.leby.org/tags/notes/</loc>
     <lastmod>2014-09-19T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://app.leby.org/tags/papers/</loc>
-    <lastmod>2014-07-20T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://app.leby.org/tags/parenscript/</loc>
-    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://app.leby.org/post/</loc>
-    <lastmod>2018-05-04T00:00:00-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -119,9 +98,30 @@
   </url>
   
   <url>
-    <loc>https://app.leby.org/tags/</loc>
-    <lastmod>2014-09-19T00:00:00+00:00</lastmod>
+    <loc>https://app.leby.org/notes/gc-survey/</loc>
+    <lastmod>2014-07-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://app.leby.org/tags/gc/</loc>
+    <lastmod>2014-07-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://app.leby.org/tags/papers/</loc>
+    <lastmod>2014-07-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://app.leby.org/notes/hoare-hints/</loc>
+    <lastmod>2014-06-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://app.leby.org/notes/recursive/</loc>
+    <lastmod>2014-05-14T00:00:00+00:00</lastmod>
   </url>
   
 </urlset>

@@ -27,7 +27,7 @@
       <pubDate>Wed, 01 May 2019 00:00:00 -0500</pubDate>
       
       <guid>https://app.leby.org/hireme/</guid>
-      <description>If you&#39;re reading this, you probably received from me a resume or an email inquiring about a job. The purpose of this page is to provide a bit more context about me than will fit on a resume, in order to help you decided whether or not you want to interview me. You can find a copy of my resume here.
+      <description>If you&#39;re reading this, you probably received from me a resume or an email inquiring about a job. The purpose of this page is to provide a bit more context about me than will fit on a resume, in order to help you decided whether or not you want to interview me. You can find a copy of my resume here. My github profile is github.com/appleby.
 Who am I? I am a software engineer with approximately 5 years of professional experience in the network security sector.</description>
     </item>
     
@@ -37,8 +37,7 @@ Who am I? I am a software engineer with approximately 5 years of professional ex
       <pubDate>Fri, 04 May 2018 00:00:00 -0500</pubDate>
       
       <guid>https://app.leby.org/post/fun-with-parenscript/</guid>
-      <description>About this post This post is a stream-of-consciousness rambling as I kick the tires of Parenscript. This is my first time using Parenscript. See the Parenscript homepage for docs, tutorials and the like. The lisp code in this post was only tested on SBCL, but in theory should work with any lisp implementation that Parenscript supports.
-About Parenscript Parenscript is a Common Lisp library that compiles a subset of Common Lisp down to dependency-free, readable JavaScript.</description>
+      <description>A stream-of-consciousness rambling as I kick the tires of Parenscript</description>
     </item>
     
     <item>
@@ -56,9 +55,7 @@ About Parenscript Parenscript is a Common Lisp library that compiles a subset of
       <pubDate>Fri, 19 Sep 2014 00:00:00 +0000</pubDate>
       
       <guid>https://app.leby.org/notes/lisp/</guid>
-      <description>Ch. 1 The Basics of Interpretation &amp;sect; 1.3 Evaluating Atoms Syntactic vs. Semantic Elements (define (evaluate expr env) (if (and (atom? expr) (symbol? expr)) (lookup expr env) ...  To be more precise, we could instead write:
-(lookup (symbol-&amp;gt;variable expr) env)  and likewise, taking the abstraction one step further:
-(lookup (variable-&amp;gt;key (symbol-&amp;gt;variable expr)) env)  However, when writing a meta-circular evaluator we normally rely on the fact that we can represent the concept of a &amp;ldquo;variable&amp;rdquo; in our source language and &amp;ldquo;key&amp;rdquo; in our defining language both as ordinary lisp symbols.</description>
+      <description>Notes on the book &lt;em&gt;Lisp In Small Pieces&lt;/em&gt;, by Christian Queinnec.</description>
     </item>
     
     <item>
@@ -67,8 +64,7 @@ About Parenscript Parenscript is a Common Lisp library that compiles a subset of
       <pubDate>Sun, 20 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://app.leby.org/notes/gc-survey/</guid>
-      <description>Overview This page contains notes on a paper by Paul R. Wilson titled, &amp;ldquo;Uniprocessor Garbage Collection Techniques&amp;rdquo;.
-&amp;sect; 2 Basic Garbage Collection Techniques &amp;sect; 2.1 Reference Counting Pros  Incremental nature of operations makes it suitable for real time applications. Space efficient, able to operate with very low space overhead. Garbage typically collected immediately, which can be beneficial for object finalizers. May improve locality of reference. Easier to implement than full gc.</description>
+      <description>Notes on the paper &lt;em&gt;Uniprocessor Garbage Collection Techniques&lt;/em&gt;, by Paul R. Wilson.</description>
     </item>
     
     <item>
@@ -77,9 +73,7 @@ About Parenscript Parenscript is a Common Lisp library that compiles a subset of
       <pubDate>Wed, 25 Jun 2014 00:00:00 +0000</pubDate>
       
       <guid>https://app.leby.org/notes/hoare-hints/</guid>
-      <description>Overview This page contains notes on a paper by C.A.R. Hoare titled, &amp;ldquo;Hints on Programming Language Design.&amp;rdquo; Here is a summary of the major points that jumped out at me.
-Hoare is for:
- Languages that aid the programmer in design, documentation, and debugging Small, simple designs Static analysis and typing Safety (bounds checking, etc.) Fast compilation and efficient code Readability Dumpable images A superb comment convention! Mutable state (for efficiency) Type extensions + operator overloading Consolidating best of existing features when designing a new language  Hoare is against:</description>
+      <description>Notes on the paper &lt;em&gt;Hints on Programming Language Design&lt;/em&gt;, by C.A.R. Hoare.</description>
     </item>
     
     <item>
@@ -88,10 +82,7 @@ Hoare is for:
       <pubDate>Wed, 14 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://app.leby.org/notes/recursive/</guid>
-      <description>&amp;sect; 2 Functions and Function Definitions Introduces the notion of a conditional expression!
-Tidbit: McCarthy proposed the addition of a cond-like expression to Algol 60, but it was rejected in favor of the English equivalent, if ... then ... else.
-Review of concepts:
- a. Partial Function a function that is only defined on part of it&amp;rsquo;s domain. b. Propositional Expressions and Predicates $T, F, \wedge, \lor, \lnot, etc.$ c.</description>
+      <description>Notes on the paper &lt;em&gt;Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part 1&lt;/em&gt;, by John McCarthy.</description>
     </item>
     
   </channel>
