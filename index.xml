@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>Hire Appleby</title>
+      <link>https://app.leby.org/hireme/</link>
+      <pubDate>Mon, 03 Jun 2019 00:00:00 -0500</pubDate>
+      
+      <guid>https://app.leby.org/hireme/</guid>
+      <description>If you&#39;re reading this, you probably received from me a resume or an email inquiring about a job. The purpose of this page is to provide a bit more context about me than will fit on a resume, in order to help you decided whether or not you want to interview me. You can find a copy of my resume here. My github profile is github.com/appleby.
+Who am I? I am a software engineer with approximately 5 years of professional experience in the network security sector.</description>
+    </item>
+    
+    <item>
       <title>Appleby, elsewhere</title>
       <link>https://app.leby.org/elsewhere/</link>
       <pubDate>Wed, 01 May 2019 18:13:53 -0500</pubDate>
@@ -19,16 +29,6 @@
       <guid>https://app.leby.org/elsewhere/</guid>
       <description>This page contains links to external code snippets and interactive notebooks and the like that I have posted around the web.
  TADM2e Heap Compare a Google Colab notebook that contains a Python program to count and plot the number of nodes visited by the heap_compare function presented in The Algorithm Design Manual (2nd Ed.) Generating All Min Heaps a Google Colab notebook that contains several implementations of a routine to generate all distinct min heaps on N={0,1,2,…,n−1}.</description>
-    </item>
-    
-    <item>
-      <title>Hire Appleby</title>
-      <link>https://app.leby.org/hireme/</link>
-      <pubDate>Wed, 01 May 2019 00:00:00 -0500</pubDate>
-      
-      <guid>https://app.leby.org/hireme/</guid>
-      <description>If you&#39;re reading this, you probably received from me a resume or an email inquiring about a job. The purpose of this page is to provide a bit more context about me than will fit on a resume, in order to help you decided whether or not you want to interview me. You can find a copy of my resume here. My github profile is github.com/appleby.
-Who am I? I am a software engineer with approximately 5 years of professional experience in the network security sector.</description>
     </item>
     
     <item>
