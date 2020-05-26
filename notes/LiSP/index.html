@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2020-05-26 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lisp in Small Pieces</title>
+<meta name="generator" content="Org mode">
+<meta name="description" content="Notes on the book &quot;Lisp in Small Pieces&quot;, by Christian Queinnec."
+>
+<meta name="keywords" content="notes, lisp, scheme, compilers, programming languages, PLDI">
+<link rel="icon" type="image/png" href="/img/icon.png">
+<link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+<style type="text/css">
+<!--/*--><![CDATA[/*><!--*/
+#postamble p, #preamble p { font-size: 90%; margin: .2em; }
+.footpara { display: inline; }
+.footdef  { margin-bottom: 1em; }
+/*]]>*/-->
+</style>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<header>
+<h1 class="title">Lisp in Small Pieces</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#ch.-1-the-basics-of-interpretation">Ch. 1 The Basics of Interpretation</a>
+<ul>
+<li><a href="#evaluating-atoms">§ 1.3 Evaluating Atoms</a></li>
+<li><a href="#evaluating-forms">§ 1.4 Evaluating Forms</a></li>
+<li><a href="#representing-the-environment">§ 1.5 Representing the Environment</a></li>
+<li><a href="#representing-functions">§ 1.6 Representing Functions</a></li>
+</ul>
+</li>
+<li><a href="#ch.-2-lisp-1-2-ω">Ch. 2 Lisp, 1, 2, &#x2026; ω</a>
+<ul>
+<li><a href="#lisp2">§ 2.2 Lisp2</a></li>
+<li><a href="#name-spaces">§ 2.5 Name Spaces</a></li>
+<li><a href="#recursion">§ 2.6 Recursion</a></li>
+</ul>
+</li>
+<li><a href="#ch.-3-escape-return-continuations">Ch. 3 Escape &amp; Return: Continuations</a>
+<ul>
+<li><a href="#forms-for-handling-continuations">§ 3.1 Forms for Handling Continuations</a></li>
+<li><a href="#actors-in-a-computation">§ 3.2 Actors in a Computation</a></li>
+<li><a href="#initializing-the-interpreter">§ 3.3 Initializing the Interpreter</a></li>
+<li><a href="#implementing-control-forms">§ 3.4 Implementing Control Forms</a></li>
+<li><a href="#comparing-callcc-to-catch">§ 3.5 Comparing <code>call/cc</code> to <code>catch</code></a></li>
+<li><a href="#partial-continuations">§ 3.7 Partial Continuations</a></li>
+<li><a href="#exercises">§ 3.9 Exercises</a></li>
+</ul>
+</li>
+<li><a href="#ch.-4-assignment-and-side-effects">Ch. 4 Assignment and Side Effects</a>
+<ul>
+<li><a href="#semantics-of-quotations">§ 4.5 Semantics of Quotations</a></li>
+</ul>
+</li>
+<li><a href="#ch.-5-denotational-semantics">Ch. 5 Denotational Semantics</a>
+<ul>
+<li><a href="#a-brief-review-of-lambda-calculus">§ 5.1 A Brief Review of &lambda;-Calculus</a></li>
+<li><a href="#semantics-of-scheme">§ 5.2 Semantics of Scheme</a></li>
+</ul>
+</li>
+<li><a href="#ch.-6-fast-interpretation">Ch. 6 Fast Interpretation</a>
+<ul>
+<li><a href="#a-fast-interpreter">§ 6.1 A Fast Interpreter</a></li>
+</ul>
+</li>
+<li><a href="#ch.-10-compiling-into-c">Ch. 10 Compiling into C</a>
+<ul>
+<li><a href="#eliminating-nested-functions">§ 10.4 Eliminating Nested Functions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-org8aadaf8" class="outline-2">
+<h2 id="overview"><a id="org8aadaf8"></a>Overview</h2>
+<div class="outline-text-2" id="text-overview">
+<p>
+This page contains notes on the book <i>Lisp in Small Pieces</i> by
+Christian Quiennec.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org515891b" class="outline-2">
+<h2 id="ch.-1-the-basics-of-interpretation"><a id="org515891b"></a>Ch. 1 The Basics of Interpretation</h2>
+<div class="outline-text-2" id="text-ch.-1-the-basics-of-interpretation">
+</div>
+
+<div id="outline-container-org126cbc7" class="outline-3">
+<h3 id="evaluating-atoms"><a id="org126cbc7"></a>§ 1.3 Evaluating Atoms</h3>
+<div class="outline-text-3" id="text-evaluating-atoms">
+<p>
+<b>Syntactic vs. Semantic Elements</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(define (evaluate expr env)
+    (if (and (atom? expr) (symbol? expr))
+	(lookup expr env)
+	...
+</pre>
+</div>
+
+<p>
+To be more precise, we could instead write:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(lookup (symbol-&gt;variable expr) env)
+</pre>
+</div>
+
+<p>
+and likewise, taking the abstraction one step further:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(lookup (variable-&gt;key (symbol-&gt;variable expr)) env)
+</pre>
+</div>
+
+<p>
+However, when writing a meta-circular evaluator we normally rely on the
+fact that we can represent the concept of a "variable" in our source
+language and "key" in our defining language both as ordinary lisp
+symbols.
+</p>
+
+<p>
+<b>Autoquote</b>
+</p>
+
+<blockquote>
+<p>
+When an expression is atomic &#x2026; and when that expression is not a
+symbol, we have the habit of considering it as the representation of a
+constant that is its own value. This idempotence is known as the
+<i>autoquote</i> facility. An autoquoted object does not need to be quoted,
+and it is its own value.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orga4478ec" class="outline-3">
+<h3 id="evaluating-forms"><a id="orga4478ec"></a>§ 1.4 Evaluating Forms</h3>
+<div class="outline-text-3" id="text-evaluating-forms">
+</div>
+
+<div id="outline-container-orgd784eb6" class="outline-4">
+<h4 id="alternatives"><a id="orgd784eb6"></a>§ 1.4.2 Alternatives</h4>
+<div class="outline-text-4" id="text-alternatives">
+<p>
+<b>More on Syntactic vs. Semantic Elements</b>
+</p>
+
+<p>
+As above, the following snippet of code can be made more explicit by
+replacing:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">... (case (car e) ...
+	((if (if (evaluate (cadr e) env)
+		 (evaluate (caddr e) env)
+		 (evaluate (cadddr e) env))))
+	...
+</pre>
+</div>
+
+<p>
+with
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(define the-false-value (cons "false" "boolean")
+
+... (case (car e) ...
+	((if (if (not (eq? (evaluate (cadr e) env) the-false-value))
+		 (evaluate (caddr e) env)
+		 (evaluate (cadddr e) env))))
+	...
+</pre>
+</div>
+
+<p>
+Again, such pedantry is not really necessary for a meta-circular eval,
+but it's useful to keep in mind that you're using a kind of shorthand
+when you implement it as in the first snippet.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0f7c940" class="outline-3">
+<h3 id="representing-the-environment"><a id="org0f7c940"></a>§ 1.5 Representing the Environment</h3>
+<div class="outline-text-3" id="text-representing-the-environment">
+<p>
+<b>Fail Fast</b>
+</p>
+
+<blockquote>
+<p>
+The goal of a program is not so much to avoid committing errors but
+rather to fulfill its duty. &#x2026; Errors and erroneous contexts need to
+be pointed out as early as possible so that their source can be
+corrected as soon as possible.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org08a21e5" class="outline-3">
+<h3 id="representing-functions"><a id="org08a21e5"></a>§ 1.6 Representing Functions</h3>
+<div class="outline-text-3" id="text-representing-functions">
+</div>
+
+<div id="outline-container-orga11d0b6" class="outline-4">
+<h4 id="dynamic-and-lexical-binding"><a id="orga11d0b6"></a>§ 1.6.1 Dynamic and Lexical Binding</h4>
+<div class="outline-text-4" id="text-dynamic-and-lexical-binding">
+<blockquote>
+<p>
+In a lexical Lisp, a function evaluates its body in its own definition
+environment extended by its variables, whereas in a dynamic Lisp, a
+function extends the current environment, that is, the environment of
+the application.
+</p>
+</blockquote>
+
+<p>
+Something to consider when designing a language: do you want to support
+</p>
+
+<ul class="org-ul">
+<li>only lexical bindings (<i>à la</i> Scheme)</li>
+<li>both lexical and dynamic bindings with the same syntax (Common Lisp)</li>
+<li>both, but with two separate, syntactically distinguished namespaces
+(EULisp, ISLisp).</li>
+</ul>
+
+<p>
+McCarthy pondered the meaning of
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(let ((a 1))
+  ((let ((a 2))
+    (lambda (b) (list a b))) 3))
+</pre>
+</div>
+
+<p>
+And realized he expected <code>(2 3)</code>, not <code>(1 3)</code>. So he introduced a
+special form called <code>function</code> in Lisp 1.0 for creating closures,
+i.e. in <code>(function (lambda () x))</code>, <code>x</code> would be lexically bound in the
+definition environment. But lexical environments offer a big advantage
+in compiled code, namely that the compiler can generate efficient code
+for variable access, rather than dynamically searching the environment
+at runtime. So in Lisp 1.5, they made lexical scope the default and
+introduced <code>(declare (special x))</code> to indicate a variable that should be
+dynamically scoped.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd22134d" class="outline-4">
+<h4 id="deep-or-shallow-implementation"><a id="orgd22134d"></a>§ 1.6.2 Deep or Shallow Implementation</h4>
+<div class="outline-text-4" id="text-deep-or-shallow-implementation">
+<dl class="org-dl">
+<dt>Deep Binding</dt><dd>doing a linear search through an alist (or similar) to
+find the dynamic binding.</dd>
+<dt>Shallow Binding</dt><dd>associating the value of the variable directly with
+the symbol that represents it (i.e. store it on the symbol p-list).
+This avoids a linear search for the value at the cost of uglying up
+function calls, since functions must save/restore bindings, which
+interferes with TCO.</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5e10220" class="outline-2">
+<h2 id="ch.-2-lisp-1-2-ω"><a id="org5e10220"></a>Ch. 2 Lisp, 1, 2, &#x2026; ω</h2>
+<div class="outline-text-2" id="text-ch.-2-lisp-1-2-ω">
+</div>
+
+<div id="outline-container-org77f4aa1" class="outline-3">
+<h3 id="lisp2"><a id="org77f4aa1"></a>§ 2.2 Lisp2</h3>
+<div class="outline-text-3" id="text-lisp2">
+<p>
+Lisp2 allows the evaluator to take a shortcut. When evaluating the
+function position of an application, we can restrict it to a symbol and
+do a simple lookup rather than a full eval. That is
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(define (evaluate e env)
+  (if (atom? e) ...
+    (case (car e) ...
+      ((lambda) (make-function (cadr e) (cddr e) env))
+      (else (invoke (evaluate (car e) env)
+		    (evlis (cdr e) env))))))
+</pre>
+</div>
+
+<p>
+can be replaced with
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">...
+(else (invoke (lookup (car e) env)
+	      (evlis (cdr e) env)))...
+</pre>
+</div>
+
+<p>
+or, if we want to allow <code>lambda</code> in the function position as well as a
+symbol, we can replace the <code>lookup</code> with a call to
+<code>evaluate-application</code>, a mini eval that knows how to handle lambdas and
+symbol lookup.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(define (evaluate-application fn args env fenv)
+  (cond ((symbol? fn) ((lookup fn fenv) args))
+	((and (pair? fn) (eq? (car fn) 'lambda))
+	 (f.eprogn (cddr fn) (extend env (cadr fn) args) fenv))
+	(else (wrong "Incorrect functional term" fn))))
+</pre>
+</div>
+
+<p>
+Lisp2 has the advantage of making function lookups faster, since we
+don't force another call to eval, but instead do the lookup directly,
+and also because the function environment will be more compact since it
+does not contain variable bindings. In addition, lambda forms in
+function position are greatly simplified. Consider:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(let ((state-tax 1.186))
+  ((lambda (x) (* state-tax x)) (read)))
+</pre>
+</div>
+
+<p>
+In the above case, the closure corresponding to the lambda will not be
+created, rather its body will be evaluated in the correct environment.
+We can also avoid checking that the symbol in the function position is
+indeed a function at application time if we perform the check before
+binding it.
+</p>
+
+<p>
+However, many of these apparent advantages of Lisp2 can be overcome in
+Lisp1 if the function to apply can be determined statically, which is
+usually the case.
+</p>
+
+<p>
+On the down side, with Lisp2 we lose the ability to calculate the
+function to apply, as in <code>((if cond + -) 3 4)</code>.
+</p>
+</div>
+
+<div id="outline-container-orgb8e350b" class="outline-4">
+<h4 id="duality-of-the-two-worlds"><a id="orgb8e350b"></a>§ 2.2.2 Duality of the Two Worlds</h4>
+<div class="outline-text-4" id="text-duality-of-the-two-worlds">
+<p>
+I.e., the two worlds of functions vs. evaluations.
+</p>
+
+<blockquote>
+<p>
+To summarize these problems, we should say that there are calculations
+belonging to the parametric world that we want to carry out in the
+functional world, and vice versa. More precisely, we may want to pass
+a function as an argument or as a result, or we may even want the
+function that will be applied to be the result of a lengthy
+calculation.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+The function <code>funcall</code> lets us take the result of a calculation coming
+from the parametric world and put it into the function world as a
+value. Conversely, the special form <code>function</code> (a.k.a. <code>#'</code>) lets us
+get the value of a variable from the function world.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org902291f" class="outline-3">
+<h3 id="name-spaces"><a id="org902291f"></a>§ 2.5 Name Spaces</h3>
+<div class="outline-text-3" id="text-name-spaces">
+</div>
+
+<div id="outline-container-org3c072c4" class="outline-4">
+<h4 id="dynamic-variables-without-a-special-form"><a id="org3c072c4"></a>§ 2.5.3 Dynamic Variables without a Special Form</h4>
+<div class="outline-text-4" id="text-dynamic-variables-without-a-special-form">
+<p>
+One can have dynamic binding without special forms, so long as the
+interpreter has been modified to pass the current dynamic environment to
+functions. All that is needed then is to introduce functions <code>bind/de</code>
+and <code>assoc/de</code> to bind / reference dynamic vars.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(bind/de 'x 2
+  (lambda () (+ (assoc/de 'x error)
+		  (let ((x (+ (assoc/de 'x error) (assoc/de 'x error))))
+		    (+ x (assoc/de 'x error))))))
+--&gt; 8
+</pre>
+</div>
+
+<p>
+This has the advantage of not requiring extra special forms, but the
+disadvantage of being hideous to read/type.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge4cee26" class="outline-3">
+<h3 id="recursion"><a id="orge4cee26"></a>§ 2.6 Recursion</h3>
+<div class="outline-text-3" id="text-recursion">
+</div>
+
+<div id="outline-container-orge34ba80" class="outline-4">
+<h4 id="simple-recursion"><a id="orge34ba80"></a>§ 2.6.1 Simple Recursion</h4>
+<div class="outline-text-4" id="text-simple-recursion">
+<div class="org-src-container">
+<pre class="src src-scheme">(define (display-pi)
+  (display pi))
+
+(define pi 2.71828)
+
+(define (print-pi)
+  (display pi))
+
+(define pi 3.14159)
+</pre>
+</div>
+
+<p>
+What is the value of <code>(display-pi)</code>? Of <code>(print-pi)</code>?
+</p>
+</div>
+</div>
+
+<div id="outline-container-org826ae26" class="outline-4">
+<h4 id="recursion-without-assignment"><a id="org826ae26"></a>§ 2.6.6 Recursion without Assignment</h4>
+<div class="outline-text-4" id="text-recursion-without-assignment">
+<p>
+<b>Paradoxical Combinator</b>
+</p>
+
+\begin{align*}
+\exists \textbf{Y}, \forall F, \textbf{Y}F &= F(\textbf{Y}F) \\
+\textbf{Y} &= \textbf{WW} \\
+\textbf{W} &= \lambda \textbf{W} . \lambda F . F ((\textbf{W W}) F)
+\end{align*}
+
+<p>
+or, in a normal-order lisp:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(let ((W (lambda (w)
+	    (lambda (f)
+	       (f ((w w) f)) ) )))
+   (W W) )
+</pre>
+</div>
+
+<p>
+Scheme uses call-by-value, so we add an &eta;-conversion to prevent
+evaluation of the <code>((w w) f)</code> term.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(define fix
+  (let ((d (lambda (w)
+	      (lambda (f)
+		 (f (lambda (x) (((w w) f) x))) ) )))
+     (d d) ) )
+</pre>
+</div>
+
+<p>
+We can then define factorial as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(define fact
+   (fix (lambda (fact)
+	   (lambda (n)
+	      (if (= n 0)
+		 1
+		 (* n (fact (- n 1))) ) ) )) )
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3dd204a" class="outline-2">
+<h2 id="ch.-3-escape-return-continuations"><a id="org3dd204a"></a>Ch. 3 Escape &amp; Return: Continuations</h2>
+<div class="outline-text-2" id="text-ch.-3-escape-return-continuations">
+<p>
+The original escape form in Lisp 1.5 was <code>prog</code>. <code>prog</code> allows declaring
+local variables, followed by a sequence of labels and instructions. The
+instruction may contain <code>go</code> forms, which cause unconditional jumps to
+uncomputed labels, and a <code>return</code> form, which specifies the return value
+for the whole <code>prog</code> form. In Lisp 1.5, <code>go</code> and <code>return</code> forms could
+only appear in the first level of a <code>prog</code> or in a <code>cond</code> at the first
+level.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(defun fact (n)
+  (prog (r)
+	 (setq r 1)
+    loop (cond ((= n 1) (return r)))
+	 (setq r (* n r))
+	 (setq n (- n 1))
+	 (go loop)))
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org120e72b" class="outline-3">
+<h3 id="forms-for-handling-continuations"><a id="org120e72b"></a>§ 3.1 Forms for Handling Continuations</h3>
+<div class="outline-text-3" id="text-forms-for-handling-continuations">
+</div>
+
+<div id="outline-container-org7dc9388" class="outline-4">
+<h4 id="the-pair-catchthrow"><a id="org7dc9388"></a>§ 3.1.1 The Pair <code>catch</code> / <code>throw</code></h4>
+<div class="outline-text-4" id="text-the-pair-catchthrow">
+<div class="org-src-container">
+<pre class="src src-lisp">(catch label forms ...)
+
+(throw label form)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Dynamic extent.</li>
+<li>Label bound in dynamic environment.</li>
+<li>Labels evaluated.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3f26d50" class="outline-4">
+<h4 id="the-pair-blockreturn-from"><a id="org3f26d50"></a>§ 3.1.2 The Pair <code>block</code> / <code>return-from</code></h4>
+<div class="outline-text-4" id="text-the-pair-blockreturn-from">
+<div class="org-src-container">
+<pre class="src src-lisp">(block label forms ...)
+
+(return-from label form)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Dynamic extent.</li>
+<li>Label bound in lexical environment.</li>
+<li>Labels not evaluated.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org00d5931" class="outline-4">
+<h4 id="escapes-with-a-dynamic-extent"><a id="org00d5931"></a>§ 3.1.3 Escapes with a Dynamic Extent</h4>
+<div class="outline-text-4" id="text-escapes-with-a-dynamic-extent">
+<div class="org-src-container">
+<pre class="src src-lisp">((block foo (lambda (x) (return-from foo x))) 33) --&gt; error
+
+(block foo
+  (let ((f1 (lambda (x) (return-from foo x))))
+    (* 2 (block foo (f1 1)))))
+--&gt; 1
+
+(catch 'foo
+  (let ((f1 (lambda (x) (throw 'foo x))))
+    (* 2 (catch 'foo (f1 1)))))
+--&gt; 2
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgea73cdd" class="outline-4">
+<h4 id="escapes-with-indefinite-extent"><a id="orgea73cdd"></a>§ 3.1.5 Escapes with Indefinite Extent</h4>
+<div class="outline-text-4" id="text-escapes-with-indefinite-extent">
+<p>
+<i>A la</i> Scheme's <code>call/cc</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(call/cc (lambda (k) (+ 1 (k 2)))) --&gt; 2
+</pre>
+</div>
+
+<blockquote>
+<p>
+The last choice due to Scheme is to not create a new type of object
+and thus to represent continuations by unary functions,
+indistinguishable from function created by <code>lambda</code>. The continuation
+<i>k</i> is thus <i>reified</i>, that is, turned into an object that becomes the
+value of <code>k</code>&#x2026;
+</p>
+
+<p>
+Another solution would be to create another type of object, namely,
+continuations themselves. This type would be distinct from functions,
+and would necessitate a special invoker, namely, <code>continue</code>. The
+preceding example would then be rewritten like this:
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(call/cc (lambda (k) (+ 1 (continue k 2)))) --&gt; 2
+</pre>
+</div>
+
+<p>
+I think I fall into this camp.
+</p>
+
+<blockquote>
+<p>
+Some people like calls to continuations that are syntactically
+eye-opening because they make alteration of the thread of control more
+evident.
+</p>
+</blockquote>
+
+<p>
+Here is <code>fact</code>, implemented via <code>call/cc</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(define (fact n)
+  (let ((r 1))
+    (let ((k (call/cc (lambda (c) c))))
+      (set! r (* r n))
+      (set! n (- n 1))
+      (if (= n 1) r (k k)))))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org57cdd48" class="outline-3">
+<h3 id="actors-in-a-computation"><a id="org57cdd48"></a>§ 3.2 Actors in a Computation</h3>
+<div class="outline-text-3" id="text-actors-in-a-computation">
+</div>
+
+<div id="outline-container-orgf342201" class="outline-4">
+<h4 id="sequence"><a id="orgf342201"></a>§ 3.2.5 Sequence</h4>
+<div class="outline-text-4" id="text-sequence">
+<p>
+A little implementation hack for <code>begin</code> forms in the continuation-based
+interpreter.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(define (evaluate-begin e* r k)
+  ...(evaluate (car e*) r (make-begin-cont k e* r))...)
+
+(define-method (resume (k begin-cont) v)
+  (evaluate-begin (cdr (begin-cont-e* k)) ...))
+</pre>
+</div>
+
+<p>
+The cdr of <code>e*</code> is taken in <code>resume</code> rather than in <code>evaluate-begin</code>, so
+that one can tell which expression is in flight by examining the
+continuation.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8f91da0" class="outline-3">
+<h3 id="initializing-the-interpreter"><a id="org8f91da0"></a>§ 3.3 Initializing the Interpreter</h3>
+<div class="outline-text-3" id="text-initializing-the-interpreter">
+<p>
+Is this sarcasm? I doubt it, but it got a chuckle out of me nonetheless.
+More likely something fell through the cracks in the translation from
+French.
+</p>
+
+<blockquote>
+<p>
+Notice that the entire interpreter could easily be written in a real
+object-language, like Smalltalk, so we could take advantage of its
+famous browser and debugger. The only thing left to do is to add
+whatever is needed to open a lot of little windows everywhere.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org76c47f9" class="outline-3">
+<h3 id="implementing-control-forms"><a id="org76c47f9"></a>§ 3.4 Implementing Control Forms</h3>
+<div class="outline-text-3" id="text-implementing-control-forms">
+</div>
+
+<div id="outline-container-org2328e2d" class="outline-4">
+<h4 id="implementation-of-unwind-protect"><a id="org2328e2d"></a>§ 3.4.4 Implementation of <code>unwind-protect</code></h4>
+<div class="outline-text-4" id="text-implementation-of-unwind-protect">
+<p>
+Curious bit of trivia, CLtL2 introduced the restriction that an escape
+in a cleanup form couldn't unwind <i>less far</i> than the escape currently
+underway. In other words, the following was an error:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(catch 1
+  (catch 2
+    (unwind-protect (throw 1 'foo)
+      (throw 2 'bar))))
+
+--&gt; error
+</pre>
+</div>
+
+<p>
+This restriction was apparently lifted in ANSI Common Lisp (the
+hyperspec doesn't mention it, and SBCL happily returns <code>BAR</code>).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org454444c" class="outline-3">
+<h3 id="comparing-callcc-to-catch"><a id="org454444c"></a>§ 3.5 Comparing <code>call/cc</code> to <code>catch</code></h3>
+<div class="outline-text-3" id="text-comparing-callcc-to-catch">
+<blockquote>
+<p>
+In the world of Scheme, continuations can no longer be put on the
+stack because they can be kept in external data structures. Thus we
+have to adopt another model: a hierarchic model, sometimes called a
+<i>cactus stack</i>. The most naive approach is to leave the stack and
+allocate blocks for continuations directly in the heap&#x2026; [but] the
+canonical implementation of <code>call/cc</code> copies the stack into the heap;
+the continuation is thus this very copy of the stack.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org9ba62c5" class="outline-3">
+<h3 id="partial-continuations"><a id="org9ba62c5"></a>§ 3.7 Partial Continuations</h3>
+<div class="outline-text-3" id="text-partial-continuations">
+<p>
+This section describes a variant called partial continuations, which are
+continuations that act like function calls in so far as they return
+their value to the current continuation. With standard continuations:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(+ 1 (call/cc (lambda (k) (set! foo k) 2)))
+--&gt; 3
+(foo (foo 4))
+--&gt; 5
+</pre>
+</div>
+
+<p>
+If foo were a partial continuation, the result of <code>(foo (foo 4))</code> would
+be 6, not 5.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org86c524a" class="outline-3">
+<h3 id="exercises"><a id="org86c524a"></a>§ 3.9 Exercises</h3>
+<div class="outline-text-3" id="text-exercises">
+</div>
+
+<div id="outline-container-orgff06681" class="outline-4">
+<h4 id="exercise-3.10"><a id="orgff06681"></a>Exercise 3.10</h4>
+<div class="outline-text-4" id="text-exercise-3.10">
+<p>
+Meditate on the following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(define (make-box value)
+  (let ((box
+	 (call/cc
+	  (lambda (exit)
+	    (letrec
+	       ((behavior
+		 (call/cc
+		  (lambda (store)
+		    (exit (lambda (msg . new)
+			    (call/cc
+			     (lambda (caller)
+			       (case msg
+				 ((get) (store (cons (car behavior)
+						     caller)))
+				 ((set)
+				  (store
+				   (cons (car new)
+					 caller))))))))))))
+	      ((cdr behavior) (car behavior)))))))
+    (box 'set value)
+    box))
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcf7fc24" class="outline-2">
+<h2 id="ch.-4-assignment-and-side-effects"><a id="orgcf7fc24"></a>Ch. 4 Assignment and Side Effects</h2>
+<div class="outline-text-2" id="text-ch.-4-assignment-and-side-effects">
+</div>
+
+<div id="outline-container-org242510c" class="outline-3">
+<h3 id="semantics-of-quotations"><a id="org242510c"></a>§ 4.5 Semantics of Quotations</h3>
+<div class="outline-text-3" id="text-semantics-of-quotations">
+<p>
+The following quote is essentially a continuation on the theme first
+presented in the sections <i>Syntactic vs. Semantic Elements</i> and <i>More on
+Syntactic vs. Semantic Elements</i>, above. That is, a distinction between
+objects and values in the definition language, as opposed to the defined
+language.
+</p>
+
+<blockquote>
+<p>
+In the end, we can accept a compositional definition of quoting since,
+by transforming the program, we can revert to our usual habits.
+However, we might scrutinize these bad habits that depend on the fact
+that programs are often read with the function <code>read</code> and that thus
+the expression that appears in a <code>quote</code> and that specifies the
+immediate data to return is coded with the same conventions: same
+dotted pairs, same symbols, etc. Natural laziness impinges on the
+interpreter to use this same value and thus to return it every time
+it's needed.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6ef4e1c" class="outline-2">
+<h2 id="ch.-5-denotational-semantics"><a id="org6ef4e1c"></a>Ch. 5 Denotational Semantics</h2>
+<div class="outline-text-2" id="text-ch.-5-denotational-semantics">
+<p>
+The introduction lists a variety of ways to specify the semantics of a
+language:
+</p>
+
+<ul class="org-ul">
+<li><i>Reference Implementation</i> is probably the most common technique, in
+which a reference implemenation is the <i>de facto</i> standard to which
+any other implementation should conform. Think Python.</li>
+
+<li><i>Operational Semantics</i> involves precisely specifying a virtual
+machine and it's operations, and defining the meaning of a program or
+language in terms of how it's translated into instruction for the
+virtual machine. Think MMIX.</li>
+
+<li><i>Denotational Semantics</i> "consists of defining (for a given language)
+a function, called the <i>valuation</i>, that associates each valid program
+of the language with a term in the denotation space," called its
+<i>denotation</i>. Usually, the &lambda;-calculus is target language for
+the denotation. "The denotation of a program is the &lambda;-term
+representing its meaning."</li>
+
+<li><i>Axiomatic Semantics</i> were introduced by Floyd and Hoare. The idea is
+to define for each elementary form of the language a logical formula:
+\({P}form{Q}\) which indicates that if \(P\) is true before \(form\)
+executes, then \(Q\) is true after. Axiomatic semantics are thus useful
+for attempting to prove that program is correct, but not especially
+useful for constructing an implementation of a given language.</li>
+
+<li><i>Natural Semantics</i> "favors relations (over functions) in a context
+derived from denotational semantics."</li>
+
+<li><i>Algebraic Semantics</i> "reasons in terms of equivalent programs by
+means of rewrite rules."</li>
+</ul>
+</div>
+
+<div id="outline-container-orgfe61a82" class="outline-3">
+<h3 id="a-brief-review-of-lambda-calculus"><a id="orgfe61a82"></a>§ 5.1 A Brief Review of &lambda;-Calculus</h3>
+<div class="outline-text-3" id="text-a-brief-review-of-lambda-calculus">
+<p>
+The set of terms in the &lambda;-calculus is given by &Lambda;, which
+can be defined recursively as:
+</p>
+
+\begin{align*}
+\textrm{variable}&:    \forall x \in \textbf{Variable},                         & x \in \Lambda \\
+\textrm{abstraction}&: \forall x \in \textbf{Variable}, \forall M \in \Lambda,  & \lambda x.M \in \Lambda \\
+\textrm{combination}&: \forall M, N \in \Lambda,                                & (M N) \in \Lambda
+\end{align*}
+
+<p>
+&beta;-reduction occurs during an application when the parameters of a
+combination are substituted for some value in the body of the
+combination. E.g.
+</p>
+
+<p>
+\[
+\beta\textrm{-reduction}: (\lambda x. M \;\; N) \overset{\beta}{\to} M[x \to N]
+\]
+</p>
+
+<p>
+A <i>redex</i> is a <i>red</i>-ucible <i>ex</i>-pression, i.e. an application in which
+the first term is an abstraction. A &beta;-reduction supresses a redex.
+</p>
+
+<blockquote>
+<p>
+When a term contains no redex&#x2026;, we say that the term is in <i>normal
+form</i>. Terms in &lambda;-calculus do no necessarily have a normal
+form, but when they have one, it is unique because of the
+Church-Rosser property. When a term has a normal form, there exists a
+finite series of &beta;-reductions that convert the original term
+into the normal form. An <i>evaluation rule</i> is a procedure that
+indicates which redex (if there is more than one) ought to be
+&beta;-reduced.
+</p>
+</blockquote>
+
+<p>
+Common examples of evaluation rules are <i>normal order</i> (aka <i>call by
+name</i>), <i>call by need</i>, and <i>call by value</i>. Scheme uses the latter for
+efficiency reasons. Normal order is so named becaues it's guaranteed to
+find the normal form, if it exists, whereas call by value is not.
+Consider, for example:
+</p>
+
+<p>
+\[
+((\lambda x.\lambda y.y \; (\omega \, \omega)) \: z) \\
+\textrm{where} \ \omega = \lambda x.(x \, x)
+\]
+</p>
+
+<p>
+In a normal-order language, the above &beta;-reduces to \(z\), whereas in
+Scheme, the \((\omega \, \omega)\) term causes an infinite loop.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org35e75a4" class="outline-3">
+<h3 id="semantics-of-scheme"><a id="org35e75a4"></a>§ 5.2 Semantics of Scheme</h3>
+<div class="outline-text-3" id="text-semantics-of-scheme">
+\begin{align*}
+\textrm{evaluate}&: \textbf{Program} \times \textbf{Environment} \times
+\textbf{Continuation} \times \textbf{Memory} \to \textbf{Value} \\
+\textrm{valuation}&: \textbf{Program} \to \textbf{Denotation} \\
+\textbf{Denotation}&: \textbf{Environment} \times \textbf{Continuation} \times
+\textbf{Memory} \to \textbf{Value}
+\end{align*}
+
+<p>
+The following define various domains of objects handled by denotations.
+</p>
+
+\begin{align*}
+\textbf{Environment} &= \textbf{Identifier} \to \textbf{Address} \\
+\textbf{Memory} &= \textbf{Address} \to \textbf{Value} \\
+\textbf{Value} &= \textbf{Function} + \textbf{Boolean} + \textbf{Integer} + \textbf{Pair} + \ldots \\
+\textbf{Continuation} &= \textbf{Value} \times \textbf{Memory} \to \textbf{Value} \\
+\textbf{Function} &= \textbf{Value}* \times \textbf{Continuation} \times \textbf{Memory} \to \textbf{Value}
+\end{align*}
+
+<p>
+And some greek letters that customarily represent the domains.
+</p>
+
+\begin{array}{r l | r l}
+\pi & \textbf{Program} & \rho & \textbf{Environment} \\
+\nu & \textbf{Identifier} & \alpha & \textbf{Address} \\
+\sigma & \textbf{Memory} & \epsilon & \textbf{Value} \\
+\kappa & \textbf{Continuation} & \varphi & \textbf{Function}
+\end{array}
+
+<blockquote>
+<p>
+<i>Extensionality</i> is the property that
+\((\forall x, f(x) = g(x)) \implies (f = g)\). It is linked to the
+&eta;-conversion&#x2026;
+</p>
+</blockquote>
+
+<p>
+\[
+\eta\textrm{-conversion}: \lambda x.(M \;\; x) \overset{\eta}{\to} M
+\;\; \textrm{with x not free in M}
+\]
+</p>
+
+<p>
+The denotation of a tiny scheme (missing variable airity, <i>etc.</i>). The
+denotation of <code>call/cc</code> is included in the book. I've left it out here
+because it's too tedious to typeset.
+</p>
+
+\begin{align*}
+\mathcal{E}[\nu] &= \lambda \rho \kappa \sigma.(\kappa \: (\sigma \: (\rho \: \nu)) \: \sigma) \\
+\mathcal{E}[(\textbf{set!} \; \nu \: \pi)]\rho \kappa \sigma &= (\mathcal{E}[\pi] \: \rho \: \lambda \epsilon \sigma_{1}.(\kappa \: \epsilon \: \sigma_{1}[(\rho \: \nu) \to \epsilon]) \: \sigma) \\
+\mathcal{E}[(\textbf{if} \; \pi \; \pi_{1} \; \pi_{2})]\rho \kappa \sigma &=
+  (\mathcal{E}[\pi] \: \rho \: \lambda \epsilon \sigma_{1}.(\textit{boolify} \: \epsilon)
+  \to (\mathcal{E}[\pi_{1} \: \rho \: \kappa \: \sigma_{1}) \| (\mathcal{E}[\pi_{2}] \: \rho \: \kappa \: \sigma_{1}) \: \sigma) \\
+\mathcal{E}[(\textbf{lambda} \: (\nu^*) \: \pi^+)]\rho \kappa \sigma &=
+(\kappa \: \textbf{inValue}(\lambda \epsilon^* \kappa_1 \sigma_1.\# \epsilon^* = \# \nu^*
+\to \textit{allocate} \: \sigma_1 \: \# \nu^* \: \lambda \sigma_2 \alpha^*.(\mathcal{E}^+[\pi^+] \: \rho [\nu^* \overset{*}{\to} \alpha^*] \: \kappa_1 \: \sigma_2[\alpha^* \overset{*}{\to} \epsilon^*])
+\| \textit{wrong} \: \textrm{``Incorrect arity''}) \: \sigma) \\
+\mathcal{E}[(\pi \: \pi^*)]\rho \kappa \sigma &= (\mathcal{E}[\pi] \: \rho \: \lambda \varphi \sigma_1.(\mathcal{E}^*[\pi^*] \: \rho \: \lambda \epsilon^*\sigma_2.(\varphi|_{Function} \: \epsilon^* \: \kappa \: \sigma_2) \: \sigma_1) \: \sigma) \\
+\mathcal{E}[\pi \: \pi^*]\rho \kappa \sigma &= (\mathcal{E}[\pi] \: \rho \: \lambda \epsilon \sigma_1.(\mathcal{E}^*[\pi^*] \: \rho \: \lambda \epsilon^*\sigma_2.(\kappa \: \langle \epsilon \rangle:\epsilon^* \: \sigma_2) \: \sigma_1) \: \sigma) \\
+\mathcal{E}[]\rho \kappa \sigma &= (\kappa \: \langle \rangle \: \sigma) \\
+\mathcal{E}[(begin \: \pi^+)]\rho \kappa \sigma &= (\mathcal{E}^+[\pi^+] \: \rho \: \kappa \: \sigma) \\
+\mathcal{E}^+[\pi]\rho \kappa \sigma &= (\mathcal{E}[\pi] \: \rho \: \kappa \: \sigma) \\
+\mathcal{E}^+[\pi \: \pi^+]\rho \kappa \sigma &= (\mathcal{E}[\pi] \: \rho \: \lambda \epsilon \sigma_1.(\mathcal{E}^+[\pi^+] \: \rho \: \kappa \: \sigma_1) \: \sigma)
+\end{align*}
+
+<p>
+For comparison, here is the denotation given for the &lambda;-calculus.
+</p>
+
+\begin{align*}
+\mathcal{L}[\nu]\rho &= (\rho \: \nu)\\
+\mathcal{L}[(\textbf{lambda} \: (\nu) \: \pi)]\rho &= \lambda \epsilon.(\mathcal{L}[\pi] \rho[\nu \to \epsilon])\\
+\mathcal{L}[(\pi \: \pi^\prime)]\rho &= ((\mathcal{L} \: \rho)(\mathcal{L}[\pi^\prime] \: \rho))
+\end{align*}
+</div>
+</div>
+</div>
+
+<div id="outline-container-org544090e" class="outline-2">
+<h2 id="ch.-6-fast-interpretation"><a id="org544090e"></a>Ch. 6 Fast Interpretation</h2>
+<div class="outline-text-2" id="text-ch.-6-fast-interpretation">
+</div>
+
+<div id="outline-container-org43c83f4" class="outline-3">
+<h3 id="a-fast-interpreter"><a id="org43c83f4"></a>§ 6.1 A Fast Interpreter</h3>
+<div class="outline-text-3" id="text-a-fast-interpreter">
+</div>
+
+<div id="outline-container-org48ae6b4" class="outline-4">
+<h4 id="migration-of-denotations"><a id="org48ae6b4"></a>6.1.1 Migration of Denotations</h4>
+<div class="outline-text-4" id="text-migration-of-denotations">
+<p>
+<i>&lambda;-hoisting</i> or <i>&lambda;-drifting</i> means migrating code out of
+the body of a lambda, to precompute as much as possible and capture
+those values in the closed environment, to avoid having to recompute the
+values every time the function is called. Not to be confused with
+<i>&lambda;-lifting</i>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org83c35fe" class="outline-2">
+<h2 id="ch.-10-compiling-into-c"><a id="org83c35fe"></a>Ch. 10 Compiling into C</h2>
+<div class="outline-text-2" id="text-ch.-10-compiling-into-c">
+</div>
+
+<div id="outline-container-org355c40e" class="outline-3">
+<h3 id="eliminating-nested-functions"><a id="org355c40e"></a>§ 10.4 Eliminating Nested Functions</h3>
+<div class="outline-text-3" id="text-eliminating-nested-functions">
+<blockquote>
+<p>
+As a language, C does not support functions inside other functions. In
+other words, a <code>lambda</code> inside another <code>lambda</code> cannot be translated
+directly. Consequently, we must eliminate these cases in a way that
+turns the program to compile into a simple set of closed functions,
+that is, funcitons without free variables. Once again, we're lucky to
+find such a natural transformation. We'll call it <code>lambda</code>-<i>lifting</i>
+because it makes <code>lambda</code> forms migrate towards the exterior in such a
+way that there are no remaining <code>lambda</code> forms in the interior.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<hr>
+<p class="date">Created: 2014-09-19</p>
+<p class="date">Last modified: 2020-05-26</p>
+<p class="validation"></p>
+</div>
+</body>
+</html>

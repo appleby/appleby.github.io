@@ -1,82 +1,31 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="theme" content="hugo-ugly">
-    <meta name="author" content="Appleby">
-    <meta name="generator" content="Hugo 0.55.6" />
-    <meta name="description" content="A stream-of-consciousness rambling as I kick the tires of Parenscript">
-
-    
-    <script>
-     if (window.location.hostname !== 'localhost') {
-       window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-       ga('create', 'UA-89952512-1', 'auto');
-       ga('require', 'eventTracker');
-       ga('require', 'outboundLinkTracker');
-       ga('require', 'urlChangeTracker');
-       ga('send', 'pageview');
-     }
-    </script>
-    <script async src="//www.google-analytics.com/analytics.js"></script>
-    <script async src="//cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
-    
-
-    
-    <link rel="alternate" href="https://app.leby.org/index.xml" type="application/rss+xml" title="app.leby.org">
-    <link rel="feed" href="https://app.leby.org/index.xml" type="application/rss+xml" title="app.leby.org">
-    
-
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="icon" type="image/png" href="/img/icon.png">
-    <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
-    <link rel="canonical" href="https://app.leby.org/post/fun-with-parenscript/">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-
-    <title>Fun with Parenscript | app.leby.org</title>
-  </head>
-  <body>
-
-
-<div>
-  <h1>Fun with Parenscript</h1>
-  <div>
-    <span>
-      
-      <time datetime="2018-05-04 00:00:00 -0500 CDT">
-	May 4, 2018
-      </time>
-    </span>
-
-    
-
-    
-    <span>
-  | tags:
-  
-  <a href="/tags/fun-with-x">fun-with-x</a>
-  , 
-  
-  <a href="/tags/parenscript">parenscript</a>
-  , 
-  
-  <a href="/tags/lisp">lisp</a>
-  , 
-  
-  <a href="/tags/javascript">javascript</a>
-  
-  
-</span>
-
-
-    
-  </div>
-
-  
-  <h1 id="toc">Table of Contents</h1>
-  <nav id="TableOfContents">
+<html lang="en">
+<head>
+<!-- 2020-05-26 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fun with Parenscript</title>
+<meta name="generator" content="Org mode">
+<meta name="description" content="A stream-of-consciousness rambling as I kick the tires of Parenscript"
+>
+<meta name="keywords" content="parenscript, lisp, javascript">
+<link rel="icon" type="image/png" href="/img/icon.png">
+<link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+<style type="text/css">
+<!--/*--><![CDATA[/*><!--*/
+#postamble p, #preamble p { font-size: 90%; margin: .2em; }
+.footpara { display: inline; }
+.footdef  { margin-bottom: 1em; }
+/*]]>*/-->
+</style>
+</head>
+<body>
+<div id="content">
+<header>
+<h1 class="title">Fun with Parenscript</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
 <ul>
 <li><a href="#about-this-post">About this post</a></li>
 <li><a href="#about-parenscript">About Parenscript</a></li>
@@ -86,64 +35,109 @@
 <ul>
 <li><a href="#example-1-toggling-dom-content">Example 1: Toggling DOM content</a></li>
 <li><a href="#example-2-fun-with-svg">Example 2: Fun with SVG</a></li>
-<li><a href="#example-3-fun-with-plotly-js">Example 3: Fun with Plotly.js</a>
+<li><a href="#example-3-fun-with-plotly.js">Example 3: Fun with Plotly.js</a>
 <ul>
-<li><a href="#example-3-1-plotly-bar-chart">Example 3.1: Plotly bar chart</a></li>
-<li><a href="#example-3-2-plotly-choropleth">Example 3.2: Plotly choropleth</a></li>
-</ul></li>
-</ul></li>
+<li><a href="#example-3.1-plotly-bar-chart">Example 3.1: Plotly bar chart</a></li>
+<li><a href="#example-3.2-plotly-choropleth">Example 3.2: Plotly choropleth</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#bugs-oddities">Bugs &amp; Oddities</a>
 <ul>
-<li><a href="#reduce-sometimes-ignores-it-s-init-argument"><code>reduce</code> sometimes ignores it&rsquo;s <code>init</code> argument</a></li>
+<li><a href="#reduce-sometimes-ignores-its-init-argument"><code>reduce</code> sometimes ignores it's <code>init</code> argument</a></li>
 <li><a href="#let-ignores-garbage-in-binding-forms"><code>let</code> ignores garbage in binding forms</a></li>
-<li><a href="#ps-encode-js-identifier-deprecation-warnings"><code>ps::encode-js-identifier</code> deprecation warnings</a></li>
+<li><a href="#psencode-js-identifier-deprecation-warnings"><code>ps::encode-js-identifier</code> deprecation warnings</a></li>
 <li><a href="#array-argument-punning">Array argument punning</a></li>
-<li><a href="#vs">[] vs {}</a></li>
-</ul></li>
+<li><a href="#vs"><code>[]</code> vs <code>{}</code></a></li>
+</ul>
+</li>
 <li><a href="#takeaways">Takeaways</a>
 <ul>
 <li><a href="#pros">Pros</a></li>
 <li><a href="#cons">Cons</a></li>
-</ul></li>
 </ul>
+</li>
+</ul>
+</div>
 </nav>
-  
 
-  
+<div id="outline-container-orgae57826" class="outline-2">
+<h2 id="about-this-post"><a id="orgae57826"></a>About this post</h2>
+<div class="outline-text-2" id="text-about-this-post">
+<p>
+This post is a stream-of-consciousness rambling as I kick the tires of
+Parenscript. This is my first time using Parenscript. See the
+<a href="https://common-lisp.net/project/parenscript/">Parenscript</a> homepage for docs, tutorials and the like. The lisp code
+in this post was only tested on SBCL, but in theory should work with
+any lisp implementation that Parenscript supports.
+</p>
+</div>
+</div>
 
-<h1 id="about-this-post">About this post</h1>
+<div id="outline-container-org3f7af17" class="outline-2">
+<h2 id="about-parenscript"><a id="org3f7af17"></a>About Parenscript</h2>
+<div class="outline-text-2" id="text-about-parenscript">
+<p>
+<a href="https://common-lisp.net/project/parenscript/">Parenscript</a> is a Common Lisp library that compiles a subset of Common
+Lisp down to dependency-free, readable JavaScript. In the wider world
+of compile-to-js languages, Parenscript is a niche market, but it has
+a few "features" that I like.
+</p>
 
-<p>This post is a stream-of-consciousness rambling as I kick the tires of Parenscript. This is my first time using Parenscript. See the <a href="https://common-lisp.net/project/parenscript/">Parenscript</a> homepage for docs, tutorials and the like. The lisp code in this post was only tested on SBCL, but in theory should work with any lisp implementation that Parenscript supports.</p>
-
-<h1 id="about-parenscript">About Parenscript</h1>
-
-<p><a href="https://common-lisp.net/project/parenscript/">Parenscript</a> is a Common Lisp library that compiles a subset of Common Lisp down to dependency-free, readable JavaScript. In the wider world of compile-to-js languages, Parenscript is a niche market, but it has a few &ldquo;features&rdquo; that I like.</p>
-
-<ol>
-<li>It&rsquo;s Common Lisp, so there&rsquo;s that.</li>
-<li>You can share Parenscript code between the client and server, if you&rsquo;re running Common Lisp on the server.</li>
-<li>No runtime dependencies. Compiles down to vanilla JS (version 1.3 by default, but you can pick your poison with <code>*js-target-version*</code>).</li>
-<li>There is no need for boilerplate or type definitions if you want to call JavaScript code.</li>
-<li>I get the impression that Parenscript, much like Common Lisp, is more-or-less &ldquo;done.&rdquo; Not &ldquo;done&rdquo; in the sense of bug-free and perfect, but in the sense that breaking changes (or any changes, for that matter) are rarely made. The older I get, the more I like stable things.</li>
+<ol class="org-ol">
+<li>It's Common Lisp, so there's that.</li>
+<li>You can share Parenscript code between the client and server, if
+you're running Common Lisp on the server.</li>
+<li>No runtime dependencies. Compiles down to vanilla JS (version 1.3
+by default, but you can pick your poison with
+<code>*js-target-version*</code>).</li>
+<li>There is no need for boilerplate or type definitions if you want to
+call JavaScript code.</li>
+<li>I get the impression that Parenscript, much like Common Lisp, is
+more-or-less "done." Not "done" in the sense of bug-free and
+perfect, but in the sense that breaking changes (or any changes,
+for that matter) are rarely made. The older I get, the more I like
+stable things.</li>
 </ol>
 
-<p>Except for #1, these points are not necessarily unique to Parenscript, but, honestly, #1 was enough to make me want to try it out.</p>
+<p>
+Except for #1, these points are not necessarily unique to Parenscript,
+but, honestly, #1 was enough to make me want to try it out.
+</p>
+</div>
+</div>
 
-<h1 id="a-parenscript-crash-course">A Parenscript crash course</h1>
+<div id="outline-container-org83c83ea" class="outline-2">
+<h2 id="a-parenscript-crash-course"><a id="org83c83ea"></a>A Parenscript crash course</h2>
+<div class="outline-text-2" id="text-a-parenscript-crash-course">
+<p>
+This section will present a bare-minimum introduction to the parts of
+Parenscript necessary to understand the code presented in this
+post. See the official <a href="https://common-lisp.net/project/parenscript/tutorial.html">Parenscript tutorial</a> for more info.
+</p>
 
-<p>This section will present a bare-minimum introduction to the parts of Parenscript necessary to understand the code presented in this post. See the official <a href="https://common-lisp.net/project/parenscript/tutorial.html">Parenscript tutorial</a> for more info.</p>
+<p>
+One of the nice things about Parenscript is that it's basically the
+thinnest possible abstraction for transpiling lisp to JavaScript, so
+most of the the time you can guess what JavaScript will be produced
+for a given Parenscript expression. Here are few simple examples, with
+the Parenscript on the left and the corresponding JavaScript to the
+right. Note that the first top-level comment is just for
+clarification. Parenscript comments are not actually copied to the
+compiled JavaScript.
+</p>
 
-<p>One of the nice things about Parenscript is that it&rsquo;s basically the thinnest possible abstraction for transpiling lisp to JavaScript, so most of the the time you can guess what JavaScript will be produced for a given Parenscript expression. Here are few simple examples, with the Parenscript on the left and the corresponding JavaScript to the right. Note that the first top-level comment is just for clarification. Parenscript comments are not actually copied to the compiled JavaScript.</p>
-
-<pre><code>;; Parenscript                        /* JavaScript */
+<pre class="example">
+;; Parenscript                        /* JavaScript */
 (defvar *my-global* 1234)             var MYGLOBAL = 1234;
 
 (defun say-hello (name)               function sayHello(name) {
   (alert (concatenate                    return alert('Hello ' + name);
-           'string &quot;Hello &quot; name)))   };
+           'string "Hello " name)))   };
 
 (defun foo (x)                        /** Add 42 to x. */
-  &quot;Add 42 to x.&quot;                      function foo(x) {
+  "Add 42 to x."                      function foo(x) {
   (let ((y 42))                          var y = 42;
     (+ x y)))                            return x + y;
                                       };
@@ -155,14 +149,20 @@ some-symbol                           someSymbol;
 
 (some-function x y z)                 someFunction(x, y, z);
 
-&quot;hi&quot;                                  'hi';
+"hi"                                  'hi';
 'hi                                   'hi';
 :hi                                   'hi';
-</code></pre>
+</pre>
 
-<p>Parenscript also includes special forms and macros for creating and accessing JavaScript objects and arrays. I won&rsquo;t bother typing out an English explanation of what these do, since they should be obvious from the examples below. See the <a href="https://common-lisp.net/project/parenscript/reference.html">Parenscript reference</a> for details.</p>
+<p>
+Parenscript also includes special forms and macros for creating and
+accessing JavaScript objects and arrays. I won't bother typing out an
+English explanation of what these do, since they should be obvious
+from the examples below. See the <a href="https://common-lisp.net/project/parenscript/reference.html">Parenscript reference</a> for details.
+</p>
 
-<pre><code>;; Parenscript                        /* JavaScript */
+<pre class="example">
+;; Parenscript                        /* JavaScript */
 (defvar *my-array* [])                var MYARRAY = [];
 
 '(1 2 foo)                            [1, 2, 'foo'];
@@ -179,13 +179,13 @@ some-symbol                           someSymbol;
 (defvar *my-object* {})               var MYOBJECT = {  };
 
 (create)                              ({  });
-(create a 1 b &quot;hi&quot;)                   ({ a : 1, b : 'hi' });
-(create :a 1 :b &quot;hi&quot;)                 ({ 'a' : 1, 'b' : 'hi' });
+(create a 1 b "hi")                   ({ a : 1, b : 'hi' });
+(create :a 1 :b "hi")                 ({ 'a' : 1, 'b' : 'hi' });
 (create 'a 1 'b 'hi)                  ({ 'a' : 1, 'b' : 'hi' });
 
 (getprop obj 'foo)                    obj.foo;
 (getprop obj foo)                     obj[foo];
-(getprop obj &quot;foo&quot;)                   obj['foo'];
+(getprop obj "foo")                   obj['foo'];
 (getprop obj :foo)                    obj['foo'];
 
 (@ foo bar baz 3 quux)                foo.bar.baz[3].quux;
@@ -193,98 +193,202 @@ some-symbol                           someSymbol;
 
 (chain foo bar baz 3 quux)            foo.bar.baz[3].quux;
 (chain foo bar (bop 7))               foo.bar.bop(7);
-</code></pre>
+</pre>
+</div>
+</div>
 
-<h1 id="pre-compiling-parenscript-for-static-sites">Pre-compiling Parenscript for static sites</h1>
+<div id="outline-container-orgd390db3" class="outline-2">
+<h2 id="pre-compiling-parenscript-for-static-sites"><a id="orgd390db3"></a>Pre-compiling Parenscript for static sites</h2>
+<div class="outline-text-2" id="text-pre-compiling-parenscript-for-static-sites">
+<p>
+Parenscript, being a lisp library, is geared towards a workflow where
+you are running Common Lisp on the server and serving up your
+Parenscript-compiled JS via hunchentoot or some other lisp-powered
+webserver. Here's an example from the <a href="https://common-lisp.net/project/parenscript/tutorial.html">Parenscript tutorial</a>:
+</p>
 
-<p>Parenscript, being a lisp library, is geared towards a workflow where you are running Common Lisp on the server and serving up your Parenscript-compiled JS via hunchentoot or some other lisp-powered webserver. Here&rsquo;s an example from the <a href="https://common-lisp.net/project/parenscript/tutorial.html">Parenscript tutorial</a>:</p>
-
-<pre><code class="language-common-lisp">(define-easy-handler (example3 :uri &quot;/example3.js&quot;) ()
-  (setf (content-type*) &quot;text/javascript&quot;)
+<div class="org-src-container">
+<pre class="src src-lisp">(define-easy-handler (example3 :uri "/example3.js") ()
+  (setf (content-type*) "text/javascript")
   (ps
     (defun greeting-callback ()
-      (alert &quot;Hello World&quot;))))
-</code></pre>
+      (alert "Hello World"))))
+</pre>
+</div>
 
-<p>Notice that there is no stand-alone, command-line driven program that takes a Parenscript file as input and produces a JavaScript file as output. It&rsquo;s a lisp-centric workflow targeting existing Common Lisp users who are used to being able to seamlessly switch between editing code and compiling or evaluating forms in a REPL, without the need for an external compilation or build step. Also, it&rsquo;s reasonable to assume that one of the main reasons someone might choose Parenscript as their compile-to-js language of choice is that they are already familiar with Common Lisp and possibly are looking to avoid subjecting themselves to the pain of learning one or more of Webpack/Browserify/Rollup/Gulp/Grunt/NPM/Yarn/Bower, etc. There are other advantages to the Parenscript workflow beyond familiarity for Common Lisp users, like the ability to share code between the server and client side and the ability to call Common Lisp functions at JavaScript-output time.</p>
+<p>
+Notice that there is no stand-alone, command-line driven program that
+takes a Parenscript file as input and produces a JavaScript file as
+output. It's a lisp-centric workflow targeting existing Common Lisp
+users who are used to being able to seamlessly switch between editing
+code and compiling or evaluating forms in a REPL, without the need for
+an external compilation or build step. Also, it's reasonable to assume
+that one of the main reasons someone might choose Parenscript as their
+compile-to-js language of choice is that they are already familiar
+with Common Lisp and possibly are looking to avoid subjecting
+themselves to the pain of learning one or more of
+Webpack/Browserify/Rollup/Gulp/Grunt/NPM/Yarn/Bower, etc. There are
+other advantages to the Parenscript workflow beyond familiarity for
+Common Lisp users, like the ability to share code between the server
+and client side and the ability to call Common Lisp functions at
+JavaScript-output time.
+</p>
 
-<p>However, in cases where you don&rsquo;t plan to write any backend code, so-called &ldquo;serverless&rdquo; architectures or static websites (like this one), it&rsquo;s convenient to be able to emit a JavaScript file at build-time. Thankfully, Parenscript includes the function <code>ps-compile-file</code>. It&rsquo;s trivial to write a function that calls <code>ps-compile-file</code> and writes the output to a new file. For example:</p>
+<p>
+However, in cases where you don't plan to write any backend code,
+so-called "serverless" architectures or static websites (like this
+one), it's convenient to be able to emit a JavaScript file at
+build-time. Thankfully, Parenscript includes the function
+<code>ps-compile-file</code>. It's trivial to write a function that calls
+<code>ps-compile-file</code> and writes the output to a new file. For example:
+</p>
 
-<pre><code class="language-common-lisp">(defun ps-compile-file-to-file (&amp;key (input #P&quot;parenscript.lisp&quot;) output)
-  (let ((outpath (or output (uiop:make-pathname* :defaults input :type &quot;js&quot;))))
+<div class="org-src-container">
+<pre class="src src-lisp">(defun ps-compile-file-to-file (&amp;key (input #P"parenscript.lisp") output)
+  (let ((outpath (or output (uiop:make-pathname* :defaults input :type "js"))))
     (uiop:with-enough-pathname (enough-outpath :pathname outpath)
       (with-open-file (*parenscript-stream* enough-outpath :direction :output :if-exists :supersede)
-        (ps-compile-file input)))))
-</code></pre>
+	(ps-compile-file input)))))
+</pre>
+</div>
 
-<p>The <code>ps-compile-file-to-file</code> function accepts an <code>:input</code> keyword argument that should name a file containing Parenscript code that you want to compile. By default, it will write the JavaScript output to a file with the same name as <code>input</code>, but with file extension &ldquo;js&rdquo;.</p>
+<p>
+The <code>ps-compile-file-to-file</code> function accepts an <code>:input</code> keyword
+argument that should name a file containing Parenscript code that you
+want to compile. By default, it will write the JavaScript output to a
+file with the same name as <code>input</code>, but with file extension "js".
+</p>
 
-<p>A complete example that you can load in your SLIME REPL is here: <a href="ps-compile-file.lisp">ps-compile-file.lisp</a>. The comment at the top of that file describes how to configure emacs to bind <code>ps-compile-file-to-file</code> to a keybinding or arrange to call it automatically on every buffer save. If you want to get crazy, you could convert <a href="ps-compile-file.lisp">ps-compile-file.lisp</a> into a runnable script or executable with something like <a href="https://www.cliki.net/cl-launch">cl-launch</a> or <a href="https://github.com/roswell/roswell">roswell</a>, and then hook it into your JavaScript build system of choice. I do not want to get crazy, so it&rsquo;s emacs keybindings for me.</p>
+<p>
+A complete example that you can load in your SLIME REPL is here:
+<a href="ps-compile-file.lisp">ps-compile-file.lisp</a>. The comment at the top of that file describes
+how to configure emacs to bind <code>ps-compile-file-to-file</code> to a
+keybinding or arrange to call it automatically on every buffer
+save. If you want to get crazy, you could convert <a href="ps-compile-file.lisp">ps-compile-file.lisp</a>
+into a runnable script or executable with something like <a href="https://www.cliki.net/cl-launch">cl-launch</a> or
+<a href="https://github.com/roswell/roswell">roswell</a>, and then hook it into your JavaScript build system of
+choice. I do not want to get crazy, so it's emacs keybindings for me.
+</p>
 
-<p>The above <code>ps-compile-file-to-file</code> hack is good enough for the purpose of this post, but if you&rsquo;re doing any serious work in Parenscript, you might want to check out <a href="https://github.com/johnmastro/trident-mode.el">trident-mode</a>.</p>
+<p>
+The above <code>ps-compile-file-to-file</code> hack is good enough for the
+purpose of this post, but if you're doing any serious work in
+Parenscript, you might want to check out <a href="https://github.com/johnmastro/trident-mode.el">trident-mode</a>.
+</p>
 
-<p>For reference, all the Parenscript code in this post is included in the file <a href="parenscript.lisp">parenscript.lisp</a>, and the corresponding JavaScript produced by <code>ps-compile-file-to-file</code> is in <a href="parenscript.js">parenscript.js</a>.</p>
+<p>
+For reference, all the Parenscript code in this post is included in
+the file <a href="parenscript.lisp">parenscript.lisp</a>, and the corresponding JavaScript produced
+by <code>ps-compile-file-to-file</code> is in <a href="parenscript.js">parenscript.lisp</a>.
+</p>
 
-<p>Now that I have decent workflow setup for transpiling Parenscript code, I can start hacking.</p>
+<p>
+Now that I have decent workflow setup for transpiling Parenscript
+code, I can start hacking.
+</p>
+</div>
+</div>
 
-<h1 id="three-easy-pieces">Three easy pieces</h1>
+<div id="outline-container-org6aa7e8d" class="outline-2">
+<h2 id="three-easy-pieces"><a id="org6aa7e8d"></a>Three easy pieces</h2>
+<div class="outline-text-2" id="text-three-easy-pieces">
+</div>
 
-<h2 id="example-1-toggling-dom-content">Example 1: Toggling DOM content</h2>
+<div id="outline-container-org04b0bfb" class="outline-3">
+<h3 id="example-1-toggling-dom-content"><a id="org04b0bfb"></a>Example 1: Toggling DOM content</h3>
+<div class="outline-text-3" id="text-example-1-toggling-dom-content">
+<p>
+I'll start with a small program that does something useless. Something
+where the implementation is trivial, but with a bit more complexity
+than "hello, world" so I can get a feel for Parenscript without
+getting bogged down in the implementation details.
+</p>
 
-<p>I&rsquo;ll start with a small program that does something useless. Something where the implementation is trivial, but with a bit more complexity than &ldquo;hello, world&rdquo; so I can get a feel for Parenscript without getting bogged down in the implementation details.</p>
+<p>
+This is JavaScript, so how about some good-old DHTML? Let's try
+toggling some DOM content with a link.
+</p>
 
-<p>This is JavaScript, so how about some good-old DHTML? Let&rsquo;s try toggling some DOM content with a link.</p>
-
-<pre><code class="language-common-lisp">(defun normalize-display (display)
-  &quot;Convert the empty string to the string 'block', otherwise return
-`display' unmodified.&quot;
-  (if (string= display &quot;&quot;) &quot;block&quot; display))
+<div class="org-src-container">
+<pre class="src src-lisp">(defun normalize-display (display)
+  "Convert the empty string to the string 'block', otherwise return
+`display' unmodified."
+  (if (string= display "") "block" display))
 
 (defmacro swap (a b)
-  &quot;Swap the values of variables `a' and `b'.
+  "Swap the values of variables `a' and `b'.
 
 Note that `a' and `b' are both evaluated twice, and must be valid
-JavaScript l-values.&quot;
+JavaScript l-values."
   (with-ps-gensyms (tmp)
     `(let ((,tmp ,a))
        (setf ,a ,b)
        (setf ,b ,tmp))))
 
 (defun toggle-content (id-a id-b id-link)
-  &quot;Toggle the display of the elements given by `id-a' and `id-b'.&quot;
+  "Toggle the display of the elements given by `id-a' and `id-b'."
   (let* ((link (chain document (get-element-by-id id-link)))
 	 (element-a (chain document (get-element-by-id id-a)))
 	 (element-b (chain document (get-element-by-id id-b)))
 	 (a-display (normalize-display (@ element-a style display)))
 	 (b-display (normalize-display (@ element-b style display)))
-	 (link-text (concatenate 'string &quot;Show &quot;
-				 (if (equal a-display &quot;block&quot;) id-a id-b)))
-	 (state (concatenate 'string a-display &quot;,&quot; b-display)))
-    (when (not (or (equal state &quot;block,none&quot;)
-		   (equal state &quot;none,block&quot;)))
-      (throw (concatenate 'string &quot;Invalid state: &quot; state)))
+	 (link-text (concatenate 'string "Show "
+				 (if (equal a-display "block") id-a id-b)))
+	 (state (concatenate 'string a-display "," b-display)))
+    (when (not (or (equal state "block,none")
+		   (equal state "none,block")))
+      (throw (concatenate 'string "Invalid state: " state)))
     (swap (@ element-a style display) (@ element-b style display))
     (setf (@ link inner-h-t-m-l) link-text)))
 
 (chain document
-       (get-element-by-id &quot;toggle-link&quot;)
+       (get-element-by-id "toggle-link")
        (add-event-listener
-	&quot;click&quot;
+	"click"
 	(lambda (event)
 	  (chain event (prevent-default))
-	  (toggle-content &quot;toggle-jelly&quot; &quot;toggle-cat&quot; &quot;toggle-link&quot;))))
-</code></pre>
+	  (toggle-content "toggle-jelly" "toggle-cat" "toggle-link"))))
+</pre>
+</div>
 
-<p>You can see the full source file in <a href="parenscript.lisp">parenscript.lisp</a> and the corresponding JavaScript in <a href="parenscript.js">parenscript.js</a>. If you want to see the corresponding HTML, just use your browser&rsquo;s &ldquo;view source&rdquo;.</p>
+<p>
+You can see the full source file in <a href="parenscript.lisp">parenscript.lisp</a> and the
+corresponding JavaScript in <a href="parenscript.js">parenscript.js</a>. If you want to see the
+corresponding HTML, just use your browser's "view source".
+</p>
 
-<p>My first impression of Parenscript is that it feels more like programming JavaScript with a lispy syntax than it feels like programming in Common Lisp (fair enough, since I <em>am</em> ultimately writing JavaScript). For example, if I had been writing Common Lisp, I&rsquo;d have probably used a cons to represent the combined <code>a-display</code> and <code>b-display</code> state tuple. But Parenscript doesn&rsquo;t have <code>cons</code> because there is no equivalent datastructure in JavaScript. I tried using a list/array, but in Parenscript <code>equal</code> compiles down to JavaScript&rsquo;s <code>==</code> operator, which isn&rsquo;t suitable for comparing JS arrays, so I just serialized the state to a string, which can be compared directly. Of course, if I was worried about efficiency, I could have expanded the <code>when</code> conditional to explicitly check <code>a-display</code> and <code>b-display</code> separately, or, if I was writing Common Lisp, I could have used a pattern-matching library.</p>
+<p>
+My first impression of Parenscript is that it feels more like
+programming JavaScript with a lispy syntax than it feels like
+programming in Common Lisp (fair enough, since I <i>am</i> ultimately
+writing JavaScript). For example, if I had been writing Common Lisp,
+I'd have probably used a cons to represent the combined <code>a-display</code>
+and <code>b-display</code> state tuple. But Parenscript doesn't have <code>cons</code>
+because there is no equivalent datastructure in JavaScript. I tried
+using a list/array, but in Parenscript <code>equal</code> compiles down to
+JavaScript's <code>==</code> operator, which isn't suitable for comparing JS
+arrays, so I just serialized the state to a string, which can be
+compared directly. Of course, if I was worried about efficiency, I
+could have expanded the <code>when</code> conditional to explicitly check
+<code>a-display</code> and <code>b-display</code> separately, or, if I was writing Common
+Lisp, I could have used a pattern-matching library.
+</p>
 
-<p>The other minor point of interest in the above code is the <code>swap</code> macro. Common Lisp has <code>rotatef</code>, but Parenscript doesn&rsquo;t so I added <code>swap</code>. I later realized that Parenscript does define <code>psetf</code>, which could have been used instead&ndash;oops! Also, defining a macro for this is probably overkill, but it was a good excuse to try out Parenscript&rsquo;s macros.</p>
+<p>
+The other minor point of interest in the above code is the <code>swap</code>
+macro. Common Lisp has <code>rotatef</code>, but Parenscript doesn't so I added
+<code>swap</code>. I later realized that Parenscript does define <code>psetf</code>, which
+could have been used instead&#x2013;oops! Also, defining a macro for this is
+probably overkill, but it was a good excuse to try out Parenscript's
+macros.
+</p>
 
-<p>Finally, here is the working example in all it&rsquo;s glory. Scroll down a bit to get the full effect.</p>
+<p>
+Finally, here is the working example in all it's glory. Scroll down a
+bit to get the full effect.
+</p>
 
-<p><a id="toggle-link" href="#">Show toggle-cat</a></p>
-
+<a id="toggle-link" href="#">Show toggle-cat</a>
 <pre id="toggle-jelly">
 
 
@@ -320,7 +424,6 @@ This space reserved for
 
 
 </pre>
-
 <pre id="toggle-cat" style="display: none">
         .;''-.
       .' |    `._
@@ -357,11 +460,30 @@ This space reserved for
               `'-'`/;;  | |   \ mx
 </pre>
 
-<p>There you have it: some DOM content being toggled by Parenscript. Isn&rsquo;t she glorious?</p>
+<p>
+There you have it: some DOM content being toggled by
+Parenscript. Isn't she glorious?
+</p>
+</div>
+</div>
 
-<h2 id="example-2-fun-with-svg">Example 2: Fun with SVG</h2>
-
-<p>For this example, I&rsquo;ll try drawing a simple SVG bar chart. The point of this example is to write more Parenscript, not necessarily to produce a beautiful plot, so I won&rsquo;t use any 3rd party plotting package. Instead, I&rsquo;ll write Parenscript to call the SVG DOM API directly. I&rsquo;ll plot a bar chart of the top 25 US states sorted by total agriculture exports. Exciting, I know! The data comes from <a href="https://github.com/plotly/datasets">Plotly&rsquo;s datasets repo</a>, but I&rsquo;ve copied it here to try and prevent the inevitable broken link: <a href="2011_us_ag_exports.csv">2011_us_ag_exports.csv</a>. If your user-agent supports it, you can hover over the individual bars in the chart to reveal a tooltip showing the exact values. I&rsquo;ve only tested this in Chrome on Linux and Android, so if the chart looks like a jumbled pile of nonsense in your browser: <code>¯\_(ツ)_/¯</code>.</p>
+<div id="outline-container-orge246540" class="outline-3">
+<h3 id="example-2-fun-with-svg"><a id="orge246540"></a>Example 2: Fun with SVG</h3>
+<div class="outline-text-3" id="text-example-2-fun-with-svg">
+<p>
+For this example, I'll try drawing a simple SVG bar chart. The point
+of this example is to write more Parenscript, not necessarily to
+produce a beautiful plot, so I won't use any 3rd party plotting
+package. Instead, I'll write Parenscript to call the SVG DOM API
+directly. I'll plot a bar chart of the top 25 US states sorted by
+total agriculture exports. Exciting, I know! The data comes from
+<a href="https://github.com/plotly/datasets">Plotly's datasets repo</a>, but I've copied it here to try and prevent the
+inevitable broken link: <a href="2011_us_ag_exports.csv">2011_us_ag_exports.csv</a>. If your user-agent
+supports it, you can hover over the individual bars in the chart to
+reveal a tooltip showing the exact values. I've only tested this in
+Chrome on Linux and Android, so if the chart looks like a jumbled pile
+of nonsense in your browser: <code>¯\_(ツ)_/¯</code>.
+</p>
 
 <style type="text/css">
 .fetch-warning {
@@ -381,74 +503,100 @@ This space reserved for
   }
 }
 </style>
+<svg id="svg-chart" class="wide-graph">
+  Sorry, your browser does not support inline SVG.
+</svg>
 
-<div class="fetch-warning"></div>
+<p>
+The Parenscript code for this example starts by importing the tiny
+<a href="https://common-lisp.net/project/parenscript/reference.html#section-runtime-library">Parenscript runtime library</a>, which consists of the following seven
+functions: <code>member</code>, <code>map</code>, <code>mapcar</code>, <code>reduce</code>, <code>map-into</code>,
+<code>set-difference</code>, and <code>nconc</code>. The <code>lisp</code> form is needed to tell the
+Parenscript compiler to evaluate <code>*ps-lisp-library*</code> in the host lisp,
+kind of like a comma inside a back-quoted expression.
+</p>
 
-<p><svg id="svg-chart" class="wide-graph">
-    Sorry, your browser does not support inline SVG.
-</svg></p>
+<div class="org-src-container">
+<pre class="src src-lisp">(lisp *ps-lisp-library*)
+</pre>
+</div>
 
-<p>The Parenscript code for this example starts by importing the tiny <a href="https://common-lisp.net/project/parenscript/reference.html#section-runtime-library">Parenscript runtime library</a>, which consists of the following seven functions: <code>member</code>, <code>map</code>, <code>mapcar</code>, <code>reduce</code>, <code>map-into</code>, <code>set-difference</code>, and <code>nconc</code>. The <code>lisp</code> form is needed to tell the Parenscript compiler to evaluate <code>*ps-lisp-library*</code> in the host lisp, kind of like a comma inside a back-quoted expression.</p>
+<p>
+Next, I define some small utilities. In addition to functional
+stand-bys like <code>curry</code>, <code>flip</code>, <code>take</code>, and <code>zip</code>, there is the
+<code>array</code> function which just returns it's arguments as a JS array. Note
+that Parenscript already defines <code>array</code> as a special form that
+compiles down to a JavaScript array literal, and a macro <code>list</code> which
+expands to <code>array</code>. However, it's useful to define a real function for
+this that can be passed as an argument to other functions like <code>map</code>
+or <code>reduce</code>. The utils are rounded out with a function to sort the CSV
+table on a particular column (<code>numeric-sort-by!</code>) and a function to
+create a JS object from a sequence of key-value pairs
+(<code>make-object-from</code>).
+</p>
 
-<pre><code class="language-common-lisp">(lisp *ps-lisp-library*)
-</code></pre>
-
-<p>Next, I define some small utilities. In addition to functional stand-bys like <code>curry</code>, <code>flip</code>, <code>take</code>, and <code>zip</code>, there is the <code>array</code> function which just returns it&rsquo;s arguments as a JS array. Note that Parenscript already defines <code>array</code> as a special form that compiles down to a JavaScript array literal, and a macro <code>list</code> which expands to <code>array</code>. However, it&rsquo;s useful to define a real function for this that can be passed as an argument to other functions like <code>map</code> or <code>reduce</code>. The utils are rounded out with a function to sort the CSV table on a particular column (<code>numeric-sort-by!</code>) and a function to create a JS object from a sequence of key-value pairs (<code>make-object-from</code>).</p>
-
-<pre><code class="language-common-lisp">;;; You can't actually call this function from Parenscript directly,
-;;; since if &quot;array&quot; appears in the car of a sexp, Parenscript
+<div class="org-src-container">
+<pre class="src src-lisp">;;; You can't actually call this function from Parenscript directly,
+;;; since if "array" appears in the car of a sexp, Parenscript
 ;;; compiles it down to an array literal, like so: (array 1 2 3) --&gt;
 ;;; [1,2,3]. This function is useful, however, to pass as an argument
 ;;; to higher-order functions, since #'make-array, #'array, and #'list
 ;;; won't work.
 (defun array (&amp;rest args)
-  &quot;Return the unmodified arguments array.&quot;
+  "Return the unmodified arguments array."
   args)
 
 (defun curry (fn &amp;rest curried-args)
-  &quot;Bind the first N `args' of `fn'.&quot;
+  "Bind the first N `args' of `fn'."
   ;; We could just delegate to JavaScript's Function.prototype.bind().
   (lambda (&amp;rest rest-args)
     (apply fn (append curried-args rest-args))))
 
 (defun flip (fn)
-  &quot;Reverse the order of arguments for 2-ary function `fn'.&quot;
+  "Reverse the order of arguments for 2-ary function `fn'."
   (lambda (a b) (fn b a)))
 
 (defun numeric-sort-by! (key table)
-  &quot;Numerically sort `table' on `key' in descending order.&quot;
+  "Numerically sort `table' on `key' in descending order."
   (chain table (sort (lambda (a b)
 		       (- (+ (getprop b key)) (+ (getprop a key)))))))
 
 (defun take (n array)
-  &quot;Take the first `n' items from `array'.&quot;
+  "Take the first `n' items from `array'."
   (chain array (slice 0 n)))
 
 (defun zip (&amp;rest args)
   (apply #'mapcar #'array args))
 
 (defun make-object-from (key-value-pairs)
-  &quot;Construct an Object from `key-value-pairs'.
+  "Construct an Object from `key-value-pairs'.
 
 Example:
 
 (make-object-from ([] (a 1) (b 2) (c 3)))
--&gt; {a: 1, b: 2, c: 3}&quot;
+-&gt; {a: 1, b: 2, c: 3}"
   (let ((o (create)))
     (dolist (kv key-value-pairs o)
       (setf (getprop o (@ kv 0)) (@ kv 1)))))
-</code></pre>
+</pre>
+</div>
 
-<p>Next comes the code for fetching the CSV file and parsing it into an array of objects. Note that even though Parenscript doesn&rsquo;t know anything about ES6, there is no problem using Promises or the fetch API, since they are just regular objects and/or function calls.</p>
+<p>
+Next comes the code for fetching the CSV file and parsing it into an
+array of objects. Note that even though Parenscript doesn't know
+anything about ES6, there is no problem using Promises or the fetch
+API, since they are just regular objects and/or function calls.
+</p>
 
-<pre><code class="language-common-lisp">(defun fetch-text (url)
-  &quot;Fetch `url' and return the response body as text.&quot;
+<div class="org-src-container">
+<pre class="src src-lisp">(defun fetch-text (url)
+  "Fetch `url' and return the response body as text."
   (chain (fetch url)
 	 (then (lambda (response) (chain response (text))))
 	 (catch (lambda (error) (throw error)))))
 
 (defun parse-csv (csv-string &amp;optional (numeric-columns (array)))
-  &quot;Parse `csv-string' into an array of objects.
+  "Parse `csv-string' into an array of objects.
 
 The first line of the `csv-string' is expected to contain the
 header. Each line of the csv file is then parsed into an object with
@@ -458,10 +606,10 @@ Values for columns in `numeric-colums' are stored as numbers, rather
 than strings.
 
 Example:
-(parse-csv \&quot;a,b,c\n1,2,3\n4,5,6\&quot; '(\&quot;a\&quot; \&quot;b\&quot;))
--&gt; [{a: 1, b: 2, c: \&quot;3\&quot;}, {a: 4, b: 5, c: \&quot;6\&quot;}]&quot;
+(parse-csv \"a,b,c\n1,2,3\n4,5,6\" '(\"a\" \"b\"))
+-&gt; [{a: 1, b: 2, c: \"3\"}, {a: 4, b: 5, c: \"6\"}]"
   (flet ((convert (alist)
-  	   ;; Note that alist is not a true a-list, since JavaScript
+	   ;; Note that alist is not a true a-list, since JavaScript
 	   ;; doesn't have conses. It's just a two-element array.
 	   (map (lambda (kv)
 		  (destructuring-bind (key value) kv
@@ -474,15 +622,54 @@ Example:
       (map (lambda (line)
 	     (make-object-from (convert (zip columns (chain line (split #\,))))))
 	   lines))))
-</code></pre>
+</pre>
+</div>
 
-<p>The CSV parser is fragile and will break if you give it a malformed file or something it&rsquo;s not expecting like quoted values, leading/trailing whitespace, etc. But for the purpose of this example, it does the job. Note that I explicitly provide a default value for the optional argument <code>numeric-columns</code>, like so: <code>&amp;optional (numeric-columns (array))</code>. In my first attempt to define the function, I instead wrote <code>&amp;optional numeric-columns</code>. In Common Lisp, this would cause <code>numeric-colums</code> to be <code>nil</code> if the caller doesn&rsquo;t provide it, but in Parenscript, the resulting JavaScript variable is <code>undefined</code>, which causes an error when I later call <code>(member key numeric-columns)</code>. In Common Lisp, <code>nil</code> is synonymous with the empty list, so <code>(member key nil)</code> is fine and always returns <code>nil</code>. By providing the default value of an empty array in the Parenscript code, I avoid the undefined variable error. Alternatively, I could use Parenscript&rsquo;s <code>defined</code> macro to first test whether <code>numeric-columns</code> is defined before calling <code>member</code>.</p>
+<p>
+The CSV parser is fragile and will break if you give it a malformed
+file or something it's not expecting like quoted values,
+leading/trailing whitespace, etc. But for the purpose of this example,
+it does the job. Note that I explicitly provide a default value for
+the optional argument <code>numeric-columns</code>, like so: <code>&amp;optional
+(numeric-columns (array))</code>. In my first attempt to define the
+function, I instead wrote <code>&amp;optional numeric-columns</code>. In Common Lisp,
+this would cause <code>numeric-colums</code> to be <code>nil</code> if the caller doesn't
+provide it, but in Parenscript, the resulting JavaScript variable is
+<code>undefined</code>, which causes an error when I later call <code>(member key
+numeric-columns)</code>. In Common Lisp, <code>nil</code> is synonymous with the empty
+list, so <code>(member key nil)</code> is fine and always returns <code>nil</code>. By
+providing the default value of an empty array in the Parenscript code,
+I avoid the undefined variable error. Alternatively, I could use
+Parenscript's <code>defined</code> macro to first test whether <code>numeric-columns</code>
+is defined before calling <code>member</code>.
+</p>
 
-<p>Now that I can fetch and parse the CSV file, I need to write the functions for drawing the SVG graph. This code isn&rsquo;t very interesting. It&rsquo;s an imperative blob that creates SVG DOM elements and sets their attributes, with magic constants and offsets used here and there for alignment. This set of functions puts the <em>dirty</em> in <em>quick-and-dirty</em>. Again, the point of this example is just to write a bit more Parenscript, not to recreate d3.js or plotly.js. In the next example, I&rsquo;ll use plotly.js to plot the same data, for a more real-world example.</p>
+<p>
+Now that I can fetch and parse the CSV file, I need to write the
+functions for drawing the SVG graph. This code isn't very interesting.
+It's an imperative blob that creates SVG DOM elements and sets their
+attributes, with magic constants and offsets used here and there for
+alignment. This set of functions puts the <i>dirty</i> in
+<i>quick-and-dirty</i>.  Again, the point of this example is just to write
+a bit more Parenscript, not to recreate d3.js or plotly.js. In the
+next example, I'll use plotly.js to plot the same data, for a more
+real-world example.
+</p>
 
-<p>I start out with a handful of convenience macros to make creating svg elements less verbose and more &ldquo;lispy.&rdquo; These could just as well be functions, and probably should be. But the macros are simple enough that making them macros instead of functions isn&rsquo;t too egregious. In fact, since I always recompile the whole Parenscript file, this removes one of the major drawbacks of macros, namely the need to recompile all macro call sites any time the macro definition changes. And since I&rsquo;m only having fun with Parenscript, why not indulge in few gratuitous, zero-cost abstractions?</p>
+<p>
+I start out with a handful of convenience macros to make creating svg
+elements less verbose and more "lispy." These could just as well be
+functions, and probably should be. But the macros are simple enough
+that making them macros instead of functions isn't too egregious. In
+fact, since I always recompile the whole Parenscript file, this
+removes one of the major drawbacks of macros, namely the need to
+recompile all macro call sites any time the macro definition
+changes. And since I'm only having fun with Parenscript, why not
+indulge in few gratuitous, zero-cost abstractions?
+</p>
 
-<pre><code class="language-common-lisp">(defvar +svg-ns+ &quot;http://www.w3.org/2000/svg&quot;)
+<div class="org-src-container">
+<pre class="src src-lisp">(defvar +svg-ns+ "http://www.w3.org/2000/svg")
 
 (defmacro create-svg-element (tag-name)
   `(chain document (create-element-n-s +svg-ns+ ,tag-name)))
@@ -492,21 +679,41 @@ Example:
 
 (defmacro append-child. (element child)
   `(chain ,element (append-child ,child)))
-</code></pre>
+</pre>
+</div>
 
-<p>Next comes the top-level drawing function that is responsible for overall layout. It calls out to subroutines to create the various graph components. I set the svg element&rsquo;s <code>viewBox</code> attribute to give myself a scale-independent canvas on which to place elements. The browser is then free to scale the svg element to fit in the available layout and will preserve the aspect ratio defined by the <code>viewBox</code>.</p>
+<p>
+Next comes the top-level drawing function that is responsible for
+overall layout. It calls out to subroutines to create the various
+graph components. I set the svg element's <code>viewBox</code> attribute to give
+myself a scale-independent canvas on which to place elements. The
+browser is then free to scale the svg element to fit in the available
+layout and will preserve the aspect ratio defined by the <code>viewBox</code>.
+</p>
 
-<p><a id="reduce-note"></a></p>
+<p>
+<a id="org6e0834d"></a>
+</p>
 
-<p>One implementation note: Due to a bug in the implementation of <code>reduce</code>, I had to pass -1 rather than 0 as the <code>init</code> argument in the call to <code>reduce</code>, below. JavaScript has had <code>Array.prototype.reduce</code> since ECMAScript 5.1 / JS 1.8, so I could just use that instead, but it was easy to work around the bug by supplying -1 as the <code>init</code> value, so I stuck with the <code>reduce</code> provided by <code>*ps-lisp-library*</code>. See the section <a href="#bugs-oddities">Bugs &amp; Oddities</a>, below, for more info on the <code>reduce</code> bug.</p>
+<p>
+One implementation note: Due to a bug in the implementation of
+<code>reduce</code>, I had to pass -1 rather than 0 as the <code>init</code> argument in the
+call to <code>reduce</code>, below. JavaScript has had <code>Array.prototype.reduce</code>
+since ECMAScript 5.1 / JS 1.8, so I could just use that instead, but
+it was easy to work around the bug by supplying -1 as the <code>init</code>
+value, so I stuck with the <code>reduce</code> provided by
+<code>*ps-lisp-library*</code>. See the section <a href="#bugs-oddities">Bugs &amp; Oddities</a>, below, for more
+info on the <code>reduce</code> bug.
+</p>
 
-<pre><code class="language-common-lisp">(defun draw-svg-bar-chart (svg-id table)
-  &quot;Draw a bar chart from the data in `table' on the svg element given
-by `svg-id'.&quot;
+<div class="org-src-container">
+<pre class="src src-lisp">(defun draw-svg-bar-chart (svg-id table)
+  "Draw a bar chart from the data in `table' on the svg element given
+by `svg-id'."
   (let* ((svg-element (chain document (get-element-by-id svg-id)))
 	 (svg-height 100)
 	 (svg-width 500)
-	 (view-box (chain (list 0 0 svg-width svg-height) (join &quot; &quot;)))
+	 (view-box (chain (list 0 0 svg-width svg-height) (join " ")))
 	 ;; Reserve h-offset pixels at the top for a title and
 	 ;; w-offset pixels on the left for the y-axis and label.
 	 (h-offset 20)
@@ -516,9 +723,9 @@ by `svg-id'.&quot;
 	 ;; JavaScript! See the implementation of reduce for why. Note
 	 ;; that reduce is defined in *ps-lisp-library*.
 	 (max-value (reduce (lambda (acc row)
-			      (max acc (getprop row &quot;total exports&quot;)))
+			      (max acc (getprop row "total exports")))
 			    table -1)))
-    (set-attr svg-element &quot;viewBox&quot; view-box)
+    (set-attr svg-element "viewBox" view-box)
     (flet ((svg-append-all (&amp;rest elements)
 	     (dolist (element elements)
 	       (append-child. svg-element element))))
@@ -530,67 +737,98 @@ by `svg-id'.&quot;
 	:height svg-height
 	:tick-scale (/ max-value max-height))
        (make-plot-title
-	&quot;Top 25 US States by Agriculture Exports (2011)&quot;
+	"Top 25 US States by Agriculture Exports (2011)"
 	;; Title is centered on the x position.
 	:x (+ w-offset (/ (- svg-width w-offset) 2))
 	:y h-offset)
        (make-y-label
-	&quot;Millions USD&quot;
-	;; Label is rotated 90 deg, so x and y are &quot;swapped&quot;
+	"Millions USD"
+	;; Label is rotated 90 deg, so x and y are "swapped"
 	:x (- (/ svg-height 2))
 	:y h-offset)
        (make-bars
-	&quot;code&quot; &quot;state&quot; &quot;total exports&quot; table
+	"code" "state" "total exports" table
 	:width (- svg-width w-offset)
 	:height svg-height
 	:value-scale (/ max-height max-value)
 	:x w-offset)))))
-</code></pre>
+</pre>
+</div>
 
-<p>Next, here is the source for <code>make-plot-title</code>. I won&rsquo;t list the sources for <code>make-y-label</code>, <code>make-y-axis</code>, and <code>make-bars</code> since they&rsquo;re all pretty similar; they all just create some SVG elements and twiddle their attributes. You can find them all in the file <a href="parenscript.lisp">parenscript.lisp</a>.</p>
+<p>
+Next, here is the source for <code>make-plot-title</code>. I won't list the
+sources for <code>make-y-label</code>, <code>make-y-axis</code>, and <code>make-bars</code> since
+they're all pretty similar; they all just create some SVG elements and
+twiddle their attributes. You can find them all in the file
+<a href="parenscript.lisp">parenscript.lisp</a>.
+</p>
 
-<pre><code class="language-common-lisp">(defun make-plot-title
-    (title &amp;key (fill &quot;grey&quot;) (font-size &quot;10pt&quot;) (text-anchor &quot;middle&quot;) (x 0) (y 0))
-  (let ((plot-title (create-svg-element &quot;text&quot;)))
-    (setf (@ plot-title id) &quot;plot-title&quot;)
+<div class="org-src-container">
+<pre class="src src-lisp">(defun make-plot-title
+    (title &amp;key (fill "grey") (font-size "10pt") (text-anchor "middle") (x 0) (y 0))
+  (let ((plot-title (create-svg-element "text")))
+    (setf (@ plot-title id) "plot-title")
     (setf (@ plot-title text-content) title)
     (setf (@ plot-title style font-size) font-size)
-    (set-attr plot-title &quot;x&quot; x)
-    (set-attr plot-title &quot;y&quot; y)
-    (set-attr plot-title &quot;fill&quot; fill)
-    (set-attr plot-title &quot;text-anchor&quot; text-anchor)
+    (set-attr plot-title "x" x)
+    (set-attr plot-title "y" y)
+    (set-attr plot-title "fill" fill)
+    (set-attr plot-title "text-anchor" text-anchor)
     plot-title))
-</code></pre>
+</pre>
+</div>
 
-<p>Finally, here is the Promise chain to string it all together.</p>
+<p>
+Finally, here is the Promise chain to string it all together.
+</p>
 
-<pre><code class="language-common-lisp">(chain (fetch-text &quot;2011_us_ag_exports.csv&quot;)
-       (then (curry (flip parse-csv) '(&quot;total exports&quot;)))
-       (then (curry numeric-sort-by! &quot;total exports&quot;))
+<div class="org-src-container">
+<pre class="src src-lisp">(chain (fetch-text "2011_us_ag_exports.csv")
+       (then (curry (flip parse-csv) '("total exports")))
+       (then (curry numeric-sort-by! "total exports"))
        (then (curry take 25))
-       (then (curry draw-svg-bar-chart &quot;svg-chart&quot;)))
-</code></pre>
+       (then (curry draw-svg-bar-chart "svg-chart")))
+</pre>
+</div>
+</div>
+</div>
 
-<h2 id="example-3-fun-with-plotly-js">Example 3: Fun with Plotly.js</h2>
+<div id="outline-container-org1c7bb85" class="outline-3">
+<h3 id="example-3-fun-with-plotly.js"><a id="org1c7bb85"></a>Example 3: Fun with Plotly.js</h3>
+<div class="outline-text-3" id="text-example-3-fun-with-plotly.js">
+<p>
+In this last example, I'll plot the same data from <a href="#example-2-fun-with-svg">example 2</a>, this
+time letting plotly.js do the heavy lifting. The Parenscript code for
+this example will be minimal, but it will give a feel for what it's
+like to use a JavaScript library from Parenscript. I'll start with a
+bar chart, similar to the one above. To get started, I just include
+Plotly.js, like so:
+</p>
 
-<p>In this last example, I&rsquo;ll plot the same data from <a href="#example-2-fun-with-svg">example 2</a>, this time letting plotly.js do the heavy lifting. The Parenscript code for this example will be minimal, but it will give a feel for what it&rsquo;s like to use a JavaScript library from Parenscript. I&rsquo;ll start with a bar chart, similar to the one above. To get started, I just include Plotly.js, like so:</p>
+<div class="org-src-container">
+<pre class="src src-html">&lt;script src="https://cdn.plot.ly/plotly-1.36.1.min.js"&gt;&lt;/script&gt;
+</pre>
+</div>
+</div>
 
-<pre><code class="language-html">&lt;script src=&quot;https://cdn.plot.ly/plotly-1.36.1.min.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-
-<h3 id="example-3-1-plotly-bar-chart">Example 3.1: Plotly bar chart</h3>
-
+<div id="outline-container-org47a92e2" class="outline-4">
+<h4 id="example-3.1-plotly-bar-chart"><a id="org47a92e2"></a>Example 3.1: Plotly bar chart</h4>
+<div class="outline-text-4" id="text-example-3.1-plotly-bar-chart">
 <script src="https://cdn.plot.ly/plotly-1.36.1.min.js"></script>
-
 <div class="fetch-warning"></div>
-
 <div id="plotly-bar" class="wide-graph"></div>
 
-<p>As expected, the plotly bar chart is a lot nicer on the eyes than my hand-rolled SVG chart, above. And, indeed, so is the code to produce it.</p>
+<p>
+As expected, the plotly bar chart is a lot nicer on the eyes than my
+hand-rolled SVG chart, above. And, indeed, so is the code to produce
+it.
+</p>
 
-<p><a id="example-3.1-listing"></a></p>
-
-<pre><code class="language-common-lisp">;;; This macro is analogous to Parenscript's `[]' macro. That is,
+<p>
+<a id="orgdf49286"></a>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">;;; This macro is analogous to Parenscript's `[]' macro. That is,
 ;;; `{}.' is to `create' as `[]' is to `array'. Note that Parenscript
 ;;; already defines `{}' as a symbol-macro that expands to (create);
 ;;; hence, this macro has a trailing period to avoid the Parenscript
@@ -603,7 +841,7 @@ by `svg-id'.&quot;
 ;;; symbol-macro expansion is used. But the Parenscript compiler
 ;;; warnings are annoying, so better to just use a unique name here.
 (defmacro {}. (&amp;rest args)
-  &quot;Create nested object literals.&quot;
+  "Create nested object literals."
   `(create ,@(mapcar (lambda (arg)
 		       (if (and (consp arg) (not (equal '{}. (car arg))))
 			   (cons '{}. arg)
@@ -611,191 +849,326 @@ by `svg-id'.&quot;
 		     args)))
 
 (defun extract-column (column table)
-  &quot;Return an array of the values for `column' in `table'.&quot;
+  "Return an array of the values for `column' in `table'."
   (map (lambda (row) (getprop row column)) table))
 
 (defun draw-plotly-bar-chart (chart-id table)
-  (let ((layout ({}. :title &quot;Top 25 US States by Agriculture Exports (2011)&quot;
-		     :yaxis (:title &quot;Millions USD&quot;)))
-	(data (list (create :x (extract-column &quot;code&quot; table)
-			    :y (extract-column &quot;total exports&quot; table)
-			    :text (extract-column &quot;state&quot; table)
-			    :type &quot;bar&quot;))))
+  (let ((layout ({}. :title "Top 25 US States by Agriculture Exports (2011)"
+		     :yaxis (:title "Millions USD")))
+	(data (list (create :x (extract-column "code" table)
+			    :y (extract-column "total exports" table)
+			    :text (extract-column "state" table)
+			    :type "bar"))))
     (chain -plotly (plot chart-id data layout))))
 
-(chain (fetch-text &quot;2011_us_ag_exports.csv&quot;)
-       (then (curry (flip parse-csv) '(&quot;total exports&quot;)))
-       (then (curry numeric-sort-by! &quot;total exports&quot;))
+(chain (fetch-text "2011_us_ag_exports.csv")
+       (then (curry (flip parse-csv) '("total exports")))
+       (then (curry numeric-sort-by! "total exports"))
        (then (curry take 25))
-       (then (curry draw-plotly-bar-chart &quot;plotly-bar&quot;)))
-</code></pre>
+       (then (curry draw-plotly-bar-chart "plotly-bar")))
+</pre>
+</div>
 
-<p>Now that I&rsquo;ve got two pieces of code producing more-or-less the same bar chart, I&rsquo;m starting to see some code duplication. I was tempted to define some global variables and helper functions, so that I don&rsquo;t have to fetch an parse the CSV file twice, for example, or keep typing out the chart title and y-axis label every time. But for expository purposes, I think it&rsquo;s actually clearer with a bit of code duplication, so I&rsquo;m leaving it.</p>
+<p>
+Now that I've got two pieces of code producing more-or-less the same
+bar chart, I'm starting to see some code duplication. I was tempted to
+define some global variables and helper functions, so that I don't
+have to fetch an parse the CSV file twice, for example, or keep typing
+out the chart title and y-axis label every time. But for expository
+purposes, I think it's actually clearer with a bit of code
+duplication, so I'm leaving it.
+</p>
 
-<p>See the section <a href="#bugs-oddities">Bugs &amp; Oddities</a>, below, for more about the <code>{}.</code> macro.</p>
+<p>
+See the section <a href="#bugs-oddities">Bugs &amp; Oddities</a>, below, for more about the <code>{}.</code>
+macro.
+</p>
+</div>
+</div>
 
-<h3 id="example-3-2-plotly-choropleth">Example 3.2: Plotly choropleth</h3>
-
-<p>Finally, here is a choropleth of the same data from the bar charts above, only all 50 states this time. This example comes straight out of the plotly.js docs.</p>
+<div id="outline-container-org6c96c27" class="outline-4">
+<h4 id="example-3.2-plotly-choropleth"><a id="org6c96c27"></a>Example 3.2: Plotly choropleth</h4>
+<div class="outline-text-4" id="text-example-3.2-plotly-choropleth">
+<p>
+Finally, here is a choropleth of the same data from the bar charts
+above, only all 50 states this time. This example comes straight out
+of the plotly.js docs.
+</p>
 
 <div class="fetch-warning"></div>
-
 <div id="plotly-choropleth" class="wide-graph"></div>
-
 <script defer src="parenscript.js"></script>
 
-<pre><code class="language-common-lisp">(defun draw-plotly-choropleth (chart-id table)
-  (let ((layout ({}. :title &quot;US Agriculture Exports by State (2011)&quot;
-		     :geo (:scope &quot;usa&quot;
-			   :showlakes t
-			   :lakecolor &quot;rgb(255,255,255)&quot;)))
-	(data (list (create :type &quot;choropleth&quot;
-			    :locationmode &quot;USA-states&quot;
-			    :locations (extract-column &quot;code&quot; table)
-			    :z (extract-column &quot;total exports&quot; table)
-			    :text (extract-column &quot;state&quot; table)
+<div class="org-src-container">
+<pre class="src src-lisp">(defun draw-plotly-choropleth (chart-id table)
+  (let ((layout ({}. :title "US Agriculture Exports by State (2011)"
+		     :geo (:scope "usa"
+				  :showlakes t
+				  :lakecolor "rgb(255,255,255)")))
+	(data (list (create :type "choropleth"
+			    :locationmode "USA-states"
+			    :locations (extract-column "code" table)
+			    :z (extract-column "total exports" table)
+			    :text (extract-column "state" table)
 			    :zmin 0
 			    :zmax 17000
-			    :colorbar ({}. :title &quot;Millions USD&quot;
+			    :colorbar ({}. :title "Millions USD"
 					   :thickness 0.2)
-			    :colorscale ([] (0 &quot;rgb(242,240,247)&quot;)
-					    (0.2 &quot;rgb(218,218,235)&quot;)
-					    (0.4 &quot;rgb(188,189,220)&quot;)
-					    (0.6 &quot;rgb(158,154,200)&quot;)
-					    (0.8 &quot;rgb(117,107,177)&quot;)
-					    (1 &quot;rgb(84,39,143)&quot;))
-			    :marker ({}. :line (:color &quot;rgb(255,255,255)&quot;
-						:width 2))))))
+			    :colorscale ([] (0 "rgb(242,240,247)")
+					    (0.2 "rgb(218,218,235)")
+					    (0.4 "rgb(188,189,220)")
+					    (0.6 "rgb(158,154,200)")
+					    (0.8 "rgb(117,107,177)")
+					    (1 "rgb(84,39,143)"))
+			    :marker ({}. :line (:color "rgb(255,255,255)"
+						       :width 2))))))
     (chain -plotly (plot chart-id data layout ({}. :show-link false)))))
 
-(chain (fetch-text &quot;2011_us_ag_exports.csv&quot;)
-       (then (curry (flip parse-csv) '(&quot;total exports&quot;)))
-       (then (curry draw-plotly-choropleth &quot;plotly-choropleth&quot;)))
+(chain (fetch-text "2011_us_ag_exports.csv")
+       (then (curry (flip parse-csv) '("total exports")))
+       (then (curry draw-plotly-choropleth "plotly-choropleth")))
+</pre>
+</div>
 
-</code></pre>
+<p>
+As you can see, calling third-party JavaScript libraries from
+Parenscript is frictionless and requires zero boilerplate.
+</p>
+</div>
+</div>
+</div>
+</div>
 
-<p>As you can see, calling third-party JavaScript libraries from Parenscript is frictionless and requires zero boilerplate.</p>
+<div id="outline-container-org3ec5b9a" class="outline-2">
+<h2 id="bugs-oddities"><a id="org3ec5b9a"></a>Bugs &amp; Oddities</h2>
+<div class="outline-text-2" id="text-bugs-oddities">
+<p>
+In this section, I note small bugs, rough edges, and implementation
+details that caught my attention. Some of these are things I might
+consider filing an issue or opening a pull request for on
+github. Others aren't really bugs, just things I found interesting.
+</p>
+</div>
 
-<h1 id="bugs-oddities">Bugs &amp; Oddities</h1>
+<div id="outline-container-org9e016cc" class="outline-3">
+<h3 id="reduce-sometimes-ignores-its-init-argument"><a id="org9e016cc"></a><code>reduce</code> sometimes ignores it's <code>init</code> argument</h3>
+<div class="outline-text-3" id="text-reduce-sometimes-ignores-its-init-argument">
+<p>
+Update(May 2019): this now <a href="https://github.com/vsedach/Parenscript/issues/40">fixed</a>.
+</p>
 
-<p>In this section, I note small bugs, rough edges, and implementation details that caught my attention. Some of these are things I might consider filing an issue or opening a pull request for on github. Others aren&rsquo;t really bugs, just things I found interesting.</p>
+<p>
+As I <a href="#org6e0834d">noted above</a>, there appears to be a bug in the implementation of
+<code>reduce</code> in <code>*ps-lisp-library*</code> which ignores its <code>init</code> argument
+whenever the caller passes something that evaluates as false in
+JavaScript. The <code>init</code> argument is sometimes ignored because <code>reduce</code>
+contains an expression to initialize the accumulator that compiles
+down to the following JavaScript:
+</p>
 
-<h2 id="reduce-sometimes-ignores-it-s-init-argument"><code>reduce</code> sometimes ignores it&rsquo;s <code>init</code> argument</h2>
+<div class="org-src-container">
+<pre class="src src-javascript">acc = init ? init : list[0]
+</pre>
+</div>
 
-<p>Update(May 2019): this now <a href="https://github.com/vsedach/Parenscript/issues/40">fixed</a>.</p>
+<p>
+So, if the caller supplies an <code>init</code> value that JavaScript considers
+false &#x2013; like <code>0</code>, <code>""</code>, or <code>false</code> to name a few &#x2013; then then <code>acc</code>
+will get initialized to the first list item, rather than <code>init</code>. That
+is, the conditional should test whether <code>init</code> is <code>undefined</code>
+explicitly, rather than any false value.
+</p>
 
-<p>As I <a href="#reduce-note">noted above</a>, there appears to be a bug in the implementation of <code>reduce</code> in <code>*ps-lisp-library*</code> which ignores its <code>init</code> argument whenever the caller passes something that evaluates as false in JavaScript. The <code>init</code> argument is sometimes ignored because <code>reduce</code> contains an expression to initialize the accumulator that compiles down to the following JavaScript:</p>
+<p>
+Here are some examples from the browser's JS console demonstrating the
+bug:
+</p>
 
-<pre><code class="language-javascript">acc = init ? init : list[0]
-</code></pre>
-
-<p>So, if the caller supplies an <code>init</code> value that JavaScript considers false &ndash; like <code>0</code>, <code>&quot;&quot;</code>, or <code>false</code> to name a few &ndash; then then <code>acc</code> will get initialized to the first list item, rather than <code>init</code>. That is, the conditional should test whether <code>init</code> is <code>undefined</code> explicitly, rather than any false value.</p>
-
-<p>Here are some examples from the browser&rsquo;s JS console demonstrating the bug:</p>
-
-<pre><code class="language-javascript">reduce((acc, e) =&gt; acc * e, [1,2,3,4,5], 0)           /* expect 0 */
+<div class="org-src-container">
+<pre class="src src-javascript">reduce((acc, e) =&gt; acc * e, [1,2,3,4,5], 0)           /* expect 0 */
 --&gt; 120
 reduce((acc, e) =&gt; acc &amp;&amp; e, [true,true,true], false) /* expect false */
 --&gt; true
-reduce((acc,e) =&gt; acc, [&quot;foo&quot;, &quot;bar&quot;], &quot;&quot;)            /* expect &quot;&quot; */
---&gt; &quot;foo&quot;
-</code></pre>
+reduce((acc,e) =&gt; acc, ["foo", "bar"], "")            /* expect "" */
+--&gt; "foo"
+</pre>
+</div>
+</div>
+</div>
 
-<h2 id="let-ignores-garbage-in-binding-forms"><code>let</code> ignores garbage in binding forms</h2>
+<div id="outline-container-org0d416b3" class="outline-3">
+<h3 id="let-ignores-garbage-in-binding-forms"><a id="org0d416b3"></a><code>let</code> ignores garbage in binding forms</h3>
+<div class="outline-text-3" id="text-let-ignores-garbage-in-binding-forms">
+<p>
+Parenscript's implementation of <code>let</code> ignores extra garbage at the end
+of each binding form. For example:
+</p>
 
-<p>Parenscript&rsquo;s implementation of <code>let</code> ignores extra garbage at the end of each binding form. For example:</p>
-
-<pre><code>;; Parenscript         /* JavaScript */
+<pre class="example">
+;; Parenscript         /* JavaScript */
 (let ((x 4 (/ 0 0)))   (function () {
   x)                      var x = 4;
                           return x;
                        })();
-</code></pre>
+</pre>
 
-<p>For comparison, SBCL, CCL, and CLISP all signals errors complaining that the let binding is malformed. Of course, it&rsquo;s not really fair to compare Parenscript to production-grade Common Lisp implementations, I just happened to notice it when reading over Parenscript&rsquo;s <code>let</code> implementation. Besides, who&rsquo;s to say this is a bug and not a feature!</p>
+<p>
+For comparison, SBCL, CCL, and CLISP all signals errors complaining
+that the let binding is malformed. Of course, it's not really fair to
+compare Parenscript to production-grade Common Lisp implementations, I
+just happened to notice it when reading over Parenscript's <code>let</code>
+implementation. Besides, who's to say this is a bug and not a feature!
+</p>
+</div>
+</div>
 
-<h2 id="ps-encode-js-identifier-deprecation-warnings"><code>ps::encode-js-identifier</code> deprecation warnings</h2>
+<div id="outline-container-orgf286f3b" class="outline-3">
+<h3 id="psencode-js-identifier-deprecation-warnings"><a id="orgf286f3b"></a><code>ps::encode-js-identifier</code> deprecation warnings</h3>
+<div class="outline-text-3" id="text-psencode-js-identifier-deprecation-warnings">
+<p>
+Update(May 2019): this is now <a href="https://github.com/vsedach/Parenscript/issues/41">fixed</a>.
+</p>
 
-<p>Update(May 2019): this is now <a href="https://github.com/vsedach/Parenscript/issues/41">fixed</a>.</p>
+<p>
+The implementation of <code>ps::encode-js-identifier</code> in <code>utils.lisp</code>
+issues a warning if the user creates an identifier with an embedded
+dot (<code>.</code>) or sqaure brackets (<code>[]</code>), which is a useful shorthand for
+referencing object properties or indexing into arrays (and was
+presumably supported in older versions of Parenscript). For example,
+<code>foo.bar</code> or <code>foobar[3]</code>. I believe the current recommendation is to
+use the <code>@</code> macro instead, like so: <code>(@ foo bar)</code> or <code>(@ foobar
+3)</code>. However, <code>ps::encode-js-identifier</code> will only issue the warning
+about embedded dot and/or square brackets if certain other special
+characters are present in the identifier name which cause Parenscript
+name mangling rules to kick in. I assume this is a bug, and the
+intention is to always warn about embedded dot/bracket characters, but
+I'm not sure.
+</p>
 
-<p>The implementation of <code>ps::encode-js-identifier</code> in <code>utils.lisp</code> issues a warning if the user creates an identifier with an embedded dot (<code>.</code>) or sqaure brackets (<code>[]</code>), which is a useful shorthand for referencing object properties or indexing into arrays (and was presumably supported in older versions of Parenscript). For example, <code>foo.bar</code> or <code>foobar[3]</code>. I believe the current recommendation is to use the <code>@</code> macro instead, like so: <code>(@ foo bar)</code> or <code>(@ foobar 3)</code>. However, <code>ps::encode-js-identifier</code> will only issue the warning about embedded dot and/or square brackets if certain other special characters are present in the identifier name which cause Parenscript name mangling rules to kick in. I assume this is a bug, and the intention is to always warn about embedded dot/bracket characters, but I&rsquo;m not sure.</p>
+<p>
+An example might help clarify. In the following SLIME-REPL session,
+I'd expect <code>"foo.bar"</code> and <code>"foobar[3]"</code> to also generate warnings.
+</p>
 
-<p>An example might help clarify. In the following SLIME-REPL session, I&rsquo;d expect <code>&quot;foo.bar&quot;</code> and <code>&quot;foobar[3]&quot;</code> to also generate warnings.</p>
-
-<pre><code>FUN-WITH-PS&gt; (ps::encode-js-identifier &quot;foo.bar&quot;)
-&quot;FOO.BAR&quot;
-FUN-WITH-PS&gt; (ps::encode-js-identifier &quot;foo.bar?&quot;)
+<pre class="example">
+FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar")
+"FOO.BAR"
+FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar?")
 WARNING:
    Symbol foo.bar? contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!
-&quot;foo.barwhat&quot;
-FUN-WITH-PS&gt; (ps::encode-js-identifier &quot;foobar[3]&quot;)
-&quot;FOOBAR[3]&quot;
-FUN-WITH-PS&gt; (ps::encode-js-identifier &quot;foo-bar[3]&quot;)
+"foo.barwhat"
+FUN-WITH-PS&gt; (ps::encode-js-identifier "foobar[3]")
+"FOOBAR[3]"
+FUN-WITH-PS&gt; (ps::encode-js-identifier "foo-bar[3]")
 WARNING:
    Symbol foo-bar[3] contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!
-&quot;fooBar[3]&quot;
-</code></pre>
+"fooBar[3]"
+</pre>
 
-<p>Here is the relevant portion of <code>ps::encode-js-identifier</code>.</p>
+<p>
+Here is the relevant portion of <code>ps::encode-js-identifier</code>.
+</p>
 
-<pre><code class="language-common-lisp">(let ((cache (make-hash-table :test 'equal)))
+<div class="org-src-container">
+<pre class="src src-lisp">(let ((cache (make-hash-table :test 'equal)))
   (defun encode-js-identifier (identifier)
-    &quot;Given a string, produces to a valid JavaScript identifier by
+    "Given a string, produces to a valid JavaScript identifier by
 following transformation heuristics case conversion. For example,
-paren-script becomes parenScript, *some-global* becomes SOMEGLOBAL.&quot;
+paren-script becomes parenScript, *some-global* becomes SOMEGLOBAL."
     (or (gethash identifier cache)
-        (setf (gethash identifier cache)
-              (cond ((some (lambda (c) (find c &quot;-*+!?#@%/=:&lt;&gt;^&quot;)) identifier)
-                     (let ((lowercase t)
-                           (all-uppercase nil))
-                       (when (and (not (string= identifier &quot;[]&quot;)) ;; HACK
-                                  (find-if (lambda (x) (find x '(#\. #\[ #\]))) identifier))
-                         (warn &quot;Symbol ~A contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!&quot;
-                               identifier))
-                         ...
-</code></pre>
+	(setf (gethash identifier cache)
+	      (cond ((some (lambda (c) (find c "-*+!?#@%/=:&lt;&gt;^")) identifier)
+		     (let ((lowercase t)
+			   (all-uppercase nil))
+		       (when (and (not (string= identifier "[]")) ;; HACK
+				  (find-if (lambda (x) (find x '(#\. #\[ #\]))) identifier))
+			 (warn "Symbol ~A contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!"
+			       identifier))
+			 ...
+</pre>
+</div>
 
-<p>A couple of things to note:</p>
+<p>
+A couple of things to note:
+</p>
 
-<ul>
-<li>the <code>cond</code> test ensures that <code>identifier</code> contains at least one of the characters <code>-*+!?#@%/=:&lt;&gt;^</code>
-
-<ul>
-<li>therefore, the <code>(string= identifier &quot;[]&quot;)</code> test can never be true</li>
-<li>therefore, the warning about an identifier containing a period and/or square brackets can only be triggered if it also contains one of the characters <code>-*+!?#@%/=:&lt;&gt;^</code></li>
+<ul class="org-ul">
+<li>the <code>cond</code> test ensures that <code>identifier</code> contains at least one of
+the characters <code>-*+!?#@%/=:&lt;&gt;^</code>
+<ul class="org-ul">
+<li>therefore, the <code>(string= identifier "[]")</code> test can never be true</li>
+<li>therefore, the warning about an identifier containing a period
+and/or square brackets can only be triggered if it also contains
+one of the characters <code>-*+!?#@%/=:&lt;&gt;^</code></li>
 </ul></li>
 </ul>
+</div>
+</div>
 
-<h2 id="array-argument-punning">Array argument punning</h2>
+<div id="outline-container-org013e2bf" class="outline-3">
+<h3 id="array-argument-punning"><a id="org013e2bf"></a>Array argument punning</h3>
+<div class="outline-text-3" id="text-array-argument-punning">
+<p>
+This one is kind of fun. It turns out that if you want to pass an
+array literal as an argument of a function, you can use an almost
+identical syntax to JavaScript arrays, just without the commas. For
+example:
+</p>
 
-<p>This one is kind of fun. It turns out that if you want to pass an array literal as an argument of a function, you can use an almost identical syntax to JavaScript arrays, just without the commas. For example:</p>
-
-<pre><code>;; Parenscript             /* JavaScript */
+<pre class="example">
+;; Parenscript             /* JavaScript */
 (some-fn [a b 1 2])        someFn([a, b, 1, 2]);
-</code></pre>
+</pre>
 
-<p>This isn&rsquo;t documented in the Parenscript reference. I think what&rsquo;s going on here is that Parenscript thinks it&rsquo;s compiling a function call with four separate arguments, where the first argument happens to be named <code>[a</code> and the last happens to be <code>2]</code>. We can see this more clearly if we place spaces around the square brackets, in which case we get:</p>
+<p>
+This isn't documented in the Parenscript reference. I think what's
+going on here is that Parenscript thinks it's compiling a function
+call with four separate arguments, where the first argument happens to
+be named <code>[a</code> and the last happens to be <code>2]</code>. We can see this more
+clearly if we place spaces around the square brackets, in which case
+we get:
+</p>
 
-<pre><code>;; Parenscript             /* JavaScript */
+<pre class="example">
+;; Parenscript             /* JavaScript */
 (some-fn [ a b 1 2 ])      someFn([, a, b, 1, 2, ]);
-</code></pre>
+</pre>
 
-<p>Now Parenscript compiles it as a six-argument function where the first argument is <code>[</code> and the last is <code>]</code>.</p>
+<p>
+Now Parenscript compiles it as a six-argument function where the first
+argument is <code>[</code> and the last is <code>]</code>.
+</p>
 
-<p>This hack works for nested arrays as well:</p>
+<p>
+This hack works for nested arrays as well:
+</p>
 
-<pre><code>;; Parenscript               /* JavaScript */
+<pre class="example">
+;; Parenscript               /* JavaScript */
 (some-fn [[a b] 2 [c d] e])  someFn([[a, b], 2, [c, d], e]);
 (some-fn [[a [b [c]]]]))     someFn([[a, [b, [c]]]]);
-</code></pre>
+</pre>
 
-<p>This quirk isn&rsquo;t documented in the Parenscript reference, so I assume it&rsquo;s a kind of &ldquo;happy accident&rdquo; since <code>[a</code> and <code>2]</code> aren&rsquo;t actually valid JavaScript identifiers. But maybe it&rsquo;s intentional? Who knows? In any case, you should probably just use the <code>[]</code> macro (see the next section) for creating nested arrays.</p>
+<p>
+This quirk isn't documented in the Parenscript reference, so I assume
+it's a kind of "happy accident" since <code>[a</code> and <code>2]</code> aren't actually
+valid JavaScript identifiers. But maybe it's intentional? Who knows?
+In any case, you should probably just use the <code>[]</code> macro (see the next
+section) for creating nested arrays.
+</p>
+</div>
+</div>
 
-<h2 id="vs">[] vs {}</h2>
+<div id="outline-container-org8f28508" class="outline-3">
+<h3 id="vs"><a id="org8f28508"></a><code>[]</code> vs <code>{}</code></h3>
+<div class="outline-text-3" id="text-vs">
+<p>
+There are a couple of little asymmetries with respect to <code>[]</code> and <code>{}</code>
+that caught me off guard, summarized in the following examples:
+</p>
 
-<p>There are a couple of little asymmetries with respect to <code>[]</code> and <code>{}</code> that caught me off guard, summarized in the following examples:</p>
-
-<pre><code>;; Parenscript               /* JavaScript */
+<pre class="example">
+;; Parenscript               /* JavaScript */
 (defvar *my-array* [])       var MYARRAY = [];
 (defvar *also-array* '[])    var ALSOARRAY = [];
 
@@ -804,11 +1177,21 @@ paren-script becomes parenScript, *some-global* becomes SOMEGLOBAL.&quot;
 
 ([] :make (nested []))       ['make', [nested, []]];
 ({} :not (like []))          {}('not', like([]));
-</code></pre>
+</pre>
 
-<p>Both <code>[]</code> and <code>'[]</code> in Parenscript are compiled to the empty JavaScript array literal: <code>[]</code>. So you might expect <code>{}</code> and <code>'{}</code> to behave similarly. While Parenscript does compile <code>{}</code> to the empty JavaScript object literal <code>{ }</code>, the quoted form <code>'{}</code> is instead compiled down to a string <code>'{}'</code>. This is because Parenscript special-cases <code>'[]</code> to expand to <code>(array)</code>, whereas there is no special handling for <code>'{}</code>. Here are the relevant bits from Parenscript&rsquo;s <code>quote</code> in <code>special-operators.lisp</code>:</p>
+<p>
+Both <code>[]</code> and <code>'[]</code> in Parenscript are compiled to the empty
+JavaScript array literal: <code>[]</code>. So you might expect <code>{}</code> and <code>'{}</code> to
+behave similarly. While Parenscript does compile <code>{}</code> to the empty
+JavaScript object literal <code>{ }</code>, the quoted form <code>'{}</code> is instead
+compiled down to a string <code>'{}'</code>. This is because Parenscript
+special-cases <code>'[]</code> to expand to <code>(array)</code>, whereas there is no
+special handling for <code>'{}</code>.  Here are the relevant bits from
+Parenscript's <code>quote</code> in <code>special-operators.lisp</code>:
+</p>
 
-<pre><code class="language-common-lisp">(define-expression-operator quote (x)
+<div class="org-src-container">
+<pre class="src src-lisp">(define-expression-operator quote (x)
   (flet ((quote% (expr) (when expr `',expr)))
     (compile-expression
      (typecase x
@@ -817,22 +1200,38 @@ paren-script becomes parenScript, *some-global* becomes SOMEGLOBAL.&quot;
        ...
        (symbol (symbol-to-js-string x))
        ... ))))
-</code></pre>
+</pre>
+</div>
 
-<p>The unquoted forms <code>[]</code> and <code>{}</code> are also handled differently by the Parenscript compiler, though both compile down to the corresponding JavaScript literal syntax. Parenscript simply defines <code>{}</code> as a symbol-macro that expands to <code>(create)</code>, whereas <code>[]</code> is treated as an identifier, as far as I can tell. Of course, <code>[]</code> isn&rsquo;t a valid JavaScript identifier, and treating it like one allows for nonsense like:</p>
+<p>
+The unquoted forms <code>[]</code> and <code>{}</code> are also handled differently by the
+Parenscript compiler, though both compile down to the corresponding
+JavaScript literal syntax. Parenscript simply defines <code>{}</code> as a
+symbol-macro that expands to <code>(create)</code>, whereas <code>[]</code> is treated as an
+identifier, as far as I can tell. Of course, <code>[]</code> isn't a valid
+JavaScript identifier, and treating it like one allows for nonsense
+like:
+</p>
 
-<pre><code>;; Parenscript          /* JavaScript */
+<pre class="example">
+;; Parenscript          /* JavaScript */
 (let (([] 'huh))        (function () {
    [])                     var [] = 'huh';
                            return [];
                         })();
 
 (defvar [] 'whoops)     var [] = 'whoops';
-</code></pre>
+</pre>
 
-<p>Thanks to ES6&rsquo;s destructuring assignment, neither of these causes a JavaScript <code>SyntaxError</code> in modern browsers; the assignment is just ignored, as far as I can tell. Replacing <code>[]</code> with <code>{}</code> in the above two examples results in the following:</p>
+<p>
+Thanks to ES6's destructuring assignment, neither of these causes a
+JavaScript <code>SyntaxError</code> in modern browsers; the assignment is just
+ignored, as far as I can tell. Replacing <code>[]</code> with <code>{}</code> in the above
+two examples results in the following:
+</p>
 
-<pre><code>;; Parenscript          /* JavaScript */
+<pre class="example">
+;; Parenscript          /* JavaScript */
 (let (({} 'huh))        (function () {
    {})                     var {}1 = 'huh';
                            return {}1;
@@ -848,58 +1247,122 @@ paren-script becomes parenScript, *some-global* becomes SOMEGLOBAL.&quot;
 ;;     SYMBOL
 ;;   [Condition of type TYPE-ERROR]
 (defvar {} 'whoops)
-</code></pre>
+</pre>
 
-<p>Note the trailing <code>1</code> in the generated JavaScript when let-binding <code>{}</code>. This is due to Parenscript&rsquo;s <code>maybe-rename-lexical-var</code>, which finds <code>{}</code> in <code>*symbol-macro-env*</code>, and replaces it with a gensym.</p>
+<p>
+Note the trailing <code>1</code> in the generated JavaScript when let-binding
+<code>{}</code>.  This is due to Parenscript's <code>maybe-rename-lexical-var</code>, which
+finds <code>{}</code> in <code>*symbol-macro-env*</code>, and replaces it with a gensym.
+</p>
 
-<pre><code class="language-common-lisp">(defun maybe-rename-lexical-var (x symbols-in-bindings)
+<div class="org-src-container">
+<pre class="src src-lisp">(defun maybe-rename-lexical-var (x symbols-in-bindings)
   (when (or (member x *enclosing-lexicals*)
-            (member x *enclosing-function-arguments*)
-            (when (boundp '*used-up-names*)
-              (member x *used-up-names*))
-            (lookup-macro-def x *symbol-macro-env*)
-            (member x symbols-in-bindings))
+	    (member x *enclosing-function-arguments*)
+	    (when (boundp '*used-up-names*)
+	      (member x *used-up-names*))
+	    (lookup-macro-def x *symbol-macro-env*)
+	    (member x symbols-in-bindings))
     (ps-gensym (symbol-name x))))
-</code></pre>
-
-<p>Defining a symbol-macro a-la <code>{}</code> seems like a cleaner solution, so presumably there is some reason why <code>[]</code> is handled differently. Possibly because Parenscript defines a macro named <code>[]</code>? Is it &ldquo;safe&rdquo; (i.e. portable) to define both a macro and symbol-macro with same name in Common Lisp? None of SBCL, CCL, or CLISP complain if I do. A quick skim of the relevant sections in the HyperSpec doesn&rsquo;t seem to explicitly rule it out, and indeed this seems analogous to defining a function and a variable with the same name, which is fair game in Common Lisp.</p>
-
-<p>The final asymmetry I&rsquo;ll note between <code>[]</code> and <code>{}</code> is that while Parenscript defines a macro named <code>[]</code> to help with creating nested arrays, there is no corresponding <code>{}</code> macro to create nested object literals. That is, while the form <code>([] 1 (2 foo) 3)</code> compiles to <code>[1, [2, foo], 3]</code>, the form <code>({} :a (:b c))</code> compiles to <code>{}('a', 'b'(c))</code>, not <code>{ 'a': { 'b': c } }</code>, as you might hope. Of course, it&rsquo;s possible to define your own <code>{}</code> macro for creating nested objects, and that&rsquo;s just what I did in <a href="#example-3.1-listing">Example 3.1</a>, above.</p>
-
-<h1 id="takeaways">Takeaways</h1>
-
-<p>Despite a few small bugs and rough edges, Parenscript delivers on it&rsquo;s promise of providing a Common Lisp-ish syntax for writing JavaScript, complete with the full power of macros for your JavaScripting enjoyment. Alas, it&rsquo;s only subset of Common Lisp, so it feels more like writing JavaScript with a lispy syntax than it feels like writing Common Lisp, but that&rsquo;s still pretty cool! I would consider using Parenscript again for small side-projects with traditional server-side-rendered web interfaces where I was already using Common Lisp on the server-side. I probably wouldn&rsquo;t try to use Parenscript for creating a snazzy, user-interaction-heavy <abbr title="Single Page Application">SPA</abbr> / <abbr title="Progressive Web Application">PWA</abbr> with React. Then again, as you can probably tell from this website, I probably wouldn&rsquo;t try creating such a webapp at all!</p>
-
-<p>In keeping with the stream-of-consciousness nature of this post, I&rsquo;ll now ramble off a list of Parenscript pros and cons.</p>
-
-<h2 id="pros">Pros</h2>
-
-<ul>
-<li>Macros</li>
-<li>Trivial to call third-party JavaScript libraries from Parenscript without requiring any boilerplate.</li>
-<li>Parenscript generates very readable JavaScript, with no runtime dependencies. Most of the time, you can guess more-or-less what JavaScript will be produced for a given Parenscript expression.</li>
-<li>Parenscript implementation is relatively small and easy to understand. Only ~4k total lines of code, of which ~700 lines are in a file that just exports a bunch of JavaScript symbols, and another ~300 lines are in Parenscript&rsquo;s implementation of the <code>loop</code> macro. So ~3k lines of very readable Common Lisp for the meat of the transpiler.</li>
-<li>For users who already know and love Common Lisp but don&rsquo;t know much JavaScipt, Parenscript allows you to stay in the comfort zone and avoid JavaScript fatigue.</li>
-<li>Development moves slowly, so stuff rarely breaks.</li>
-</ul>
-
-<h2 id="cons">Cons</h2>
-
-<ul>
-<li>Parenscript doesn&rsquo;t have <code>cons</code>! (that pun was too good to pass up).</li>
-<li>Still no support for cool ES6+ stuff like async/await, generators, etc.</li>
-<li>Though doable, doesn&rsquo;t cater to users who aren&rsquo;t using Common Lisp on the server.</li>
-<li>Parenscript is a not-super-popular open-source project, with all the pitfalls that usually entails.</li>
-<li>Development moves slowly, so stuff rarely gets fixed.</li>
-</ul>
-
-
+</pre>
 </div>
 
+<p>
+Defining a symbol-macro a-la <code>{}</code> seems like a cleaner solution, so
+presumably there is some reason why <code>[]</code> is handled differently.
+Possibly because Parenscript defines a macro named <code>[]</code>? Is it "safe"
+(i.e. portable) to define both a macro and symbol-macro with same name
+in Common Lisp? None of SBCL, CCL, or CLISP complain if I do. A quick
+skim of the relevant sections in the HyperSpec doesn't seem to
+explicitly rule it out, and indeed this seems analogous to defining a
+function and a variable with the same name, which is fair game in
+Common Lisp.
+</p>
 
+<p>
+The final asymmetry I'll note between <code>[]</code> and <code>{}</code> is that while
+Parenscript defines a macro named <code>[]</code> to help with creating nested
+arrays, there is no corresponding <code>{}</code> macro to create nested object
+literals. That is, while the form <code>([] 1 (2 foo) 3)</code> compiles to <code>[1,
+[2, foo], 3]</code>, the form <code>({} :a (:b c))</code> compiles to <code>{}('a',
+'b'(c))</code>, not <code>{ 'a': { 'b': c } }</code>, as you might hope. Of course,
+it's possible to define your own <code>{}</code> macro for creating nested
+objects, and that's just what I did in <a href="#orgdf49286">Example 3.1</a>, above.
+</p>
+</div>
+</div>
+</div>
 
+<div id="outline-container-org9ae582e" class="outline-2">
+<h2 id="takeaways"><a id="org9ae582e"></a>Takeaways</h2>
+<div class="outline-text-2" id="text-takeaways">
+<p>
+Despite a few small bugs and rough edges, Parenscript delivers on it's
+promise of providing a Common Lisp-ish syntax for writing JavaScript,
+complete with the full power of macros for your JavaScripting
+enjoyment.  Alas, it's only subset of Common Lisp, so it feels more
+like writing JavaScript with a lispy syntax than it feels like writing
+Common Lisp, but that's still pretty cool! I would consider using
+Parenscript again for small side-projects with traditional
+server-side-rendered web interfaces where I was already using Common
+Lisp on the server-side. I probably wouldn't try to use Parenscript
+for creating a snazzy, user-interaction-heavy SPA / PWA with
+React. Then again, as you can probably tell from this website, I
+wouldn't try creating such a webapp at all!
+</p>
 
+<p>
+In keeping with the stream-of-consciousness nature of this post, I'll
+now ramble off a list of Parenscript pros and cons.
+</p>
+</div>
 
+<div id="outline-container-org3685600" class="outline-3">
+<h3 id="pros"><a id="org3685600"></a>Pros</h3>
+<div class="outline-text-3" id="text-pros">
+<ul class="org-ul">
+<li>Macros</li>
+<li>Trivial to call third-party JavaScript libraries from Parenscript
+without requiring any boilerplate.</li>
+<li>Parenscript generates very readable JavaScript, with no runtime
+dependencies. Most of the time, you can guess more-or-less what
+JavaScript will be produced for a given Parenscript expression.</li>
+<li>Parenscript implementation is relatively small and easy to
+understand.  Only ~4k total lines of code, of which ~700
+lines are in a file that just exports a bunch of JavaScript symbols,
+and another ~300 lines are in Parenscript's implementation of
+the <code>loop</code> macro. So ~3k lines of very readable Common Lisp for
+the meat of the transpiler.</li>
+<li>For users who already know and love Common Lisp but don't know much
+JavaScipt, Parenscript allows you to stay in the comfort zone and
+avoid JavaScript fatigue.</li>
+<li>Development moves slowly, so stuff rarely breaks.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc6da765" class="outline-3">
+<h3 id="cons"><a id="orgc6da765"></a>Cons</h3>
+<div class="outline-text-3" id="text-cons">
+<ul class="org-ul">
+<li>Parenscript doesn't have <code>cons</code>! (that pun was too good to pass up).</li>
+<li>Still no support for cool ES6+ stuff like async/await, generators,
+etc.</li>
+<li>Though doable, doesn't cater to users who aren't using Common Lisp
+on the server.</li>
+<li>Parenscript is a not-super-popular open-source project, with all the
+pitfalls that usually entails.</li>
+<li>Development moves slowly, so stuff rarely gets fixed.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<hr>
+<p class="date">Created: 2018-05-04</p>
+<p class="date">Last modified: 2020-05-26</p>
+<p class="validation"></p>
+</div>
 </body>
 </html>
-
