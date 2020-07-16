@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2020-07-16 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lisp Tidbits: How the reader treats package-prefixed symbols</title>
+<meta name="generator" content="Org mode">
+<meta name="description" content="a fun lil tidbit relating to differences in the way the lisp reader handles single and double package markers."
+>
+<meta name="keywords" content="common lisp, lisp, reader, symbols, package marker, package prefix">
+<link rel="icon" type="image/png" href="/img/icon.png">
+<link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+<style type="text/css">
+<!--/*--><![CDATA[/*><!--*/
+#postamble p, #preamble p { font-size: 90%; margin: .2em; }
+.footpara { display: inline; }
+.footdef  { margin-bottom: 1em; }
+/*]]>*/-->
+</style>
+</head>
+<body>
+<div id="content">
+<header>
+<h1 class="title">Lisp Tidbits: How the reader treats package-prefixed symbols</h1>
+</header><p>
+Here is a tidbit I came across recently relating to differences in the
+way the lisp reader handles single and double <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_p.htm#package_marker">package markers</a>,
+i.e. the difference between <code>MY-PACKAGE:FOO</code> vs. <code>MY-PACKAGE::FOO</code>.
+</p>
+
+<p>
+I guess most lispers know that a single-colon package marker allows
+you to access the external symbols of a package, whereas a
+double-colon marker additionally allows access to internal symbols of
+the package.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(defpackage #:my-package (:use #:cl) (:export #:*external*))
+(in-package #:my-package)
+(defvar *external* t)
+(defvar *internal* nil)
+(in-package #:cl-user)
+
+my-package:*external*  ; ok
+my-package:*internal*  ; error
+my-package::*internal* ; code smell, but not an error
+</pre>
+</div>
+
+<p>
+But that is not the point of this tidbit. The point of this tidbit is:
+how does the reader actually map <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_p.htm#package_prefix">package-prefixed</a> strings onto
+symbols. Of course, it usually doesn't matter. You can know how to
+<i>use</i> package markers without ever worrying about the details of how
+the reader handles them, but that's what makes this (in my opinion) a
+Fun Lisp Tidbit&trade;.
+</p>
+
+<div id="outline-container-orge5a9381" class="outline-2">
+<h2 id="orge5a9381">The juicy part of the tidbit</h2>
+<div class="outline-text-2" id="text-orge5a9381">
+<p>
+The gist of it is this:
+</p>
+
+<ol class="org-ol">
+<li>when the reader encounters <code>MY-PACKAGE:FOO</code>, it tries to lookup
+<code>FOO</code> in the external symbols of <code>MY-PACKAGE</code> and signals an error
+if <code>FOO</code> is not external in <code>MY-PACKAGE</code>.</li>
+<li>when the reader encounters <code>MY-PACKAGE::FOO</code>, it <i>interns</i> <code>FOO</code> in
+<code>MY-PACKAGE</code> and returns the resulting interned symbol.</li>
+</ol>
+
+<p>
+(I'll give you a minute to gather your socks).
+</p>
+
+<p>
+As a result, if <code>FOO</code> is not accessible in <code>MY-PACKAGE</code>, you get the
+following distinct errors out of SBCL.
+</p>
+
+<pre class="example">
+CL-USER&gt; my-package:foo
+; Evaluation aborted on #&lt;SB-INT:SIMPLE-READER-PACKAGE-ERROR "Symbol ~S not found in the ~A package." {1008E446B3}&gt;.
+CL-USER&gt; my-package::foo
+; Evaluation aborted on #&lt;UNBOUND-VARIABLE FOO {1008FE77E3}&gt;.
+CL-USER&gt; my-package:foo
+; Evaluation aborted on #&lt;SB-INT:SIMPLE-READER-PACKAGE-ERROR "The symbol ~S is not external in the ~A package." {100917AF93}&gt;.
+</pre>
+
+<p>
+Note that the sequence of errors is
+</p>
+
+<ol class="org-ol">
+<li><code>MY-PACKAGE:FOO</code>  &rarr; "Symbol FOO not found in the MY-PACKAGE package"</li>
+<li><code>MY-PACKAGE::FOO</code> &rarr; "UNBOUND-VARIABLE FOO"</li>
+<li><code>MY-PACKAGE:FOO</code>  &rarr; "The symbol FOO is not external in the MY-PACKAGE package."</li>
+</ol>
+
+<p>
+In other words, <code>MY-PACKAGE::FOO</code> interned <code>FOO</code> in <code>MY-PACKAGE</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">CL-USER&gt; (find-symbol "FOO" "MY-PACKAGE")
+MY-PACKAGE::FOO
+:INTERNAL
+</pre>
+</div>
+
+<p>
+You can think of <code>MY-PACKAGE::FOO</code> as being roughly equivalent to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(let ((*package* (find-package "MY-PACKAGE")))
+  foo)
+</pre>
+</div>
+
+<p>
+except that the rebinding of <code>*PACKAGE*</code> happens at read time.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4723898" class="outline-2">
+<h2 id="org4723898">Pourquoi?</h2>
+<div class="outline-text-2" id="text-org4723898">
+<p>
+Why does the reader treat single and double package markers
+differently? Why doesn't <code>MY-PACKAGE::FOO</code> cause the reader to signal
+an error if <code>FOO</code> isn't present (or accessible) in <code>MY-PACKAGE</code>?
+</p>
+
+<p>
+Dunno. Maybe because it's occasionally useful to be able to bind new
+symbols in another package? Maybe it simplifies the implementation?
+Maybe it has something to do with <a href="https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node112.html#SECTION001510000000000000000">print/read consistency</a>, e.g. so that
+you can print a symbol and guarantee it can be read back later, even
+if the symbol is uninterned from the package in the mean time?  Bit of
+a stretch, I know. Maybe it's just less annoying?
+</p>
+
+<p>
+Maybe (like a lot of decisions in Common Lisp) the
+double-colon-interns rule is a compromise for partial compatibility
+with some pre-Common-Lisp implementation? <a href="https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node111.html#SECTION001500000000000000000">CLTL2 mentions</a> that Common
+Lisp's package system is "derived from an earlier package system
+developed for Lisp Machine Lisp". According to the <a href="https://hanshuebner.github.io/lmman/packd.xml#package-prefixes-section">Lisp Machine
+Manual</a>:
+</p>
+
+<blockquote>
+<p>
+The colon character (`:') has a special meaning to the Lisp
+reader. When the reader sees a colon preceded by the name of a
+package, it reads the next Lisp object with <code>*package*</code> bound to that
+package.
+</p>
+</blockquote>
+
+<p>
+So Lisp Machine single-colon package prefixes behaved like Common
+Lisp's double-colon prefixes. The Lisp Machine manual goes on to say:
+</p>
+
+<blockquote>
+<p>
+In Common Lisp programs, simple colon prefixes are supposed to be used
+only for referring to external symbols. To refer to other symbols, one
+is supposed to use two colons, as in <code>chaos::lose-it-later</code>. The Lisp
+machine tradition is to allow reference to any symbol with a single
+colon. Since this is upward compatible with what is allowed in Common
+Lisp, single-colon references are always allowed. However,
+double-colon prefixes are printed for internal symbols when Common
+Lisp syntax is in use, so that data printed on a Lisp Machine can be
+read by other Common Lisp implementations.
+</p>
+</blockquote>
+
+<p>
+This concludes the pre-Common-Lisp history portion of today's tidbit.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdbe8c22" class="outline-2">
+<h2 id="orgdbe8c22">Common Lisp &ne; C++</h2>
+<div class="outline-text-2" id="text-orgdbe8c22">
+<p>
+A final morsel. A tidbit of a tidbit. A tiny tid (just a bit). When
+reading a package-prefixed symbol, the reader does not special-case
+the current package or symbols that are already otherwise
+accessible<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. If you type <code>MY-PACKAGE:FOO</code>, then <code>FOO</code> must be
+external in <code>MY-PACKAGE</code> even if <code>MY-PACKAGE</code> is the current
+package. In other words, despite the syntactic similarity, Common
+Lisp's package markers and external/internal symbols are only
+tangentially related to (say) C++'s scope resolution operator and
+public/private access modifiers. But you already knew that.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7293473" class="outline-2">
+<h2 id="org7293473">References</h2>
+<div class="outline-text-2" id="text-org7293473">
+<p>
+This lisp tidbit was brought to you by <a href="https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node114.html#SECTION001530000000000000000">section 11.3 of CLTL2</a> and the
+corresponding <a href="http://www.lispworks.com/documentation/HyperSpec/Body/02_ce.htm">section 2.3.5 of the Common Lisp HyperSpec</a>.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+For example, if you <code>import</code> an internal symbol from another
+package.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<hr>
+<p class="date">Created: 2020-07-16</p>
+<p class="date">Last modified: 2020-07-16</p>
+<p class="validation"></p>
+</div>
+</body>
+</html>
