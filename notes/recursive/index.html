@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-05-26 -->
+<!-- 2021-02-20 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part 1</title>
@@ -59,8 +59,8 @@
 </div>
 </nav>
 
-<div id="outline-container-orgeafcabe" class="outline-2">
-<h2 id="overview"><a id="orgeafcabe"></a>Overview</h2>
+<div id="outline-container-orgacbec59" class="outline-2">
+<h2 id="overview">Overview</h2>
 <div class="outline-text-2" id="text-overview">
 <p>
 This page contains notes on the classic paper "Recursive Functions of
@@ -70,8 +70,8 @@ McCarthy.
 </div>
 </div>
 
-<div id="outline-container-org265f0e6" class="outline-2">
-<h2 id="functions-and-function-definitions"><a id="org265f0e6"></a>§ 2 Functions and Function Definitions</h2>
+<div id="outline-container-orga0a27c4" class="outline-2">
+<h2 id="functions-and-function-definitions">§ 2 Functions and Function Definitions</h2>
 <div class="outline-text-2" id="text-functions-and-function-definitions">
 <p>
 Introduces the notion of a conditional expression!
@@ -107,8 +107,8 @@ inside \(\epsilon\).</dd>
 </div>
 </div>
 
-<div id="outline-container-orgc464457" class="outline-2">
-<h2 id="recursive-functions-of-symbolic-expressions"><a id="orgc464457"></a>§ 3 Recursive Functions of Symbolic Expressions</h2>
+<div id="outline-container-orgcdfa617" class="outline-2">
+<h2 id="recursive-functions-of-symbolic-expressions">§ 3 Recursive Functions of Symbolic Expressions</h2>
 <div class="outline-text-2" id="text-recursive-functions-of-symbolic-expressions">
 <p>
 Defines S-expressions, plus five (five!) elementary functions and
@@ -116,8 +116,8 @@ predicates, and builds up from those five, culminating in \(apply\).
 </p>
 </div>
 
-<div id="outline-container-orgca12ce4" class="outline-4">
-<h4 id="a.-a-class-of-symbolic-expressions"><a id="orgca12ce4"></a>a. <i>A class of Symbolic Expressions</i></h4>
+<div id="outline-container-orgf8d6faa" class="outline-4">
+<h4 id="a.-a-class-of-symbolic-expressions">a. <i>A class of Symbolic Expressions</i></h4>
 <div class="outline-text-4" id="text-a.-a-class-of-symbolic-expressions">
 <ol class="org-ol">
 <li>Atomic symbols are S-expressions</li>
@@ -131,8 +131,8 @@ predicates, and builds up from those five, culminating in \(apply\).
 </div>
 </div>
 
-<div id="outline-container-org86f72f6" class="outline-4">
-<h4 id="b.-functions-of-s-expressions-and-the-expressions-that-represent-them"><a id="org86f72f6"></a>b. <i>Functions of S-expressions and the Expressions that Represent Them</i></h4>
+<div id="outline-container-org0374a18" class="outline-4">
+<h4 id="b.-functions-of-s-expressions-and-the-expressions-that-represent-them">b. <i>Functions of S-expressions and the Expressions that Represent Them</i></h4>
 <div class="outline-text-4" id="text-b.-functions-of-s-expressions-and-the-expressions-that-represent-them">
 <p>
 Introduces M-expressions (meta-expressions)
@@ -149,8 +149,8 @@ car[cons[(A \cdot B);x]]
 </div>
 </div>
 
-<div id="outline-container-org1a81f4e" class="outline-4">
-<h4 id="c.-the-elementary-s-functions-and-predicates."><a id="org1a81f4e"></a>c. <i>The Elementary S-functions and Predicates</i></h4>
+<div id="outline-container-org26735e3" class="outline-4">
+<h4 id="c.-the-elementary-s-functions-and-predicates.">c. <i>The Elementary S-functions and Predicates</i></h4>
 <div class="outline-text-4" id="text-c.-the-elementary-s-functions-and-predicates.">
 \begin{align*}
 atom[X] &= T \\
@@ -171,8 +171,8 @@ cons[e_1;e_2] &= (e_1 \cdot e_2)
 </div>
 </div>
 
-<div id="outline-container-org794b1d4" class="outline-4">
-<h4 id="d.-recursive-s-functions"><a id="org794b1d4"></a>d. <i>Recursive S-functions</i></h4>
+<div id="outline-container-orgdcc12ff" class="outline-4">
+<h4 id="d.-recursive-s-functions">d. <i>Recursive S-functions</i></h4>
 <div class="outline-text-4" id="text-d.-recursive-s-functions">
 <p>
 cond + recursion allows us to express all computable functions.
@@ -215,8 +215,8 @@ sublis[x; y] = [&atom[y] \rightarrow sub2[x; y];T \rightarrow cons[sublis[x; car
 </div>
 </div>
 
-<div id="outline-container-orgbcd7252" class="outline-4">
-<h4 id="e.-representation-of-s-functions-by-s-expressions"><a id="orgbcd7252"></a>e. <i>Representation of S-Functions by S-Expressions</i></h4>
+<div id="outline-container-org2ce060a" class="outline-4">
+<h4 id="e.-representation-of-s-functions-by-s-expressions">e. <i>Representation of S-Functions by S-Expressions</i></h4>
 <div class="outline-text-4" id="text-e.-representation-of-s-functions-by-s-expressions">
 <p>
 How to translate M-expressions into S-expressions.
@@ -243,8 +243,8 @@ Thus,
 </div>
 </div>
 
-<div id="outline-container-orgff3e4ec" class="outline-4">
-<h4 id="f.-the-universal-s-funciton-apply"><a id="orgff3e4ec"></a>f. <i>The Universal S-Funciton, \(apply\)</i></h4>
+<div id="outline-container-orgc7a80c2" class="outline-4">
+<h4 id="f.-the-universal-s-funciton-apply">f. <i>The Universal S-Funciton, \(apply\)</i></h4>
 <div class="outline-text-4" id="text-f.-the-universal-s-funciton-apply">
 <p>
 Behold!
@@ -314,8 +314,8 @@ evlis[m; a] = [null[m] \rightarrow NIL;T \rightarrow cons[eval[car[m]; a]; evlis
 </div>
 </div>
 
-<div id="outline-container-org3bfa6de" class="outline-4">
-<h4 id="g.-functions-with-functions-as-arguments"><a id="org3bfa6de"></a>g. <i>Functions with Functions as Arguments</i></h4>
+<div id="outline-container-orgb061366" class="outline-4">
+<h4 id="g.-functions-with-functions-as-arguments">g. <i>Functions with Functions as Arguments</i></h4>
 <div class="outline-text-4" id="text-g.-functions-with-functions-as-arguments">
 <p>
 \[
@@ -332,13 +332,13 @@ search[x; p; f; u] = [null[x] \rightarrow u; p[x] \rightarrow f[x];T \rightarrow
 </div>
 </div>
 
-<div id="outline-container-orgdaa6e61" class="outline-2">
-<h2 id="the-lisp-programming-system"><a id="orgdaa6e61"></a>§ 4 The LISP Programming System</h2>
+<div id="outline-container-org3466409" class="outline-2">
+<h2 id="the-lisp-programming-system">§ 4 The LISP Programming System</h2>
 <div class="outline-text-2" id="text-the-lisp-programming-system">
 </div>
 
-<div id="outline-container-org347a7af" class="outline-4">
-<h4 id="a.-representation-of-s-functions-by-list-structure"><a id="org347a7af"></a>a. <i>Representation of S-Functions by List Structure</i></h4>
+<div id="outline-container-org27ff762" class="outline-4">
+<h4 id="a.-representation-of-s-functions-by-list-structure">a. <i>Representation of S-Functions by List Structure</i></h4>
 <div class="outline-text-4" id="text-a.-representation-of-s-functions-by-list-structure">
 <p>
 Introduces the boxes &amp; arrows notation for cons cells. Substructure can
@@ -349,8 +349,8 @@ magic constant indicating the cons is a symbol.
 </div>
 </div>
 
-<div id="outline-container-orgb1fd8b4" class="outline-4">
-<h4 id="b.-association-lists-p-lists"><a id="orgb1fd8b4"></a>b. Association Lists (P-lists)</h4>
+<div id="outline-container-org7a52502" class="outline-4">
+<h4 id="b.-association-lists-p-lists">b. Association Lists (P-lists)</h4>
 <div class="outline-text-4" id="text-b.-association-lists-p-lists">
 <p>
 P-list may contain:
@@ -374,8 +374,8 @@ represented as follows:
 </div>
 </div>
 
-<div id="outline-container-orgfc27bae" class="outline-4">
-<h4 id="c.-free-storage-list"><a id="orgfc27bae"></a>c. <i>Free-Storage List</i></h4>
+<div id="outline-container-orgc5e5721" class="outline-4">
+<h4 id="c.-free-storage-list">c. <i>Free-Storage List</i></h4>
 <div class="outline-text-4" id="text-c.-free-storage-list">
 <ul class="org-ul">
 <li>The system starts with ~15k words on the free list.</li>
@@ -404,8 +404,8 @@ McCarthy notes that a gc cycle took several <b>seconds</b> to run!
 </div>
 </div>
 
-<div id="outline-container-org89db13f" class="outline-4">
-<h4 id="d.-elementary-s-functions-in-the-computer"><a id="org89db13f"></a>d. <i>Elementary S-Functions in the Computer</i></h4>
+<div id="outline-container-orge392449" class="outline-4">
+<h4 id="d.-elementary-s-functions-in-the-computer">d. <i>Elementary S-Functions in the Computer</i></h4>
 <div class="outline-text-4" id="text-d.-elementary-s-functions-in-the-computer">
 <p>
 S-expressions are passed to / returned from functions as pointers to
@@ -428,8 +428,8 @@ cycle when out of memory.</dd>
 </div>
 </div>
 
-<div id="outline-container-org3bb4a2e" class="outline-4">
-<h4 id="e.-representation-of-s-functions-by-programs"><a id="org3bb4a2e"></a>e. <i>Representation of S-Functions by Programs</i></h4>
+<div id="outline-container-org97a34dc" class="outline-4">
+<h4 id="e.-representation-of-s-functions-by-programs">e. <i>Representation of S-Functions by Programs</i></h4>
 <div class="outline-text-4" id="text-e.-representation-of-s-functions-by-programs">
 <dl class="org-dl">
 <dt>SAVE/UNSAVE</dt><dd>push/pop registers from/onto the "public pushdown list"
@@ -438,8 +438,8 @@ cycle when out of memory.</dd>
 </div>
 </div>
 
-<div id="outline-container-orgbecfa0a" class="outline-4">
-<h4 id="f.-status-of-the-lisp-programming-system-feb.-1960"><a id="orgbecfa0a"></a>f. <i>Status of the LISP Programming System (Feb. 1960)</i></h4>
+<div id="outline-container-orgafe77f7" class="outline-4">
+<h4 id="f.-status-of-the-lisp-programming-system-feb.-1960">f. <i>Status of the LISP Programming System (Feb. 1960)</i></h4>
 <div class="outline-text-4" id="text-f.-status-of-the-lisp-programming-system-feb.-1960">
 <ol class="org-ol">
 <li>Can define S-Functions via S-expressions. Can call user-defined and
@@ -456,8 +456,8 @@ builtin functions.</li>
 </div>
 </div>
 
-<div id="outline-container-orgf6bd763" class="outline-2">
-<h2 id="another-formalism-for-functions-of-s-expressions"><a id="orgf6bd763"></a>§ 5 Another Formalism for Functions of S-expressions</h2>
+<div id="outline-container-orgc4753ad" class="outline-2">
+<h2 id="another-formalism-for-functions-of-s-expressions">§ 5 Another Formalism for Functions of S-expressions</h2>
 <div class="outline-text-2" id="text-another-formalism-for-functions-of-s-expressions">
 <p>
 So-called, L-expressions (Linear LISP).
@@ -492,8 +492,8 @@ There are also three predicates:
 </div>
 </div>
 
-<div id="outline-container-org173cce3" class="outline-2">
-<h2 id="flowcharts-and-recursion"><a id="org173cce3"></a>§ 6 Flowcharts and Recursion</h2>
+<div id="outline-container-orgd07bbbe" class="outline-2">
+<h2 id="flowcharts-and-recursion">§ 6 Flowcharts and Recursion</h2>
 <div class="outline-text-2" id="text-flowcharts-and-recursion">
 <p>
 Presents an interesting scheme for converting program blocks + branches
@@ -544,7 +544,7 @@ procedure bound to a variable.
 <div id="postamble" class="status">
 <hr>
 <p class="date">Created: 2014-05-14</p>
-<p class="date">Last modified: 2020-05-26</p>
+<p class="date">Last modified: 2021-02-20</p>
 <p class="validation"></p>
 </div>
 </body>

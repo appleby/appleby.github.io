@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-05-26 -->
+<!-- 2021-02-20 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fun with Parenscript</title>
@@ -62,8 +62,8 @@
 </div>
 </nav>
 
-<div id="outline-container-orgae57826" class="outline-2">
-<h2 id="about-this-post"><a id="orgae57826"></a>About this post</h2>
+<div id="outline-container-org0848c2b" class="outline-2">
+<h2 id="about-this-post">About this post</h2>
 <div class="outline-text-2" id="text-about-this-post">
 <p>
 This post is a stream-of-consciousness rambling as I kick the tires of
@@ -75,8 +75,8 @@ any lisp implementation that Parenscript supports.
 </div>
 </div>
 
-<div id="outline-container-org3f7af17" class="outline-2">
-<h2 id="about-parenscript"><a id="org3f7af17"></a>About Parenscript</h2>
+<div id="outline-container-org4572fd8" class="outline-2">
+<h2 id="about-parenscript">About Parenscript</h2>
 <div class="outline-text-2" id="text-about-parenscript">
 <p>
 <a href="https://common-lisp.net/project/parenscript/">Parenscript</a> is a Common Lisp library that compiles a subset of Common
@@ -108,8 +108,8 @@ but, honestly, #1 was enough to make me want to try it out.
 </div>
 </div>
 
-<div id="outline-container-org83c83ea" class="outline-2">
-<h2 id="a-parenscript-crash-course"><a id="org83c83ea"></a>A Parenscript crash course</h2>
+<div id="outline-container-org9096689" class="outline-2">
+<h2 id="a-parenscript-crash-course">A Parenscript crash course</h2>
 <div class="outline-text-2" id="text-a-parenscript-crash-course">
 <p>
 This section will present a bare-minimum introduction to the parts of
@@ -129,29 +129,29 @@ compiled JavaScript.
 </p>
 
 <pre class="example">
-;; Parenscript                        /* JavaScript */
-(defvar *my-global* 1234)             var MYGLOBAL = 1234;
-
-(defun say-hello (name)               function sayHello(name) {
-  (alert (concatenate                    return alert('Hello ' + name);
-           'string "Hello " name)))   };
-
-(defun foo (x)                        /** Add 42 to x. */
-  "Add 42 to x."                      function foo(x) {
-  (let ((y 42))                          var y = 42;
-    (+ x y)))                            return x + y;
-                                      };
-
-(length '(1 2 3 4))                   [1, 2, 3, 4].length;
-
-some-symbol                           someSymbol;
--some-symbol                          SomeSymbol;
-
-(some-function x y z)                 someFunction(x, y, z);
-
-"hi"                                  'hi';
-'hi                                   'hi';
-:hi                                   'hi';
+<code>;; Parenscript                        /* JavaScript */</code>
+<code>(defvar *my-global* 1234)             var MYGLOBAL = 1234;</code>
+<code></code>
+<code>(defun say-hello (name)               function sayHello(name) {</code>
+<code>  (alert (concatenate                    return alert('Hello ' + name);</code>
+<code>           'string "Hello " name)))   };</code>
+<code></code>
+<code>(defun foo (x)                        /** Add 42 to x. */</code>
+<code>  "Add 42 to x."                      function foo(x) {</code>
+<code>  (let ((y 42))                          var y = 42;</code>
+<code>    (+ x y)))                            return x + y;</code>
+<code>                                      };</code>
+<code></code>
+<code>(length '(1 2 3 4))                   [1, 2, 3, 4].length;</code>
+<code></code>
+<code>some-symbol                           someSymbol;</code>
+<code>-some-symbol                          SomeSymbol;</code>
+<code></code>
+<code>(some-function x y z)                 someFunction(x, y, z);</code>
+<code></code>
+<code>"hi"                                  'hi';</code>
+<code>'hi                                   'hi';</code>
+<code>:hi                                   'hi';</code>
 </pre>
 
 <p>
@@ -162,43 +162,43 @@ from the examples below. See the <a href="https://common-lisp.net/project/parens
 </p>
 
 <pre class="example">
-;; Parenscript                        /* JavaScript */
-(defvar *my-array* [])                var MYARRAY = [];
-
-'(1 2 foo)                            [1, 2, 'foo'];
-'(1 (2 foo) 3)                        [1, [2, 'foo'], 3];
-(list 1 2 foo)                        [1, 2, foo];
-(array 1 2 foo)                       [1, 2, foo];
-(make-array 1 2 foo)                  new Array(1, 2, foo);
-(new (-array 1 2 foo))                new Array(1, 2, foo);
-
-([] 1 2 foo)                          [1, 2, foo];
-([] 1 (2 foo) 3)                      [1, [2, foo], 3];
-([] 1 (2 foo) (3 (bar bop)))          [1, [2, foo], [3, [bar, bop]]];
-
-(defvar *my-object* {})               var MYOBJECT = {  };
-
-(create)                              ({  });
-(create a 1 b "hi")                   ({ a : 1, b : 'hi' });
-(create :a 1 :b "hi")                 ({ 'a' : 1, 'b' : 'hi' });
-(create 'a 1 'b 'hi)                  ({ 'a' : 1, 'b' : 'hi' });
-
-(getprop obj 'foo)                    obj.foo;
-(getprop obj foo)                     obj[foo];
-(getprop obj "foo")                   obj['foo'];
-(getprop obj :foo)                    obj['foo'];
-
-(@ foo bar baz 3 quux)                foo.bar.baz[3].quux;
-(@ foo bar (bop 7))                   foo.bar[bop(7)];
-
-(chain foo bar baz 3 quux)            foo.bar.baz[3].quux;
-(chain foo bar (bop 7))               foo.bar.bop(7);
+<code>;; Parenscript                        /* JavaScript */</code>
+<code>(defvar *my-array* [])                var MYARRAY = [];</code>
+<code></code>
+<code>'(1 2 foo)                            [1, 2, 'foo'];</code>
+<code>'(1 (2 foo) 3)                        [1, [2, 'foo'], 3];</code>
+<code>(list 1 2 foo)                        [1, 2, foo];</code>
+<code>(array 1 2 foo)                       [1, 2, foo];</code>
+<code>(make-array 1 2 foo)                  new Array(1, 2, foo);</code>
+<code>(new (-array 1 2 foo))                new Array(1, 2, foo);</code>
+<code></code>
+<code>([] 1 2 foo)                          [1, 2, foo];</code>
+<code>([] 1 (2 foo) 3)                      [1, [2, foo], 3];</code>
+<code>([] 1 (2 foo) (3 (bar bop)))          [1, [2, foo], [3, [bar, bop]]];</code>
+<code></code>
+<code>(defvar *my-object* {})               var MYOBJECT = {  };</code>
+<code></code>
+<code>(create)                              ({  });</code>
+<code>(create a 1 b "hi")                   ({ a : 1, b : 'hi' });</code>
+<code>(create :a 1 :b "hi")                 ({ 'a' : 1, 'b' : 'hi' });</code>
+<code>(create 'a 1 'b 'hi)                  ({ 'a' : 1, 'b' : 'hi' });</code>
+<code></code>
+<code>(getprop obj 'foo)                    obj.foo;</code>
+<code>(getprop obj foo)                     obj[foo];</code>
+<code>(getprop obj "foo")                   obj['foo'];</code>
+<code>(getprop obj :foo)                    obj['foo'];</code>
+<code></code>
+<code>(@ foo bar baz 3 quux)                foo.bar.baz[3].quux;</code>
+<code>(@ foo bar (bop 7))                   foo.bar[bop(7)];</code>
+<code></code>
+<code>(chain foo bar baz 3 quux)            foo.bar.baz[3].quux;</code>
+<code>(chain foo bar (bop 7))               foo.bar.bop(7);</code>
 </pre>
 </div>
 </div>
 
-<div id="outline-container-orgd390db3" class="outline-2">
-<h2 id="pre-compiling-parenscript-for-static-sites"><a id="orgd390db3"></a>Pre-compiling Parenscript for static sites</h2>
+<div id="outline-container-org56dfaa3" class="outline-2">
+<h2 id="pre-compiling-parenscript-for-static-sites">Pre-compiling Parenscript for static sites</h2>
 <div class="outline-text-2" id="text-pre-compiling-parenscript-for-static-sites">
 <p>
 Parenscript, being a lisp library, is geared towards a workflow where
@@ -208,11 +208,11 @@ webserver. Here's an example from the <a href="https://common-lisp.net/project/p
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(define-easy-handler (example3 :uri "/example3.js") ()
-  (setf (content-type*) "text/javascript")
-  (ps
-    (defun greeting-callback ()
-      (alert "Hello World"))))
+<pre class="src src-lisp"><code>(define-easy-handler (example3 :uri "/example3.js") ()</code>
+<code>  (setf (content-type*) "text/javascript")</code>
+<code>  (ps</code>
+<code>    (defun greeting-callback ()</code>
+<code>      (alert "Hello World"))))</code>
 </pre>
 </div>
 
@@ -244,11 +244,11 @@ build-time. Thankfully, Parenscript includes the function
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun ps-compile-file-to-file (&amp;key (input #P"parenscript.lisp") output)
-  (let ((outpath (or output (uiop:make-pathname* :defaults input :type "js"))))
-    (uiop:with-enough-pathname (enough-outpath :pathname outpath)
-      (with-open-file (*parenscript-stream* enough-outpath :direction :output :if-exists :supersede)
-	(ps-compile-file input)))))
+<pre class="src src-lisp"><code>(defun ps-compile-file-to-file (&amp;key (input #P"parenscript.lisp") output)</code>
+<code>  (let ((outpath (or output (uiop:make-pathname* :defaults input :type "js"))))</code>
+<code>    (uiop:with-enough-pathname (enough-outpath :pathname outpath)</code>
+<code>      (with-open-file (*parenscript-stream* enough-outpath :direction :output :if-exists :supersede)</code>
+<code>	(ps-compile-file input)))))</code>
 </pre>
 </div>
 
@@ -289,13 +289,13 @@ code, I can start hacking.
 </div>
 </div>
 
-<div id="outline-container-org6aa7e8d" class="outline-2">
-<h2 id="three-easy-pieces"><a id="org6aa7e8d"></a>Three easy pieces</h2>
+<div id="outline-container-org9117592" class="outline-2">
+<h2 id="three-easy-pieces">Three easy pieces</h2>
 <div class="outline-text-2" id="text-three-easy-pieces">
 </div>
 
-<div id="outline-container-org04b0bfb" class="outline-3">
-<h3 id="example-1-toggling-dom-content"><a id="org04b0bfb"></a>Example 1: Toggling DOM content</h3>
+<div id="outline-container-org0757346" class="outline-3">
+<h3 id="example-1-toggling-dom-content">Example 1: Toggling DOM content</h3>
 <div class="outline-text-3" id="text-example-1-toggling-dom-content">
 <p>
 I'll start with a small program that does something useless. Something
@@ -310,44 +310,44 @@ toggling some DOM content with a link.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun normalize-display (display)
-  "Convert the empty string to the string 'block', otherwise return
-`display' unmodified."
-  (if (string= display "") "block" display))
-
-(defmacro swap (a b)
-  "Swap the values of variables `a' and `b'.
-
-Note that `a' and `b' are both evaluated twice, and must be valid
-JavaScript l-values."
-  (with-ps-gensyms (tmp)
-    `(let ((,tmp ,a))
-       (setf ,a ,b)
-       (setf ,b ,tmp))))
-
-(defun toggle-content (id-a id-b id-link)
-  "Toggle the display of the elements given by `id-a' and `id-b'."
-  (let* ((link (chain document (get-element-by-id id-link)))
-	 (element-a (chain document (get-element-by-id id-a)))
-	 (element-b (chain document (get-element-by-id id-b)))
-	 (a-display (normalize-display (@ element-a style display)))
-	 (b-display (normalize-display (@ element-b style display)))
-	 (link-text (concatenate 'string "Show "
-				 (if (equal a-display "block") id-a id-b)))
-	 (state (concatenate 'string a-display "," b-display)))
-    (when (not (or (equal state "block,none")
-		   (equal state "none,block")))
-      (throw (concatenate 'string "Invalid state: " state)))
-    (swap (@ element-a style display) (@ element-b style display))
-    (setf (@ link inner-h-t-m-l) link-text)))
-
-(chain document
-       (get-element-by-id "toggle-link")
-       (add-event-listener
-	"click"
-	(lambda (event)
-	  (chain event (prevent-default))
-	  (toggle-content "toggle-jelly" "toggle-cat" "toggle-link"))))
+<pre class="src src-lisp"><code>(defun normalize-display (display)</code>
+<code>  "Convert the empty string to the string 'block', otherwise return</code>
+<code>`display' unmodified."</code>
+<code>  (if (string= display "") "block" display))</code>
+<code></code>
+<code>(defmacro swap (a b)</code>
+<code>  "Swap the values of variables `a' and `b'.</code>
+<code></code>
+<code>Note that `a' and `b' are both evaluated twice, and must be valid</code>
+<code>JavaScript l-values."</code>
+<code>  (with-ps-gensyms (tmp)</code>
+<code>    `(let ((,tmp ,a))</code>
+<code>       (setf ,a ,b)</code>
+<code>       (setf ,b ,tmp))))</code>
+<code></code>
+<code>(defun toggle-content (id-a id-b id-link)</code>
+<code>  "Toggle the display of the elements given by `id-a' and `id-b'."</code>
+<code>  (let* ((link (chain document (get-element-by-id id-link)))</code>
+<code>	 (element-a (chain document (get-element-by-id id-a)))</code>
+<code>	 (element-b (chain document (get-element-by-id id-b)))</code>
+<code>	 (a-display (normalize-display (@ element-a style display)))</code>
+<code>	 (b-display (normalize-display (@ element-b style display)))</code>
+<code>	 (link-text (concatenate 'string "Show "</code>
+<code>				 (if (equal a-display "block") id-a id-b)))</code>
+<code>	 (state (concatenate 'string a-display "," b-display)))</code>
+<code>    (when (not (or (equal state "block,none")</code>
+<code>		   (equal state "none,block")))</code>
+<code>      (throw (concatenate 'string "Invalid state: " state)))</code>
+<code>    (swap (@ element-a style display) (@ element-b style display))</code>
+<code>    (setf (@ link inner-h-t-m-l) link-text)))</code>
+<code></code>
+<code>(chain document</code>
+<code>       (get-element-by-id "toggle-link")</code>
+<code>       (add-event-listener</code>
+<code>	"click"</code>
+<code>	(lambda (event)</code>
+<code>	  (chain event (prevent-default))</code>
+<code>	  (toggle-content "toggle-jelly" "toggle-cat" "toggle-link"))))</code>
 </pre>
 </div>
 
@@ -467,8 +467,8 @@ Parenscript. Isn't she glorious?
 </div>
 </div>
 
-<div id="outline-container-orge246540" class="outline-3">
-<h3 id="example-2-fun-with-svg"><a id="orge246540"></a>Example 2: Fun with SVG</h3>
+<div id="outline-container-org7832532" class="outline-3">
+<h3 id="example-2-fun-with-svg">Example 2: Fun with SVG</h3>
 <div class="outline-text-3" id="text-example-2-fun-with-svg">
 <p>
 For this example, I'll try drawing a simple SVG bar chart. The point
@@ -517,7 +517,7 @@ kind of like a comma inside a back-quoted expression.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(lisp *ps-lisp-library*)
+<pre class="src src-lisp"><code>(lisp *ps-lisp-library*)</code>
 </pre>
 </div>
 
@@ -536,48 +536,48 @@ create a JS object from a sequence of key-value pairs
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">;;; You can't actually call this function from Parenscript directly,
-;;; since if "array" appears in the car of a sexp, Parenscript
-;;; compiles it down to an array literal, like so: (array 1 2 3) --&gt;
-;;; [1,2,3]. This function is useful, however, to pass as an argument
-;;; to higher-order functions, since #'make-array, #'array, and #'list
-;;; won't work.
-(defun array (&amp;rest args)
-  "Return the unmodified arguments array."
-  args)
-
-(defun curry (fn &amp;rest curried-args)
-  "Bind the first N `args' of `fn'."
-  ;; We could just delegate to JavaScript's Function.prototype.bind().
-  (lambda (&amp;rest rest-args)
-    (apply fn (append curried-args rest-args))))
-
-(defun flip (fn)
-  "Reverse the order of arguments for 2-ary function `fn'."
-  (lambda (a b) (fn b a)))
-
-(defun numeric-sort-by! (key table)
-  "Numerically sort `table' on `key' in descending order."
-  (chain table (sort (lambda (a b)
-		       (- (+ (getprop b key)) (+ (getprop a key)))))))
-
-(defun take (n array)
-  "Take the first `n' items from `array'."
-  (chain array (slice 0 n)))
-
-(defun zip (&amp;rest args)
-  (apply #'mapcar #'array args))
-
-(defun make-object-from (key-value-pairs)
-  "Construct an Object from `key-value-pairs'.
-
-Example:
-
-(make-object-from ([] (a 1) (b 2) (c 3)))
--&gt; {a: 1, b: 2, c: 3}"
-  (let ((o (create)))
-    (dolist (kv key-value-pairs o)
-      (setf (getprop o (@ kv 0)) (@ kv 1)))))
+<pre class="src src-lisp"><code>;;; You can't actually call this function from Parenscript directly,</code>
+<code>;;; since if "array" appears in the car of a sexp, Parenscript</code>
+<code>;;; compiles it down to an array literal, like so: (array 1 2 3) --&gt;</code>
+<code>;;; [1,2,3]. This function is useful, however, to pass as an argument</code>
+<code>;;; to higher-order functions, since #'make-array, #'array, and #'list</code>
+<code>;;; won't work.</code>
+<code>(defun array (&amp;rest args)</code>
+<code>  "Return the unmodified arguments array."</code>
+<code>  args)</code>
+<code></code>
+<code>(defun curry (fn &amp;rest curried-args)</code>
+<code>  "Bind the first N `args' of `fn'."</code>
+<code>  ;; We could just delegate to JavaScript's Function.prototype.bind().</code>
+<code>  (lambda (&amp;rest rest-args)</code>
+<code>    (apply fn (append curried-args rest-args))))</code>
+<code></code>
+<code>(defun flip (fn)</code>
+<code>  "Reverse the order of arguments for 2-ary function `fn'."</code>
+<code>  (lambda (a b) (fn b a)))</code>
+<code></code>
+<code>(defun numeric-sort-by! (key table)</code>
+<code>  "Numerically sort `table' on `key' in descending order."</code>
+<code>  (chain table (sort (lambda (a b)</code>
+<code>		       (- (+ (getprop b key)) (+ (getprop a key)))))))</code>
+<code></code>
+<code>(defun take (n array)</code>
+<code>  "Take the first `n' items from `array'."</code>
+<code>  (chain array (slice 0 n)))</code>
+<code></code>
+<code>(defun zip (&amp;rest args)</code>
+<code>  (apply #'mapcar #'array args))</code>
+<code></code>
+<code>(defun make-object-from (key-value-pairs)</code>
+<code>  "Construct an Object from `key-value-pairs'.</code>
+<code></code>
+<code>Example:</code>
+<code></code>
+<code>(make-object-from ([] (a 1) (b 2) (c 3)))</code>
+<code>-&gt; {a: 1, b: 2, c: 3}"</code>
+<code>  (let ((o (create)))</code>
+<code>    (dolist (kv key-value-pairs o)</code>
+<code>      (setf (getprop o (@ kv 0)) (@ kv 1)))))</code>
 </pre>
 </div>
 
@@ -589,39 +589,39 @@ API, since they are just regular objects and/or function calls.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun fetch-text (url)
-  "Fetch `url' and return the response body as text."
-  (chain (fetch url)
-	 (then (lambda (response) (chain response (text))))
-	 (catch (lambda (error) (throw error)))))
-
-(defun parse-csv (csv-string &amp;optional (numeric-columns (array)))
-  "Parse `csv-string' into an array of objects.
-
-The first line of the `csv-string' is expected to contain the
-header. Each line of the csv file is then parsed into an object with
-properties taken from the header line.
-
-Values for columns in `numeric-colums' are stored as numbers, rather
-than strings.
-
-Example:
-(parse-csv \"a,b,c\n1,2,3\n4,5,6\" '(\"a\" \"b\"))
--&gt; [{a: 1, b: 2, c: \"3\"}, {a: 4, b: 5, c: \"6\"}]"
-  (flet ((convert (alist)
-	   ;; Note that alist is not a true a-list, since JavaScript
-	   ;; doesn't have conses. It's just a two-element array.
-	   (map (lambda (kv)
-		  (destructuring-bind (key value) kv
-		    (if (member key numeric-columns)
-			(list key (+ value))
-			kv)))
-		alist)))
-    (let* ((lines (chain csv-string (split #\newline)))
-	   (columns (chain lines (shift) (split #\,))))
-      (map (lambda (line)
-	     (make-object-from (convert (zip columns (chain line (split #\,))))))
-	   lines))))
+<pre class="src src-lisp"><code>(defun fetch-text (url)</code>
+<code>  "Fetch `url' and return the response body as text."</code>
+<code>  (chain (fetch url)</code>
+<code>	 (then (lambda (response) (chain response (text))))</code>
+<code>	 (catch (lambda (error) (throw error)))))</code>
+<code></code>
+<code>(defun parse-csv (csv-string &amp;optional (numeric-columns (array)))</code>
+<code>  "Parse `csv-string' into an array of objects.</code>
+<code></code>
+<code>The first line of the `csv-string' is expected to contain the</code>
+<code>header. Each line of the csv file is then parsed into an object with</code>
+<code>properties taken from the header line.</code>
+<code></code>
+<code>Values for columns in `numeric-colums' are stored as numbers, rather</code>
+<code>than strings.</code>
+<code></code>
+<code>Example:</code>
+<code>(parse-csv \"a,b,c\n1,2,3\n4,5,6\" '(\"a\" \"b\"))</code>
+<code>-&gt; [{a: 1, b: 2, c: \"3\"}, {a: 4, b: 5, c: \"6\"}]"</code>
+<code>  (flet ((convert (alist)</code>
+<code>	   ;; Note that alist is not a true a-list, since JavaScript</code>
+<code>	   ;; doesn't have conses. It's just a two-element array.</code>
+<code>	   (map (lambda (kv)</code>
+<code>		  (destructuring-bind (key value) kv</code>
+<code>		    (if (member key numeric-columns)</code>
+<code>			(list key (+ value))</code>
+<code>			kv)))</code>
+<code>		alist)))</code>
+<code>    (let* ((lines (chain csv-string (split #\newline)))</code>
+<code>	   (columns (chain lines (shift) (split #\,))))</code>
+<code>      (map (lambda (line)</code>
+<code>	     (make-object-from (convert (zip columns (chain line (split #\,))))))</code>
+<code>	   lines))))</code>
 </pre>
 </div>
 
@@ -669,16 +669,16 @@ indulge in few gratuitous, zero-cost abstractions?
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defvar +svg-ns+ "http://www.w3.org/2000/svg")
-
-(defmacro create-svg-element (tag-name)
-  `(chain document (create-element-n-s +svg-ns+ ,tag-name)))
-
-(defmacro set-attr (element attr value)
-  `(chain ,element (set-attribute ,attr ,value)))
-
-(defmacro append-child. (element child)
-  `(chain ,element (append-child ,child)))
+<pre class="src src-lisp"><code>(defvar +svg-ns+ "http://www.w3.org/2000/svg")</code>
+<code></code>
+<code>(defmacro create-svg-element (tag-name)</code>
+<code>  `(chain document (create-element-n-s +svg-ns+ ,tag-name)))</code>
+<code></code>
+<code>(defmacro set-attr (element attr value)</code>
+<code>  `(chain ,element (set-attribute ,attr ,value)))</code>
+<code></code>
+<code>(defmacro append-child. (element child)</code>
+<code>  `(chain ,element (append-child ,child)))</code>
 </pre>
 </div>
 
@@ -692,7 +692,7 @@ layout and will preserve the aspect ratio defined by the <code>viewBox</code>.
 </p>
 
 <p>
-<a id="org6e0834d"></a>
+<a id="orgb3638bf"></a>
 </p>
 
 <p>
@@ -707,51 +707,51 @@ info on the <code>reduce</code> bug.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun draw-svg-bar-chart (svg-id table)
-  "Draw a bar chart from the data in `table' on the svg element given
-by `svg-id'."
-  (let* ((svg-element (chain document (get-element-by-id svg-id)))
-	 (svg-height 100)
-	 (svg-width 500)
-	 (view-box (chain (list 0 0 svg-width svg-height) (join " ")))
-	 ;; Reserve h-offset pixels at the top for a title and
-	 ;; w-offset pixels on the left for the y-axis and label.
-	 (h-offset 20)
-	 (w-offset 50)
-	 (max-height (- svg-height h-offset))
-	 ;; Cannot use 0 as the init value since 0 is falsey in
-	 ;; JavaScript! See the implementation of reduce for why. Note
-	 ;; that reduce is defined in *ps-lisp-library*.
-	 (max-value (reduce (lambda (acc row)
-			      (max acc (getprop row "total exports")))
-			    table -1)))
-    (set-attr svg-element "viewBox" view-box)
-    (flet ((svg-append-all (&amp;rest elements)
-	     (dolist (element elements)
-	       (append-child. svg-element element))))
-      (svg-append-all
-       ;; Y-axis goes first so grid lines are layered at the bottom.
-       (make-y-axis
-	:w-offset w-offset
-	:width svg-width
-	:height svg-height
-	:tick-scale (/ max-value max-height))
-       (make-plot-title
-	"Top 25 US States by Agriculture Exports (2011)"
-	;; Title is centered on the x position.
-	:x (+ w-offset (/ (- svg-width w-offset) 2))
-	:y h-offset)
-       (make-y-label
-	"Millions USD"
-	;; Label is rotated 90 deg, so x and y are "swapped"
-	:x (- (/ svg-height 2))
-	:y h-offset)
-       (make-bars
-	"code" "state" "total exports" table
-	:width (- svg-width w-offset)
-	:height svg-height
-	:value-scale (/ max-height max-value)
-	:x w-offset)))))
+<pre class="src src-lisp"><code>(defun draw-svg-bar-chart (svg-id table)</code>
+<code>  "Draw a bar chart from the data in `table' on the svg element given</code>
+<code>by `svg-id'."</code>
+<code>  (let* ((svg-element (chain document (get-element-by-id svg-id)))</code>
+<code>	 (svg-height 100)</code>
+<code>	 (svg-width 500)</code>
+<code>	 (view-box (chain (list 0 0 svg-width svg-height) (join " ")))</code>
+<code>	 ;; Reserve h-offset pixels at the top for a title and</code>
+<code>	 ;; w-offset pixels on the left for the y-axis and label.</code>
+<code>	 (h-offset 20)</code>
+<code>	 (w-offset 50)</code>
+<code>	 (max-height (- svg-height h-offset))</code>
+<code>	 ;; Cannot use 0 as the init value since 0 is falsey in</code>
+<code>	 ;; JavaScript! See the implementation of reduce for why. Note</code>
+<code>	 ;; that reduce is defined in *ps-lisp-library*.</code>
+<code>	 (max-value (reduce (lambda (acc row)</code>
+<code>			      (max acc (getprop row "total exports")))</code>
+<code>			    table -1)))</code>
+<code>    (set-attr svg-element "viewBox" view-box)</code>
+<code>    (flet ((svg-append-all (&amp;rest elements)</code>
+<code>	     (dolist (element elements)</code>
+<code>	       (append-child. svg-element element))))</code>
+<code>      (svg-append-all</code>
+<code>       ;; Y-axis goes first so grid lines are layered at the bottom.</code>
+<code>       (make-y-axis</code>
+<code>	:w-offset w-offset</code>
+<code>	:width svg-width</code>
+<code>	:height svg-height</code>
+<code>	:tick-scale (/ max-value max-height))</code>
+<code>       (make-plot-title</code>
+<code>	"Top 25 US States by Agriculture Exports (2011)"</code>
+<code>	;; Title is centered on the x position.</code>
+<code>	:x (+ w-offset (/ (- svg-width w-offset) 2))</code>
+<code>	:y h-offset)</code>
+<code>       (make-y-label</code>
+<code>	"Millions USD"</code>
+<code>	;; Label is rotated 90 deg, so x and y are "swapped"</code>
+<code>	:x (- (/ svg-height 2))</code>
+<code>	:y h-offset)</code>
+<code>       (make-bars</code>
+<code>	"code" "state" "total exports" table</code>
+<code>	:width (- svg-width w-offset)</code>
+<code>	:height svg-height</code>
+<code>	:value-scale (/ max-height max-value)</code>
+<code>	:x w-offset)))))</code>
 </pre>
 </div>
 
@@ -764,17 +764,17 @@ twiddle their attributes. You can find them all in the file
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun make-plot-title
-    (title &amp;key (fill "grey") (font-size "10pt") (text-anchor "middle") (x 0) (y 0))
-  (let ((plot-title (create-svg-element "text")))
-    (setf (@ plot-title id) "plot-title")
-    (setf (@ plot-title text-content) title)
-    (setf (@ plot-title style font-size) font-size)
-    (set-attr plot-title "x" x)
-    (set-attr plot-title "y" y)
-    (set-attr plot-title "fill" fill)
-    (set-attr plot-title "text-anchor" text-anchor)
-    plot-title))
+<pre class="src src-lisp"><code>(defun make-plot-title</code>
+<code>    (title &amp;key (fill "grey") (font-size "10pt") (text-anchor "middle") (x 0) (y 0))</code>
+<code>  (let ((plot-title (create-svg-element "text")))</code>
+<code>    (setf (@ plot-title id) "plot-title")</code>
+<code>    (setf (@ plot-title text-content) title)</code>
+<code>    (setf (@ plot-title style font-size) font-size)</code>
+<code>    (set-attr plot-title "x" x)</code>
+<code>    (set-attr plot-title "y" y)</code>
+<code>    (set-attr plot-title "fill" fill)</code>
+<code>    (set-attr plot-title "text-anchor" text-anchor)</code>
+<code>    plot-title))</code>
 </pre>
 </div>
 
@@ -783,18 +783,18 @@ Finally, here is the Promise chain to string it all together.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(chain (fetch-text "2011_us_ag_exports.csv")
-       (then (curry (flip parse-csv) '("total exports")))
-       (then (curry numeric-sort-by! "total exports"))
-       (then (curry take 25))
-       (then (curry draw-svg-bar-chart "svg-chart")))
+<pre class="src src-lisp"><code>(chain (fetch-text "2011_us_ag_exports.csv")</code>
+<code>       (then (curry (flip parse-csv) '("total exports")))</code>
+<code>       (then (curry numeric-sort-by! "total exports"))</code>
+<code>       (then (curry take 25))</code>
+<code>       (then (curry draw-svg-bar-chart "svg-chart")))</code>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1c7bb85" class="outline-3">
-<h3 id="example-3-fun-with-plotly.js"><a id="org1c7bb85"></a>Example 3: Fun with Plotly.js</h3>
+<div id="outline-container-org3e89979" class="outline-3">
+<h3 id="example-3-fun-with-plotly.js">Example 3: Fun with Plotly.js</h3>
 <div class="outline-text-3" id="text-example-3-fun-with-plotly.js">
 <p>
 In this last example, I'll plot the same data from <a href="#example-2-fun-with-svg">example 2</a>, this
@@ -806,13 +806,13 @@ Plotly.js, like so:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html">&lt;script src="https://cdn.plot.ly/plotly-1.36.1.min.js"&gt;&lt;/script&gt;
+<pre class="src src-html"><code>&lt;script src="https://cdn.plot.ly/plotly-1.36.1.min.js"&gt;&lt;/script&gt;</code>
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org47a92e2" class="outline-4">
-<h4 id="example-3.1-plotly-bar-chart"><a id="org47a92e2"></a>Example 3.1: Plotly bar chart</h4>
+<div id="outline-container-org6c2f6cc" class="outline-4">
+<h4 id="example-3.1-plotly-bar-chart">Example 3.1: Plotly bar chart</h4>
 <div class="outline-text-4" id="text-example-3.1-plotly-bar-chart">
 <script src="https://cdn.plot.ly/plotly-1.36.1.min.js"></script>
 <div class="fetch-warning"></div>
@@ -825,47 +825,47 @@ it.
 </p>
 
 <p>
-<a id="orgdf49286"></a>
+<a id="org5b904e3"></a>
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp">;;; This macro is analogous to Parenscript's `[]' macro. That is,
-;;; `{}.' is to `create' as `[]' is to `array'. Note that Parenscript
-;;; already defines `{}' as a symbol-macro that expands to (create);
-;;; hence, this macro has a trailing period to avoid the Parenscript
-;;; compiler warning about redefining `{}'.
-;;;
-;;; Actually, because Parenscript's `{}' is a symbol-macro, we *could*
-;;; name this macro `{}', and SBCL at least allows both to co-exist
-;;; peacefully. If the `{}' appears in the function position, this
-;;; macro expansion is used; if it appears anywhere else, the
-;;; symbol-macro expansion is used. But the Parenscript compiler
-;;; warnings are annoying, so better to just use a unique name here.
-(defmacro {}. (&amp;rest args)
-  "Create nested object literals."
-  `(create ,@(mapcar (lambda (arg)
-		       (if (and (consp arg) (not (equal '{}. (car arg))))
-			   (cons '{}. arg)
-			   arg))
-		     args)))
-
-(defun extract-column (column table)
-  "Return an array of the values for `column' in `table'."
-  (map (lambda (row) (getprop row column)) table))
-
-(defun draw-plotly-bar-chart (chart-id table)
-  (let ((layout ({}. :title "Top 25 US States by Agriculture Exports (2011)"
-		     :yaxis (:title "Millions USD")))
-	(data (list (create :x (extract-column "code" table)
-			    :y (extract-column "total exports" table)
-			    :text (extract-column "state" table)
-			    :type "bar"))))
-    (chain -plotly (plot chart-id data layout))))
-
-(chain (fetch-text "2011_us_ag_exports.csv")
-       (then (curry (flip parse-csv) '("total exports")))
-       (then (curry numeric-sort-by! "total exports"))
-       (then (curry take 25))
-       (then (curry draw-plotly-bar-chart "plotly-bar")))
+<pre class="src src-lisp"><code>;;; This macro is analogous to Parenscript's `[]' macro. That is,</code>
+<code>;;; `{}.' is to `create' as `[]' is to `array'. Note that Parenscript</code>
+<code>;;; already defines `{}' as a symbol-macro that expands to (create);</code>
+<code>;;; hence, this macro has a trailing period to avoid the Parenscript</code>
+<code>;;; compiler warning about redefining `{}'.</code>
+<code>;;;</code>
+<code>;;; Actually, because Parenscript's `{}' is a symbol-macro, we *could*</code>
+<code>;;; name this macro `{}', and SBCL at least allows both to co-exist</code>
+<code>;;; peacefully. If the `{}' appears in the function position, this</code>
+<code>;;; macro expansion is used; if it appears anywhere else, the</code>
+<code>;;; symbol-macro expansion is used. But the Parenscript compiler</code>
+<code>;;; warnings are annoying, so better to just use a unique name here.</code>
+<code>(defmacro {}. (&amp;rest args)</code>
+<code>  "Create nested object literals."</code>
+<code>  `(create ,@(mapcar (lambda (arg)</code>
+<code>		       (if (and (consp arg) (not (equal '{}. (car arg))))</code>
+<code>			   (cons '{}. arg)</code>
+<code>			   arg))</code>
+<code>		     args)))</code>
+<code></code>
+<code>(defun extract-column (column table)</code>
+<code>  "Return an array of the values for `column' in `table'."</code>
+<code>  (map (lambda (row) (getprop row column)) table))</code>
+<code></code>
+<code>(defun draw-plotly-bar-chart (chart-id table)</code>
+<code>  (let ((layout ({}. :title "Top 25 US States by Agriculture Exports (2011)"</code>
+<code>		     :yaxis (:title "Millions USD")))</code>
+<code>	(data (list (create :x (extract-column "code" table)</code>
+<code>			    :y (extract-column "total exports" table)</code>
+<code>			    :text (extract-column "state" table)</code>
+<code>			    :type "bar"))))</code>
+<code>    (chain -plotly (plot chart-id data layout))))</code>
+<code></code>
+<code>(chain (fetch-text "2011_us_ag_exports.csv")</code>
+<code>       (then (curry (flip parse-csv) '("total exports")))</code>
+<code>       (then (curry numeric-sort-by! "total exports"))</code>
+<code>       (then (curry take 25))</code>
+<code>       (then (curry draw-plotly-bar-chart "plotly-bar")))</code>
 </pre>
 </div>
 
@@ -886,8 +886,8 @@ macro.
 </div>
 </div>
 
-<div id="outline-container-org6c96c27" class="outline-4">
-<h4 id="example-3.2-plotly-choropleth"><a id="org6c96c27"></a>Example 3.2: Plotly choropleth</h4>
+<div id="outline-container-org6738a24" class="outline-4">
+<h4 id="example-3.2-plotly-choropleth">Example 3.2: Plotly choropleth</h4>
 <div class="outline-text-4" id="text-example-3.2-plotly-choropleth">
 <p>
 Finally, here is a choropleth of the same data from the bar charts
@@ -900,33 +900,33 @@ of the plotly.js docs.
 <script defer src="parenscript.js"></script>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun draw-plotly-choropleth (chart-id table)
-  (let ((layout ({}. :title "US Agriculture Exports by State (2011)"
-		     :geo (:scope "usa"
-				  :showlakes t
-				  :lakecolor "rgb(255,255,255)")))
-	(data (list (create :type "choropleth"
-			    :locationmode "USA-states"
-			    :locations (extract-column "code" table)
-			    :z (extract-column "total exports" table)
-			    :text (extract-column "state" table)
-			    :zmin 0
-			    :zmax 17000
-			    :colorbar ({}. :title "Millions USD"
-					   :thickness 0.2)
-			    :colorscale ([] (0 "rgb(242,240,247)")
-					    (0.2 "rgb(218,218,235)")
-					    (0.4 "rgb(188,189,220)")
-					    (0.6 "rgb(158,154,200)")
-					    (0.8 "rgb(117,107,177)")
-					    (1 "rgb(84,39,143)"))
-			    :marker ({}. :line (:color "rgb(255,255,255)"
-						       :width 2))))))
-    (chain -plotly (plot chart-id data layout ({}. :show-link false)))))
-
-(chain (fetch-text "2011_us_ag_exports.csv")
-       (then (curry (flip parse-csv) '("total exports")))
-       (then (curry draw-plotly-choropleth "plotly-choropleth")))
+<pre class="src src-lisp"><code>(defun draw-plotly-choropleth (chart-id table)</code>
+<code>  (let ((layout ({}. :title "US Agriculture Exports by State (2011)"</code>
+<code>		     :geo (:scope "usa"</code>
+<code>				  :showlakes t</code>
+<code>				  :lakecolor "rgb(255,255,255)")))</code>
+<code>	(data (list (create :type "choropleth"</code>
+<code>			    :locationmode "USA-states"</code>
+<code>			    :locations (extract-column "code" table)</code>
+<code>			    :z (extract-column "total exports" table)</code>
+<code>			    :text (extract-column "state" table)</code>
+<code>			    :zmin 0</code>
+<code>			    :zmax 17000</code>
+<code>			    :colorbar ({}. :title "Millions USD"</code>
+<code>					   :thickness 0.2)</code>
+<code>			    :colorscale ([] (0 "rgb(242,240,247)")</code>
+<code>					    (0.2 "rgb(218,218,235)")</code>
+<code>					    (0.4 "rgb(188,189,220)")</code>
+<code>					    (0.6 "rgb(158,154,200)")</code>
+<code>					    (0.8 "rgb(117,107,177)")</code>
+<code>					    (1 "rgb(84,39,143)"))</code>
+<code>			    :marker ({}. :line (:color "rgb(255,255,255)"</code>
+<code>						       :width 2))))))</code>
+<code>    (chain -plotly (plot chart-id data layout ({}. :show-link false)))))</code>
+<code></code>
+<code>(chain (fetch-text "2011_us_ag_exports.csv")</code>
+<code>       (then (curry (flip parse-csv) '("total exports")))</code>
+<code>       (then (curry draw-plotly-choropleth "plotly-choropleth")))</code>
 </pre>
 </div>
 
@@ -939,8 +939,8 @@ Parenscript is frictionless and requires zero boilerplate.
 </div>
 </div>
 
-<div id="outline-container-org3ec5b9a" class="outline-2">
-<h2 id="bugs-oddities"><a id="org3ec5b9a"></a>Bugs &amp; Oddities</h2>
+<div id="outline-container-org74cacc4" class="outline-2">
+<h2 id="bugs-oddities">Bugs &amp; Oddities</h2>
 <div class="outline-text-2" id="text-bugs-oddities">
 <p>
 In this section, I note small bugs, rough edges, and implementation
@@ -950,15 +950,15 @@ github. Others aren't really bugs, just things I found interesting.
 </p>
 </div>
 
-<div id="outline-container-org9e016cc" class="outline-3">
-<h3 id="reduce-sometimes-ignores-its-init-argument"><a id="org9e016cc"></a><code>reduce</code> sometimes ignores it's <code>init</code> argument</h3>
+<div id="outline-container-orgc5aa078" class="outline-3">
+<h3 id="reduce-sometimes-ignores-its-init-argument"><code>reduce</code> sometimes ignores it's <code>init</code> argument</h3>
 <div class="outline-text-3" id="text-reduce-sometimes-ignores-its-init-argument">
 <p>
 Update(May 2019): this now <a href="https://github.com/vsedach/Parenscript/issues/40">fixed</a>.
 </p>
 
 <p>
-As I <a href="#org6e0834d">noted above</a>, there appears to be a bug in the implementation of
+As I <a href="#orgb3638bf">noted above</a>, there appears to be a bug in the implementation of
 <code>reduce</code> in <code>*ps-lisp-library*</code> which ignores its <code>init</code> argument
 whenever the caller passes something that evaluates as false in
 JavaScript. The <code>init</code> argument is sometimes ignored because <code>reduce</code>
@@ -967,7 +967,7 @@ down to the following JavaScript:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-javascript">acc = init ? init : list[0]
+<pre class="src src-javascript"><code>acc = init ? init : list[0]</code>
 </pre>
 </div>
 
@@ -985,19 +985,19 @@ bug:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-javascript">reduce((acc, e) =&gt; acc * e, [1,2,3,4,5], 0)           /* expect 0 */
---&gt; 120
-reduce((acc, e) =&gt; acc &amp;&amp; e, [true,true,true], false) /* expect false */
---&gt; true
-reduce((acc,e) =&gt; acc, ["foo", "bar"], "")            /* expect "" */
---&gt; "foo"
+<pre class="src src-javascript"><code>reduce((acc, e) =&gt; acc * e, [1,2,3,4,5], 0)           /* expect 0 */</code>
+<code>--&gt; 120</code>
+<code>reduce((acc, e) =&gt; acc &amp;&amp; e, [true,true,true], false) /* expect false */</code>
+<code>--&gt; true</code>
+<code>reduce((acc,e) =&gt; acc, ["foo", "bar"], "")            /* expect "" */</code>
+<code>--&gt; "foo"</code>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org0d416b3" class="outline-3">
-<h3 id="let-ignores-garbage-in-binding-forms"><a id="org0d416b3"></a><code>let</code> ignores garbage in binding forms</h3>
+<div id="outline-container-org6e558e6" class="outline-3">
+<h3 id="let-ignores-garbage-in-binding-forms"><code>let</code> ignores garbage in binding forms</h3>
 <div class="outline-text-3" id="text-let-ignores-garbage-in-binding-forms">
 <p>
 Parenscript's implementation of <code>let</code> ignores extra garbage at the end
@@ -1005,11 +1005,11 @@ of each binding form. For example:
 </p>
 
 <pre class="example">
-;; Parenscript         /* JavaScript */
-(let ((x 4 (/ 0 0)))   (function () {
-  x)                      var x = 4;
-                          return x;
-                       })();
+<code>;; Parenscript         /* JavaScript */</code>
+<code>(let ((x 4 (/ 0 0)))   (function () {</code>
+<code>  x)                      var x = 4;</code>
+<code>                          return x;</code>
+<code>                       })();</code>
 </pre>
 
 <p>
@@ -1022,8 +1022,8 @@ implementation. Besides, who's to say this is a bug and not a feature!
 </div>
 </div>
 
-<div id="outline-container-orgf286f3b" class="outline-3">
-<h3 id="psencode-js-identifier-deprecation-warnings"><a id="orgf286f3b"></a><code>ps::encode-js-identifier</code> deprecation warnings</h3>
+<div id="outline-container-org224e4e1" class="outline-3">
+<h3 id="psencode-js-identifier-deprecation-warnings"><code>ps::encode-js-identifier</code> deprecation warnings</h3>
 <div class="outline-text-3" id="text-psencode-js-identifier-deprecation-warnings">
 <p>
 Update(May 2019): this is now <a href="https://github.com/vsedach/Parenscript/issues/41">fixed</a>.
@@ -1051,18 +1051,18 @@ I'd expect <code>"foo.bar"</code> and <code>"foobar[3]"</code> to also generate 
 </p>
 
 <pre class="example">
-FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar")
-"FOO.BAR"
-FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar?")
-WARNING:
-   Symbol foo.bar? contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!
-"foo.barwhat"
-FUN-WITH-PS&gt; (ps::encode-js-identifier "foobar[3]")
-"FOOBAR[3]"
-FUN-WITH-PS&gt; (ps::encode-js-identifier "foo-bar[3]")
-WARNING:
-   Symbol foo-bar[3] contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!
-"fooBar[3]"
+<code>FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar")</code>
+<code>"FOO.BAR"</code>
+<code>FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar?")</code>
+<code>WARNING:</code>
+<code>   Symbol foo.bar? contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!</code>
+<code>"foo.barwhat"</code>
+<code>FUN-WITH-PS&gt; (ps::encode-js-identifier "foobar[3]")</code>
+<code>"FOOBAR[3]"</code>
+<code>FUN-WITH-PS&gt; (ps::encode-js-identifier "foo-bar[3]")</code>
+<code>WARNING:</code>
+<code>   Symbol foo-bar[3] contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!</code>
+<code>"fooBar[3]"</code>
 </pre>
 
 <p>
@@ -1070,21 +1070,21 @@ Here is the relevant portion of <code>ps::encode-js-identifier</code>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(let ((cache (make-hash-table :test 'equal)))
-  (defun encode-js-identifier (identifier)
-    "Given a string, produces to a valid JavaScript identifier by
-following transformation heuristics case conversion. For example,
-paren-script becomes parenScript, *some-global* becomes SOMEGLOBAL."
-    (or (gethash identifier cache)
-	(setf (gethash identifier cache)
-	      (cond ((some (lambda (c) (find c "-*+!?#@%/=:&lt;&gt;^")) identifier)
-		     (let ((lowercase t)
-			   (all-uppercase nil))
-		       (when (and (not (string= identifier "[]")) ;; HACK
-				  (find-if (lambda (x) (find x '(#\. #\[ #\]))) identifier))
-			 (warn "Symbol ~A contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!"
-			       identifier))
-			 ...
+<pre class="src src-lisp"><code>(let ((cache (make-hash-table :test 'equal)))</code>
+<code>  (defun encode-js-identifier (identifier)</code>
+<code>    "Given a string, produces to a valid JavaScript identifier by</code>
+<code>following transformation heuristics case conversion. For example,</code>
+<code>paren-script becomes parenScript, *some-global* becomes SOMEGLOBAL."</code>
+<code>    (or (gethash identifier cache)</code>
+<code>	(setf (gethash identifier cache)</code>
+<code>	      (cond ((some (lambda (c) (find c "-*+!?#@%/=:&lt;&gt;^")) identifier)</code>
+<code>		     (let ((lowercase t)</code>
+<code>			   (all-uppercase nil))</code>
+<code>		       (when (and (not (string= identifier "[]")) ;; HACK</code>
+<code>				  (find-if (lambda (x) (find x '(#\. #\[ #\]))) identifier))</code>
+<code>			 (warn "Symbol ~A contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!"</code>
+<code>			       identifier))</code>
+<code>			 ...</code>
 </pre>
 </div>
 
@@ -1105,8 +1105,8 @@ one of the characters <code>-*+!?#@%/=:&lt;&gt;^</code></li>
 </div>
 </div>
 
-<div id="outline-container-org013e2bf" class="outline-3">
-<h3 id="array-argument-punning"><a id="org013e2bf"></a>Array argument punning</h3>
+<div id="outline-container-org29b3cad" class="outline-3">
+<h3 id="array-argument-punning">Array argument punning</h3>
 <div class="outline-text-3" id="text-array-argument-punning">
 <p>
 This one is kind of fun. It turns out that if you want to pass an
@@ -1116,8 +1116,8 @@ example:
 </p>
 
 <pre class="example">
-;; Parenscript             /* JavaScript */
-(some-fn [a b 1 2])        someFn([a, b, 1, 2]);
+<code>;; Parenscript             /* JavaScript */</code>
+<code>(some-fn [a b 1 2])        someFn([a, b, 1, 2]);</code>
 </pre>
 
 <p>
@@ -1130,8 +1130,8 @@ we get:
 </p>
 
 <pre class="example">
-;; Parenscript             /* JavaScript */
-(some-fn [ a b 1 2 ])      someFn([, a, b, 1, 2, ]);
+<code>;; Parenscript             /* JavaScript */</code>
+<code>(some-fn [ a b 1 2 ])      someFn([, a, b, 1, 2, ]);</code>
 </pre>
 
 <p>
@@ -1144,9 +1144,9 @@ This hack works for nested arrays as well:
 </p>
 
 <pre class="example">
-;; Parenscript               /* JavaScript */
-(some-fn [[a b] 2 [c d] e])  someFn([[a, b], 2, [c, d], e]);
-(some-fn [[a [b [c]]]]))     someFn([[a, [b, [c]]]]);
+<code>;; Parenscript               /* JavaScript */</code>
+<code>(some-fn [[a b] 2 [c d] e])  someFn([[a, b], 2, [c, d], e]);</code>
+<code>(some-fn [[a [b [c]]]]))     someFn([[a, [b, [c]]]]);</code>
 </pre>
 
 <p>
@@ -1159,8 +1159,8 @@ section) for creating nested arrays.
 </div>
 </div>
 
-<div id="outline-container-org8f28508" class="outline-3">
-<h3 id="vs"><a id="org8f28508"></a><code>[]</code> vs <code>{}</code></h3>
+<div id="outline-container-org026ca16" class="outline-3">
+<h3 id="vs"><code>[]</code> vs <code>{}</code></h3>
 <div class="outline-text-3" id="text-vs">
 <p>
 There are a couple of little asymmetries with respect to <code>[]</code> and <code>{}</code>
@@ -1168,15 +1168,15 @@ that caught me off guard, summarized in the following examples:
 </p>
 
 <pre class="example">
-;; Parenscript               /* JavaScript */
-(defvar *my-array* [])       var MYARRAY = [];
-(defvar *also-array* '[])    var ALSOARRAY = [];
-
-(defvar *my-object* {})      var MYOBJECT = {  };
-(defvar *my-string* '{})     var MYSTRING = '{}';
-
-([] :make (nested []))       ['make', [nested, []]];
-({} :not (like []))          {}('not', like([]));
+<code>;; Parenscript               /* JavaScript */</code>
+<code>(defvar *my-array* [])       var MYARRAY = [];</code>
+<code>(defvar *also-array* '[])    var ALSOARRAY = [];</code>
+<code></code>
+<code>(defvar *my-object* {})      var MYOBJECT = {  };</code>
+<code>(defvar *my-string* '{})     var MYSTRING = '{}';</code>
+<code></code>
+<code>([] :make (nested []))       ['make', [nested, []]];</code>
+<code>({} :not (like []))          {}('not', like([]));</code>
 </pre>
 
 <p>
@@ -1191,15 +1191,15 @@ Parenscript's <code>quote</code> in <code>special-operators.lisp</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(define-expression-operator quote (x)
-  (flet ((quote% (expr) (when expr `',expr)))
-    (compile-expression
-     (typecase x
-       ...
-       ((or null (eql [])) '(array))
-       ...
-       (symbol (symbol-to-js-string x))
-       ... ))))
+<pre class="src src-lisp"><code>(define-expression-operator quote (x)</code>
+<code>  (flet ((quote% (expr) (when expr `',expr)))</code>
+<code>    (compile-expression</code>
+<code>     (typecase x</code>
+<code>       ...</code>
+<code>       ((or null (eql [])) '(array))</code>
+<code>       ...</code>
+<code>       (symbol (symbol-to-js-string x))</code>
+<code>       ... ))))</code>
 </pre>
 </div>
 
@@ -1214,13 +1214,13 @@ like:
 </p>
 
 <pre class="example">
-;; Parenscript          /* JavaScript */
-(let (([] 'huh))        (function () {
-   [])                     var [] = 'huh';
-                           return [];
-                        })();
-
-(defvar [] 'whoops)     var [] = 'whoops';
+<code>;; Parenscript          /* JavaScript */</code>
+<code>(let (([] 'huh))        (function () {</code>
+<code>   [])                     var [] = 'huh';</code>
+<code>                           return [];</code>
+<code>                        })();</code>
+<code></code>
+<code>(defvar [] 'whoops)     var [] = 'whoops';</code>
 </pre>
 
 <p>
@@ -1231,22 +1231,22 @@ two examples results in the following:
 </p>
 
 <pre class="example">
-;; Parenscript          /* JavaScript */
-(let (({} 'huh))        (function () {
-   {})                     var {}1 = 'huh';
-                           return {}1;
-                        })();
-                        /* JavaScript error:
-                             Uncaught SyntaxError: Missing initializer in destructuring declaration */
-
-;; Does not compile.
-;; Lisp error:
-;;   The value
-;;     (CREATE)
-;;   is not of type
-;;     SYMBOL
-;;   [Condition of type TYPE-ERROR]
-(defvar {} 'whoops)
+<code>;; Parenscript          /* JavaScript */</code>
+<code>(let (({} 'huh))        (function () {</code>
+<code>   {})                     var {}1 = 'huh';</code>
+<code>                           return {}1;</code>
+<code>                        })();</code>
+<code>                        /* JavaScript error:</code>
+<code>                             Uncaught SyntaxError: Missing initializer in destructuring declaration */</code>
+<code></code>
+<code>;; Does not compile.</code>
+<code>;; Lisp error:</code>
+<code>;;   The value</code>
+<code>;;     (CREATE)</code>
+<code>;;   is not of type</code>
+<code>;;     SYMBOL</code>
+<code>;;   [Condition of type TYPE-ERROR]</code>
+<code>(defvar {} 'whoops)</code>
 </pre>
 
 <p>
@@ -1256,14 +1256,14 @@ finds <code>{}</code> in <code>*symbol-macro-env*</code>, and replaces it with a
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun maybe-rename-lexical-var (x symbols-in-bindings)
-  (when (or (member x *enclosing-lexicals*)
-	    (member x *enclosing-function-arguments*)
-	    (when (boundp '*used-up-names*)
-	      (member x *used-up-names*))
-	    (lookup-macro-def x *symbol-macro-env*)
-	    (member x symbols-in-bindings))
-    (ps-gensym (symbol-name x))))
+<pre class="src src-lisp"><code>(defun maybe-rename-lexical-var (x symbols-in-bindings)</code>
+<code>  (when (or (member x *enclosing-lexicals*)</code>
+<code>	    (member x *enclosing-function-arguments*)</code>
+<code>	    (when (boundp '*used-up-names*)</code>
+<code>	      (member x *used-up-names*))</code>
+<code>	    (lookup-macro-def x *symbol-macro-env*)</code>
+<code>	    (member x symbols-in-bindings))</code>
+<code>    (ps-gensym (symbol-name x))))</code>
 </pre>
 </div>
 
@@ -1287,14 +1287,14 @@ literals. That is, while the form <code>([] 1 (2 foo) 3)</code> compiles to <cod
 [2, foo], 3]</code>, the form <code>({} :a (:b c))</code> compiles to <code>{}('a',
 'b'(c))</code>, not <code>{ 'a': { 'b': c } }</code>, as you might hope. Of course,
 it's possible to define your own <code>{}</code> macro for creating nested
-objects, and that's just what I did in <a href="#orgdf49286">Example 3.1</a>, above.
+objects, and that's just what I did in <a href="#org5b904e3">Example 3.1</a>, above.
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org9ae582e" class="outline-2">
-<h2 id="takeaways"><a id="org9ae582e"></a>Takeaways</h2>
+<div id="outline-container-org8c95530" class="outline-2">
+<h2 id="takeaways">Takeaways</h2>
 <div class="outline-text-2" id="text-takeaways">
 <p>
 Despite a few small bugs and rough edges, Parenscript delivers on it's
@@ -1317,8 +1317,8 @@ now ramble off a list of Parenscript pros and cons.
 </p>
 </div>
 
-<div id="outline-container-org3685600" class="outline-3">
-<h3 id="pros"><a id="org3685600"></a>Pros</h3>
+<div id="outline-container-org33178f6" class="outline-3">
+<h3 id="pros">Pros</h3>
 <div class="outline-text-3" id="text-pros">
 <ul class="org-ul">
 <li>Macros</li>
@@ -1341,8 +1341,8 @@ avoid JavaScript fatigue.</li>
 </div>
 </div>
 
-<div id="outline-container-orgc6da765" class="outline-3">
-<h3 id="cons"><a id="orgc6da765"></a>Cons</h3>
+<div id="outline-container-org6709aa9" class="outline-3">
+<h3 id="cons">Cons</h3>
 <div class="outline-text-3" id="text-cons">
 <ul class="org-ul">
 <li>Parenscript doesn't have <code>cons</code>! (that pun was too good to pass up).</li>
@@ -1361,7 +1361,7 @@ pitfalls that usually entails.</li>
 <div id="postamble" class="status">
 <hr>
 <p class="date">Created: 2018-05-04</p>
-<p class="date">Last modified: 2020-05-26</p>
+<p class="date">Last modified: 2021-02-20</p>
 <p class="validation"></p>
 </div>
 </body>

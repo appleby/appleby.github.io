@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-07-16 -->
+<!-- 2021-02-20 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lisp Tidbits: How the reader treats package-prefixed symbols</title>
@@ -37,15 +37,15 @@ the package.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defpackage #:my-package (:use #:cl) (:export #:*external*))
-(in-package #:my-package)
-(defvar *external* t)
-(defvar *internal* nil)
-(in-package #:cl-user)
-
-my-package:*external*  ; ok
-my-package:*internal*  ; error
-my-package::*internal* ; code smell, but not an error
+<pre class="src src-lisp"><code>(defpackage #:my-package (:use #:cl) (:export #:*external*))</code>
+<code>(in-package #:my-package)</code>
+<code>(defvar *external* t)</code>
+<code>(defvar *internal* nil)</code>
+<code>(in-package #:cl-user)</code>
+<code></code>
+<code>my-package:*external*  ; ok</code>
+<code>my-package:*internal*  ; error</code>
+<code>my-package::*internal* ; code smell, but not an error</code>
 </pre>
 </div>
 
@@ -58,9 +58,9 @@ the reader handles them, but that's what makes this (in my opinion) a
 Fun Lisp Tidbit&trade;.
 </p>
 
-<div id="outline-container-orge5a9381" class="outline-2">
-<h2 id="orge5a9381">The juicy part of the tidbit</h2>
-<div class="outline-text-2" id="text-orge5a9381">
+<div id="outline-container-orgb6980ca" class="outline-2">
+<h2 id="orgb6980ca">The juicy part of the tidbit</h2>
+<div class="outline-text-2" id="text-orgb6980ca">
 <p>
 The gist of it is this:
 </p>
@@ -83,12 +83,12 @@ following distinct errors out of SBCL.
 </p>
 
 <pre class="example">
-CL-USER&gt; my-package:foo
-; Evaluation aborted on #&lt;SB-INT:SIMPLE-READER-PACKAGE-ERROR "Symbol ~S not found in the ~A package." {1008E446B3}&gt;.
-CL-USER&gt; my-package::foo
-; Evaluation aborted on #&lt;UNBOUND-VARIABLE FOO {1008FE77E3}&gt;.
-CL-USER&gt; my-package:foo
-; Evaluation aborted on #&lt;SB-INT:SIMPLE-READER-PACKAGE-ERROR "The symbol ~S is not external in the ~A package." {100917AF93}&gt;.
+<code>CL-USER&gt; my-package:foo</code>
+<code>; Evaluation aborted on #&lt;SB-INT:SIMPLE-READER-PACKAGE-ERROR "Symbol ~S not found in the ~A package." {1008E446B3}&gt;.</code>
+<code>CL-USER&gt; my-package::foo</code>
+<code>; Evaluation aborted on #&lt;UNBOUND-VARIABLE FOO {1008FE77E3}&gt;.</code>
+<code>CL-USER&gt; my-package:foo</code>
+<code>; Evaluation aborted on #&lt;SB-INT:SIMPLE-READER-PACKAGE-ERROR "The symbol ~S is not external in the ~A package." {100917AF93}&gt;.</code>
 </pre>
 
 <p>
@@ -106,9 +106,9 @@ In other words, <code>MY-PACKAGE::FOO</code> interned <code>FOO</code> in <code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">CL-USER&gt; (find-symbol "FOO" "MY-PACKAGE")
-MY-PACKAGE::FOO
-:INTERNAL
+<pre class="src src-lisp"><code>CL-USER&gt; (find-symbol "FOO" "MY-PACKAGE")</code>
+<code>MY-PACKAGE::FOO</code>
+<code>:INTERNAL</code>
 </pre>
 </div>
 
@@ -117,8 +117,8 @@ You can think of <code>MY-PACKAGE::FOO</code> as being roughly equivalent to
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(let ((*package* (find-package "MY-PACKAGE")))
-  foo)
+<pre class="src src-lisp"><code>(let ((*package* (find-package "MY-PACKAGE")))</code>
+<code>  foo)</code>
 </pre>
 </div>
 
@@ -128,9 +128,9 @@ except that the rebinding of <code>*PACKAGE*</code> happens at read time.
 </div>
 </div>
 
-<div id="outline-container-org4723898" class="outline-2">
-<h2 id="org4723898">Pourquoi?</h2>
-<div class="outline-text-2" id="text-org4723898">
+<div id="outline-container-org824d888" class="outline-2">
+<h2 id="org824d888">Pourquoi?</h2>
+<div class="outline-text-2" id="text-org824d888">
 <p>
 Why does the reader treat single and double package markers
 differently? Why doesn't <code>MY-PACKAGE::FOO</code> cause the reader to signal
@@ -189,9 +189,9 @@ This concludes the pre-Common-Lisp history portion of today's tidbit.
 </div>
 </div>
 
-<div id="outline-container-orgdbe8c22" class="outline-2">
-<h2 id="orgdbe8c22">Common Lisp &ne; C++</h2>
-<div class="outline-text-2" id="text-orgdbe8c22">
+<div id="outline-container-org83958c5" class="outline-2">
+<h2 id="org83958c5">Common Lisp &ne; C++</h2>
+<div class="outline-text-2" id="text-org83958c5">
 <p>
 A final morsel. A tidbit of a tidbit. A tiny tid (just a bit). When
 reading a package-prefixed symbol, the reader does not special-case
@@ -206,9 +206,9 @@ public/private access modifiers. But you already knew that.
 </div>
 </div>
 
-<div id="outline-container-org7293473" class="outline-2">
-<h2 id="org7293473">References</h2>
-<div class="outline-text-2" id="text-org7293473">
+<div id="outline-container-org1c48345" class="outline-2">
+<h2 id="org1c48345">References</h2>
+<div class="outline-text-2" id="text-org1c48345">
 <p>
 This lisp tidbit was brought to you by <a href="https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node114.html#SECTION001530000000000000000">section 11.3 of CLTL2</a> and the
 corresponding <a href="http://www.lispworks.com/documentation/HyperSpec/Body/02_ce.htm">section 2.3.5 of the Common Lisp HyperSpec</a>.
@@ -230,7 +230,7 @@ package.
 <div id="postamble" class="status">
 <hr>
 <p class="date">Created: 2020-07-16</p>
-<p class="date">Last modified: 2020-07-16</p>
+<p class="date">Last modified: 2021-02-20</p>
 <p class="validation"></p>
 </div>
 </body>

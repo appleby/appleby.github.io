@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-05-26 -->
+<!-- 2021-02-20 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hints on Programming Language Design</title>
@@ -49,8 +49,8 @@
 </div>
 </nav>
 
-<div id="outline-container-org4604e39" class="outline-2">
-<h2 id="overview"><a id="org4604e39"></a>Overview</h2>
+<div id="outline-container-org36e83d7" class="outline-2">
+<h2 id="overview">Overview</h2>
 <div class="outline-text-2" id="text-overview">
 <p>
 This page contains notes on the paper "Hints on Programming Language
@@ -97,13 +97,13 @@ sections of the paper.
 </div>
 </div>
 
-<div id="outline-container-org7e4d81d" class="outline-2">
-<h2 id="principles"><a id="org7e4d81d"></a>§ 2 Principles</h2>
+<div id="outline-container-org7a2225d" class="outline-2">
+<h2 id="principles">§ 2 Principles</h2>
 <div class="outline-text-2" id="text-principles">
 </div>
 
-<div id="outline-container-org88cdf1a" class="outline-4">
-<h4 id="design-documentation-and-debugging"><a id="org88cdf1a"></a>Design, Documentation, and Debugging</h4>
+<div id="outline-container-orgc4135d8" class="outline-4">
+<h4 id="design-documentation-and-debugging">Design, Documentation, and Debugging</h4>
 <div class="outline-text-4" id="text-design-documentation-and-debugging">
 <blockquote>
 <p>
@@ -116,8 +116,8 @@ debugging.
 </div>
 </div>
 
-<div id="outline-container-org1dc5411" class="outline-4">
-<h4 id="program-debugging"><a id="org1dc5411"></a>Program Debugging</h4>
+<div id="outline-container-org9075cfe" class="outline-4">
+<h4 id="program-debugging">Program Debugging</h4>
 <div class="outline-text-4" id="text-program-debugging">
 <blockquote>
 <p>
@@ -131,8 +131,8 @@ is a criterion to which I give the name "security".
 </div>
 </div>
 
-<div id="outline-container-org09f4df9" class="outline-4">
-<h4 id="kiss"><a id="org09f4df9"></a>KISS</h4>
+<div id="outline-container-orgfb00062" class="outline-4">
+<h4 id="kiss">KISS</h4>
 <div class="outline-text-4" id="text-kiss">
 <blockquote>
 <p>
@@ -164,8 +164,8 @@ enough to be dangerous), I'm not sure which I'd choose.
 </div>
 </div>
 
-<div id="outline-container-orgd17b739" class="outline-2">
-<h2 id="discussion"><a id="orgd17b739"></a>§ 3 Discussion</h2>
+<div id="outline-container-orgca14fe0" class="outline-2">
+<h2 id="discussion">§ 3 Discussion</h2>
 <div class="outline-text-2" id="text-discussion">
 <p>
 Hoare's five "catch-phrases" that summarize good language design:
@@ -180,13 +180,13 @@ Hoare's five "catch-phrases" that summarize good language design:
 </ol>
 </div>
 
-<div id="outline-container-org1a81545" class="outline-3">
-<h3 id="simplicity"><a id="org1a81545"></a>§ 3.1 Simplicity</h3>
+<div id="outline-container-org767f533" class="outline-3">
+<h3 id="simplicity">§ 3.1 Simplicity</h3>
 <div class="outline-text-3" id="text-simplicity">
 </div>
 
-<div id="outline-container-orge1d0c23" class="outline-4">
-<h4 id="simplicity-modularity-orthogonality"><a id="orge1d0c23"></a>Simplicity != Modularity != Orthogonality</h4>
+<div id="outline-container-org6fa6f40" class="outline-4">
+<h4 id="simplicity-modularity-orthogonality">Simplicity != Modularity != Orthogonality</h4>
 <div class="outline-text-4" id="text-simplicity-modularity-orthogonality">
 <blockquote>
 <p>
@@ -211,8 +211,8 @@ clever programmers and have not.
 </div>
 </div>
 
-<div id="outline-container-orgb7a9924" class="outline-3">
-<h3 id="security"><a id="orgb7a9924"></a>§ 3.1 Security</h3>
+<div id="outline-container-orgddc45e6" class="outline-3">
+<h3 id="security">§ 3.1 Security</h3>
 <div class="outline-text-3" id="text-security">
 <p>
 Hoare argues in favor of static checks and of having no distinction
@@ -228,8 +228,8 @@ when training on dry land, but takes it off as soon as he goes to sea?
 </div>
 </div>
 
-<div id="outline-container-orgbe2726b" class="outline-3">
-<h3 id="fast-translation"><a id="orgbe2726b"></a>§ 3.3 Fast Translation</h3>
+<div id="outline-container-org03a9790" class="outline-3">
+<h3 id="fast-translation">§ 3.3 Fast Translation</h3>
 <div class="outline-text-3" id="text-fast-translation">
 <p>
 Argues in favor of fast compilers and against independent compilation.
@@ -250,8 +250,8 @@ Suggests the following strategies for fast compilers.
 </p>
 </div>
 
-<div id="outline-container-orgf96d72c" class="outline-4">
-<h4 id="prescan"><a id="orgf96d72c"></a>Prescan</h4>
+<div id="outline-container-orgc43474e" class="outline-4">
+<h4 id="prescan">Prescan</h4>
 <div class="outline-text-4" id="text-prescan">
 <p>
 Pre scan and lex the input and store it in a compact format.
@@ -259,8 +259,8 @@ Pre scan and lex the input and store it in a compact format.
 </div>
 </div>
 
-<div id="outline-container-org8640d67" class="outline-4">
-<h4 id="precompile"><a id="org8640d67"></a>Precompile</h4>
+<div id="outline-container-org91d45c7" class="outline-4">
+<h4 id="precompile">Precompile</h4>
 <div class="outline-text-4" id="text-precompile">
 <blockquote>
 <p>
@@ -278,8 +278,8 @@ independent compilation.
 </div>
 </div>
 
-<div id="outline-container-org4460e70" class="outline-4">
-<h4 id="dump"><a id="org4460e70"></a>Dump</h4>
+<div id="outline-container-org6dbe9df" class="outline-4">
+<h4 id="dump">Dump</h4>
 <div class="outline-text-4" id="text-dump">
 <blockquote>
 <p>
@@ -296,8 +296,8 @@ Similar to SBCL's <code>save-lisp-and-die</code> or to SmallTalk images.
 </div>
 </div>
 
-<div id="outline-container-org084627c" class="outline-3">
-<h3 id="efficient-object-code"><a id="org084627c"></a>§ 3.4 Efficient Object Code</h3>
+<div id="outline-container-org5afdde9" class="outline-3">
+<h3 id="efficient-object-code">§ 3.4 Efficient Object Code</h3>
 <div class="outline-text-3" id="text-efficient-object-code">
 <blockquote>
 <p>
@@ -340,8 +340,8 @@ optimization.
 </div>
 </div>
 
-<div id="outline-container-org0019823" class="outline-2">
-<h2 id="comment-conventions"><a id="org0019823"></a>§ 4 Comment Conventions</h2>
+<div id="outline-container-org9c320d2" class="outline-2">
+<h2 id="comment-conventions">§ 4 Comment Conventions</h2>
 <div class="outline-text-2" id="text-comment-conventions">
 <blockquote>
 <p>
@@ -359,8 +359,8 @@ C).
 </div>
 </div>
 
-<div id="outline-container-orga5a62c1" class="outline-2">
-<h2 id="arithmetic-expressions"><a id="orga5a62c1"></a>§ 6 Arithmetic Expressions</h2>
+<div id="outline-container-orgb979a77" class="outline-2">
+<h2 id="arithmetic-expressions">§ 6 Arithmetic Expressions</h2>
 <div class="outline-text-2" id="text-arithmetic-expressions">
 <p>
 What's so great about arithmetic notation like <code>E + F</code>? Well, a lot!
@@ -435,22 +435,22 @@ extension by the programmer himself.</li>
 </div>
 </div>
 
-<div id="outline-container-org756991e" class="outline-2">
-<h2 id="program-structure"><a id="org756991e"></a>§ 7 Program Structure</h2>
+<div id="outline-container-org5e6588b" class="outline-2">
+<h2 id="program-structure">§ 7 Program Structure</h2>
 <div class="outline-text-2" id="text-program-structure">
 <p>
 Hoare gives an example of ugly syntax, ALGOL 60's <code>switch</code> statement:
 </p>
 
 <pre class="example">
-switch SS = L1, L2, L3;
-...
-go to SS[i];
-
-L1: Q1; go to L;
-L2: Q2; go to L;
-L3: Q3;
- L:
+<code>switch SS = L1, L2, L3;</code>
+<code>...</code>
+<code>go to SS[i];</code>
+<code></code>
+<code>L1: Q1; go to L;</code>
+<code>L2: Q2; go to L;</code>
+<code>L3: Q3;</code>
+<code> L:</code>
 </pre>
 
 <p>
@@ -483,16 +483,16 @@ of the <code>case</code> statement, which he conceived as an improvement over AL
 </p>
 
 <pre class="example">
-case i of
-  {Q1,
-   Q2,
-   Q3};
+<code>case i of</code>
+<code>  {Q1,</code>
+<code>   Q2,</code>
+<code>   Q3};</code>
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org5dd54f5" class="outline-2">
-<h2 id="variables"><a id="org5dd54f5"></a>§ 8 Variables</h2>
+<div id="outline-container-org94821d6" class="outline-2">
+<h2 id="variables">§ 8 Variables</h2>
 <div class="outline-text-2" id="text-variables">
 <p>
 Hoare is not a fan of reference types or pointers:
@@ -508,8 +508,8 @@ been a step backward from which we may never recover.
 </div>
 </div>
 
-<div id="outline-container-org82f0ac2" class="outline-2">
-<h2 id="procedures-parameters"><a id="org82f0ac2"></a>§ 10 Procedures &amp; Parameters</h2>
+<div id="outline-container-org91af2bc" class="outline-2">
+<h2 id="procedures-parameters">§ 10 Procedures &amp; Parameters</h2>
 <div class="outline-text-2" id="text-procedures-parameters">
 <p>
 Procedure calls should:
@@ -522,8 +522,8 @@ Procedure calls should:
 </div>
 </div>
 
-<div id="outline-container-org1a16693" class="outline-2">
-<h2 id="types"><a id="org1a16693"></a>§ 11 Types</h2>
+<div id="outline-container-org0926755" class="outline-2">
+<h2 id="types">§ 11 Types</h2>
 <div class="outline-text-2" id="text-types">
 <p>
 Argues in favor of static typing and against implicit type coercion.
@@ -531,8 +531,8 @@ Argues in favor of static typing and against implicit type coercion.
 </div>
 </div>
 
-<div id="outline-container-org4287c7f" class="outline-2">
-<h2 id="language-feature-design"><a id="org4287c7f"></a>§ 12 Language Feature Design</h2>
+<div id="outline-container-orgf379f07" class="outline-2">
+<h2 id="language-feature-design">§ 12 Language Feature Design</h2>
 <div class="outline-text-2" id="text-language-feature-design">
 <p>
 Language design != feature design.
@@ -568,8 +568,8 @@ consolidation, not innovation."</li>
 </div>
 </div>
 
-<div id="outline-container-orge1b7514" class="outline-2">
-<h2 id="conclusion"><a id="orge1b7514"></a>§ 13 Conclusion</h2>
+<div id="outline-container-org07f5909" class="outline-2">
+<h2 id="conclusion">§ 13 Conclusion</h2>
 <div class="outline-text-2" id="text-conclusion">
 <blockquote>
 <p>
@@ -604,7 +604,7 @@ Emphasis mine.
 <div id="postamble" class="status">
 <hr>
 <p class="date">Created: 2014-06-25</p>
-<p class="date">Last modified: 2020-05-26</p>
+<p class="date">Last modified: 2021-02-20</p>
 <p class="validation"></p>
 </div>
 </body>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-05-26 -->
+<!-- 2021-02-20 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lisp in Small Pieces</title>
@@ -101,8 +101,8 @@
 </div>
 </nav>
 
-<div id="outline-container-org8aadaf8" class="outline-2">
-<h2 id="overview"><a id="org8aadaf8"></a>Overview</h2>
+<div id="outline-container-orgefce60e" class="outline-2">
+<h2 id="overview">Overview</h2>
 <div class="outline-text-2" id="text-overview">
 <p>
 This page contains notes on the book <i>Lisp in Small Pieces</i> by
@@ -111,23 +111,23 @@ Christian Quiennec.
 </div>
 </div>
 
-<div id="outline-container-org515891b" class="outline-2">
-<h2 id="ch.-1-the-basics-of-interpretation"><a id="org515891b"></a>Ch. 1 The Basics of Interpretation</h2>
+<div id="outline-container-org123c8e3" class="outline-2">
+<h2 id="ch.-1-the-basics-of-interpretation">Ch. 1 The Basics of Interpretation</h2>
 <div class="outline-text-2" id="text-ch.-1-the-basics-of-interpretation">
 </div>
 
-<div id="outline-container-org126cbc7" class="outline-3">
-<h3 id="evaluating-atoms"><a id="org126cbc7"></a>§ 1.3 Evaluating Atoms</h3>
+<div id="outline-container-org730a965" class="outline-3">
+<h3 id="evaluating-atoms">§ 1.3 Evaluating Atoms</h3>
 <div class="outline-text-3" id="text-evaluating-atoms">
 <p>
 <b>Syntactic vs. Semantic Elements</b>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(define (evaluate expr env)
-    (if (and (atom? expr) (symbol? expr))
-	(lookup expr env)
-	...
+<pre class="src src-scheme"><code>(define (evaluate expr env)</code>
+<code>    (if (and (atom? expr) (symbol? expr))</code>
+<code>	(lookup expr env)</code>
+<code>	...</code>
 </pre>
 </div>
 
@@ -136,7 +136,7 @@ To be more precise, we could instead write:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(lookup (symbol-&gt;variable expr) env)
+<pre class="src src-scheme"><code>(lookup (symbol-&gt;variable expr) env)</code>
 </pre>
 </div>
 
@@ -145,7 +145,7 @@ and likewise, taking the abstraction one step further:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(lookup (variable-&gt;key (symbol-&gt;variable expr)) env)
+<pre class="src src-scheme"><code>(lookup (variable-&gt;key (symbol-&gt;variable expr)) env)</code>
 </pre>
 </div>
 
@@ -172,13 +172,13 @@ and it is its own value.
 </div>
 </div>
 
-<div id="outline-container-orga4478ec" class="outline-3">
-<h3 id="evaluating-forms"><a id="orga4478ec"></a>§ 1.4 Evaluating Forms</h3>
+<div id="outline-container-org94c4942" class="outline-3">
+<h3 id="evaluating-forms">§ 1.4 Evaluating Forms</h3>
 <div class="outline-text-3" id="text-evaluating-forms">
 </div>
 
-<div id="outline-container-orgd784eb6" class="outline-4">
-<h4 id="alternatives"><a id="orgd784eb6"></a>§ 1.4.2 Alternatives</h4>
+<div id="outline-container-org9487884" class="outline-4">
+<h4 id="alternatives">§ 1.4.2 Alternatives</h4>
 <div class="outline-text-4" id="text-alternatives">
 <p>
 <b>More on Syntactic vs. Semantic Elements</b>
@@ -190,11 +190,11 @@ replacing:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">... (case (car e) ...
-	((if (if (evaluate (cadr e) env)
-		 (evaluate (caddr e) env)
-		 (evaluate (cadddr e) env))))
-	...
+<pre class="src src-scheme"><code>... (case (car e) ...</code>
+<code>	((if (if (evaluate (cadr e) env)</code>
+<code>		 (evaluate (caddr e) env)</code>
+<code>		 (evaluate (cadddr e) env))))</code>
+<code>	...</code>
 </pre>
 </div>
 
@@ -203,13 +203,13 @@ with
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(define the-false-value (cons "false" "boolean")
-
-... (case (car e) ...
-	((if (if (not (eq? (evaluate (cadr e) env) the-false-value))
-		 (evaluate (caddr e) env)
-		 (evaluate (cadddr e) env))))
-	...
+<pre class="src src-scheme"><code>(define the-false-value (cons "false" "boolean")</code>
+<code></code>
+<code>... (case (car e) ...</code>
+<code>	((if (if (not (eq? (evaluate (cadr e) env) the-false-value))</code>
+<code>		 (evaluate (caddr e) env)</code>
+<code>		 (evaluate (cadddr e) env))))</code>
+<code>	...</code>
 </pre>
 </div>
 
@@ -222,8 +222,8 @@ when you implement it as in the first snippet.
 </div>
 </div>
 
-<div id="outline-container-org0f7c940" class="outline-3">
-<h3 id="representing-the-environment"><a id="org0f7c940"></a>§ 1.5 Representing the Environment</h3>
+<div id="outline-container-orgf108c25" class="outline-3">
+<h3 id="representing-the-environment">§ 1.5 Representing the Environment</h3>
 <div class="outline-text-3" id="text-representing-the-environment">
 <p>
 <b>Fail Fast</b>
@@ -240,13 +240,13 @@ corrected as soon as possible.
 </div>
 </div>
 
-<div id="outline-container-org08a21e5" class="outline-3">
-<h3 id="representing-functions"><a id="org08a21e5"></a>§ 1.6 Representing Functions</h3>
+<div id="outline-container-org512b19c" class="outline-3">
+<h3 id="representing-functions">§ 1.6 Representing Functions</h3>
 <div class="outline-text-3" id="text-representing-functions">
 </div>
 
-<div id="outline-container-orga11d0b6" class="outline-4">
-<h4 id="dynamic-and-lexical-binding"><a id="orga11d0b6"></a>§ 1.6.1 Dynamic and Lexical Binding</h4>
+<div id="outline-container-org06ec526" class="outline-4">
+<h4 id="dynamic-and-lexical-binding">§ 1.6.1 Dynamic and Lexical Binding</h4>
 <div class="outline-text-4" id="text-dynamic-and-lexical-binding">
 <blockquote>
 <p>
@@ -273,9 +273,9 @@ McCarthy pondered the meaning of
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(let ((a 1))
-  ((let ((a 2))
-    (lambda (b) (list a b))) 3))
+<pre class="src src-scheme"><code>(let ((a 1))</code>
+<code>  ((let ((a 2))</code>
+<code>    (lambda (b) (list a b))) 3))</code>
 </pre>
 </div>
 
@@ -293,8 +293,8 @@ dynamically scoped.
 </div>
 </div>
 
-<div id="outline-container-orgd22134d" class="outline-4">
-<h4 id="deep-or-shallow-implementation"><a id="orgd22134d"></a>§ 1.6.2 Deep or Shallow Implementation</h4>
+<div id="outline-container-orgdec8e5d" class="outline-4">
+<h4 id="deep-or-shallow-implementation">§ 1.6.2 Deep or Shallow Implementation</h4>
 <div class="outline-text-4" id="text-deep-or-shallow-implementation">
 <dl class="org-dl">
 <dt>Deep Binding</dt><dd>doing a linear search through an alist (or similar) to
@@ -310,13 +310,13 @@ interferes with TCO.</dd>
 </div>
 </div>
 
-<div id="outline-container-org5e10220" class="outline-2">
-<h2 id="ch.-2-lisp-1-2-ω"><a id="org5e10220"></a>Ch. 2 Lisp, 1, 2, &#x2026; ω</h2>
+<div id="outline-container-org4da707e" class="outline-2">
+<h2 id="ch.-2-lisp-1-2-ω">Ch. 2 Lisp, 1, 2, &#x2026; ω</h2>
 <div class="outline-text-2" id="text-ch.-2-lisp-1-2-ω">
 </div>
 
-<div id="outline-container-org77f4aa1" class="outline-3">
-<h3 id="lisp2"><a id="org77f4aa1"></a>§ 2.2 Lisp2</h3>
+<div id="outline-container-org22a3f33" class="outline-3">
+<h3 id="lisp2">§ 2.2 Lisp2</h3>
 <div class="outline-text-3" id="text-lisp2">
 <p>
 Lisp2 allows the evaluator to take a shortcut. When evaluating the
@@ -325,12 +325,12 @@ do a simple lookup rather than a full eval. That is
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(define (evaluate e env)
-  (if (atom? e) ...
-    (case (car e) ...
-      ((lambda) (make-function (cadr e) (cddr e) env))
-      (else (invoke (evaluate (car e) env)
-		    (evlis (cdr e) env))))))
+<pre class="src src-scheme"><code>(define (evaluate e env)</code>
+<code>  (if (atom? e) ...</code>
+<code>    (case (car e) ...</code>
+<code>      ((lambda) (make-function (cadr e) (cddr e) env))</code>
+<code>      (else (invoke (evaluate (car e) env)</code>
+<code>		    (evlis (cdr e) env))))))</code>
 </pre>
 </div>
 
@@ -339,9 +339,9 @@ can be replaced with
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">...
-(else (invoke (lookup (car e) env)
-	      (evlis (cdr e) env)))...
+<pre class="src src-scheme"><code>...</code>
+<code>(else (invoke (lookup (car e) env)</code>
+<code>	      (evlis (cdr e) env)))...</code>
 </pre>
 </div>
 
@@ -353,11 +353,11 @@ symbol lookup.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(define (evaluate-application fn args env fenv)
-  (cond ((symbol? fn) ((lookup fn fenv) args))
-	((and (pair? fn) (eq? (car fn) 'lambda))
-	 (f.eprogn (cddr fn) (extend env (cadr fn) args) fenv))
-	(else (wrong "Incorrect functional term" fn))))
+<pre class="src src-scheme"><code>(define (evaluate-application fn args env fenv)</code>
+<code>  (cond ((symbol? fn) ((lookup fn fenv) args))</code>
+<code>	((and (pair? fn) (eq? (car fn) 'lambda))</code>
+<code>	 (f.eprogn (cddr fn) (extend env (cadr fn) args) fenv))</code>
+<code>	(else (wrong "Incorrect functional term" fn))))</code>
 </pre>
 </div>
 
@@ -370,8 +370,8 @@ function position are greatly simplified. Consider:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(let ((state-tax 1.186))
-  ((lambda (x) (* state-tax x)) (read)))
+<pre class="src src-scheme"><code>(let ((state-tax 1.186))</code>
+<code>  ((lambda (x) (* state-tax x)) (read)))</code>
 </pre>
 </div>
 
@@ -395,8 +395,8 @@ function to apply, as in <code>((if cond + -) 3 4)</code>.
 </p>
 </div>
 
-<div id="outline-container-orgb8e350b" class="outline-4">
-<h4 id="duality-of-the-two-worlds"><a id="orgb8e350b"></a>§ 2.2.2 Duality of the Two Worlds</h4>
+<div id="outline-container-orgf3d1bcb" class="outline-4">
+<h4 id="duality-of-the-two-worlds">§ 2.2.2 Duality of the Two Worlds</h4>
 <div class="outline-text-4" id="text-duality-of-the-two-worlds">
 <p>
 I.e., the two worlds of functions vs. evaluations.
@@ -425,13 +425,13 @@ get the value of a variable from the function world.
 </div>
 </div>
 
-<div id="outline-container-org902291f" class="outline-3">
-<h3 id="name-spaces"><a id="org902291f"></a>§ 2.5 Name Spaces</h3>
+<div id="outline-container-org718b748" class="outline-3">
+<h3 id="name-spaces">§ 2.5 Name Spaces</h3>
 <div class="outline-text-3" id="text-name-spaces">
 </div>
 
-<div id="outline-container-org3c072c4" class="outline-4">
-<h4 id="dynamic-variables-without-a-special-form"><a id="org3c072c4"></a>§ 2.5.3 Dynamic Variables without a Special Form</h4>
+<div id="outline-container-org64345e4" class="outline-4">
+<h4 id="dynamic-variables-without-a-special-form">§ 2.5.3 Dynamic Variables without a Special Form</h4>
 <div class="outline-text-4" id="text-dynamic-variables-without-a-special-form">
 <p>
 One can have dynamic binding without special forms, so long as the
@@ -441,11 +441,11 @@ and <code>assoc/de</code> to bind / reference dynamic vars.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(bind/de 'x 2
-  (lambda () (+ (assoc/de 'x error)
-		  (let ((x (+ (assoc/de 'x error) (assoc/de 'x error))))
-		    (+ x (assoc/de 'x error))))))
---&gt; 8
+<pre class="src src-scheme"><code>(bind/de 'x 2</code>
+<code>  (lambda () (+ (assoc/de 'x error)</code>
+<code>		  (let ((x (+ (assoc/de 'x error) (assoc/de 'x error))))</code>
+<code>		    (+ x (assoc/de 'x error))))))</code>
+<code>--&gt; 8</code>
 </pre>
 </div>
 
@@ -457,24 +457,24 @@ disadvantage of being hideous to read/type.
 </div>
 </div>
 
-<div id="outline-container-orge4cee26" class="outline-3">
-<h3 id="recursion"><a id="orge4cee26"></a>§ 2.6 Recursion</h3>
+<div id="outline-container-orgaa841ce" class="outline-3">
+<h3 id="recursion">§ 2.6 Recursion</h3>
 <div class="outline-text-3" id="text-recursion">
 </div>
 
-<div id="outline-container-orge34ba80" class="outline-4">
-<h4 id="simple-recursion"><a id="orge34ba80"></a>§ 2.6.1 Simple Recursion</h4>
+<div id="outline-container-org78a4465" class="outline-4">
+<h4 id="simple-recursion">§ 2.6.1 Simple Recursion</h4>
 <div class="outline-text-4" id="text-simple-recursion">
 <div class="org-src-container">
-<pre class="src src-scheme">(define (display-pi)
-  (display pi))
-
-(define pi 2.71828)
-
-(define (print-pi)
-  (display pi))
-
-(define pi 3.14159)
+<pre class="src src-scheme"><code>(define (display-pi)</code>
+<code>  (display pi))</code>
+<code></code>
+<code>(define pi 2.71828)</code>
+<code></code>
+<code>(define (print-pi)</code>
+<code>  (display pi))</code>
+<code></code>
+<code>(define pi 3.14159)</code>
 </pre>
 </div>
 
@@ -484,8 +484,8 @@ What is the value of <code>(display-pi)</code>? Of <code>(print-pi)</code>?
 </div>
 </div>
 
-<div id="outline-container-org826ae26" class="outline-4">
-<h4 id="recursion-without-assignment"><a id="org826ae26"></a>§ 2.6.6 Recursion without Assignment</h4>
+<div id="outline-container-orgfaed4f8" class="outline-4">
+<h4 id="recursion-without-assignment">§ 2.6.6 Recursion without Assignment</h4>
 <div class="outline-text-4" id="text-recursion-without-assignment">
 <p>
 <b>Paradoxical Combinator</b>
@@ -502,10 +502,10 @@ or, in a normal-order lisp:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(let ((W (lambda (w)
-	    (lambda (f)
-	       (f ((w w) f)) ) )))
-   (W W) )
+<pre class="src src-scheme"><code>(let ((W (lambda (w)</code>
+<code>	    (lambda (f)</code>
+<code>	       (f ((w w) f)) ) )))</code>
+<code>   (W W) )</code>
 </pre>
 </div>
 
@@ -515,11 +515,11 @@ evaluation of the <code>((w w) f)</code> term.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(define fix
-  (let ((d (lambda (w)
-	      (lambda (f)
-		 (f (lambda (x) (((w w) f) x))) ) )))
-     (d d) ) )
+<pre class="src src-scheme"><code>(define fix</code>
+<code>  (let ((d (lambda (w)</code>
+<code>	      (lambda (f)</code>
+<code>		 (f (lambda (x) (((w w) f) x))) ) )))</code>
+<code>     (d d) ) )</code>
 </pre>
 </div>
 
@@ -528,12 +528,12 @@ We can then define factorial as:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(define fact
-   (fix (lambda (fact)
-	   (lambda (n)
-	      (if (= n 0)
-		 1
-		 (* n (fact (- n 1))) ) ) )) )
+<pre class="src src-scheme"><code>(define fact</code>
+<code>   (fix (lambda (fact)</code>
+<code>	   (lambda (n)</code>
+<code>	      (if (= n 0)</code>
+<code>		 1</code>
+<code>		 (* n (fact (- n 1))) ) ) )) )</code>
 </pre>
 </div>
 </div>
@@ -541,8 +541,8 @@ We can then define factorial as:
 </div>
 </div>
 
-<div id="outline-container-org3dd204a" class="outline-2">
-<h2 id="ch.-3-escape-return-continuations"><a id="org3dd204a"></a>Ch. 3 Escape &amp; Return: Continuations</h2>
+<div id="outline-container-orgb47415f" class="outline-2">
+<h2 id="ch.-3-escape-return-continuations">Ch. 3 Escape &amp; Return: Continuations</h2>
 <div class="outline-text-2" id="text-ch.-3-escape-return-continuations">
 <p>
 The original escape form in Lisp 1.5 was <code>prog</code>. <code>prog</code> allows declaring
@@ -555,29 +555,29 @@ level.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun fact (n)
-  (prog (r)
-	 (setq r 1)
-    loop (cond ((= n 1) (return r)))
-	 (setq r (* n r))
-	 (setq n (- n 1))
-	 (go loop)))
+<pre class="src src-lisp"><code>(defun fact (n)</code>
+<code>  (prog (r)</code>
+<code>	 (setq r 1)</code>
+<code>    loop (cond ((= n 1) (return r)))</code>
+<code>	 (setq r (* n r))</code>
+<code>	 (setq n (- n 1))</code>
+<code>	 (go loop)))</code>
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org120e72b" class="outline-3">
-<h3 id="forms-for-handling-continuations"><a id="org120e72b"></a>§ 3.1 Forms for Handling Continuations</h3>
+<div id="outline-container-org0186f97" class="outline-3">
+<h3 id="forms-for-handling-continuations">§ 3.1 Forms for Handling Continuations</h3>
 <div class="outline-text-3" id="text-forms-for-handling-continuations">
 </div>
 
-<div id="outline-container-org7dc9388" class="outline-4">
-<h4 id="the-pair-catchthrow"><a id="org7dc9388"></a>§ 3.1.1 The Pair <code>catch</code> / <code>throw</code></h4>
+<div id="outline-container-orgc694687" class="outline-4">
+<h4 id="the-pair-catchthrow">§ 3.1.1 The Pair <code>catch</code> / <code>throw</code></h4>
 <div class="outline-text-4" id="text-the-pair-catchthrow">
 <div class="org-src-container">
-<pre class="src src-lisp">(catch label forms ...)
-
-(throw label form)
+<pre class="src src-lisp"><code>(catch label forms ...)</code>
+<code></code>
+<code>(throw label form)</code>
 </pre>
 </div>
 
@@ -589,13 +589,13 @@ level.
 </div>
 </div>
 
-<div id="outline-container-org3f26d50" class="outline-4">
-<h4 id="the-pair-blockreturn-from"><a id="org3f26d50"></a>§ 3.1.2 The Pair <code>block</code> / <code>return-from</code></h4>
+<div id="outline-container-org3fe6764" class="outline-4">
+<h4 id="the-pair-blockreturn-from">§ 3.1.2 The Pair <code>block</code> / <code>return-from</code></h4>
 <div class="outline-text-4" id="text-the-pair-blockreturn-from">
 <div class="org-src-container">
-<pre class="src src-lisp">(block label forms ...)
-
-(return-from label form)
+<pre class="src src-lisp"><code>(block label forms ...)</code>
+<code></code>
+<code>(return-from label form)</code>
 </pre>
 </div>
 
@@ -607,35 +607,35 @@ level.
 </div>
 </div>
 
-<div id="outline-container-org00d5931" class="outline-4">
-<h4 id="escapes-with-a-dynamic-extent"><a id="org00d5931"></a>§ 3.1.3 Escapes with a Dynamic Extent</h4>
+<div id="outline-container-org9ddb26f" class="outline-4">
+<h4 id="escapes-with-a-dynamic-extent">§ 3.1.3 Escapes with a Dynamic Extent</h4>
 <div class="outline-text-4" id="text-escapes-with-a-dynamic-extent">
 <div class="org-src-container">
-<pre class="src src-lisp">((block foo (lambda (x) (return-from foo x))) 33) --&gt; error
-
-(block foo
-  (let ((f1 (lambda (x) (return-from foo x))))
-    (* 2 (block foo (f1 1)))))
---&gt; 1
-
-(catch 'foo
-  (let ((f1 (lambda (x) (throw 'foo x))))
-    (* 2 (catch 'foo (f1 1)))))
---&gt; 2
+<pre class="src src-lisp"><code>((block foo (lambda (x) (return-from foo x))) 33) --&gt; error</code>
+<code></code>
+<code>(block foo</code>
+<code>  (let ((f1 (lambda (x) (return-from foo x))))</code>
+<code>    (* 2 (block foo (f1 1)))))</code>
+<code>--&gt; 1</code>
+<code></code>
+<code>(catch 'foo</code>
+<code>  (let ((f1 (lambda (x) (throw 'foo x))))</code>
+<code>    (* 2 (catch 'foo (f1 1)))))</code>
+<code>--&gt; 2</code>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgea73cdd" class="outline-4">
-<h4 id="escapes-with-indefinite-extent"><a id="orgea73cdd"></a>§ 3.1.5 Escapes with Indefinite Extent</h4>
+<div id="outline-container-orgc809ae3" class="outline-4">
+<h4 id="escapes-with-indefinite-extent">§ 3.1.5 Escapes with Indefinite Extent</h4>
 <div class="outline-text-4" id="text-escapes-with-indefinite-extent">
 <p>
 <i>A la</i> Scheme's <code>call/cc</code>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(call/cc (lambda (k) (+ 1 (k 2)))) --&gt; 2
+<pre class="src src-scheme"><code>(call/cc (lambda (k) (+ 1 (k 2)))) --&gt; 2</code>
 </pre>
 </div>
 
@@ -657,7 +657,7 @@ preceding example would then be rewritten like this:
 </blockquote>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(call/cc (lambda (k) (+ 1 (continue k 2)))) --&gt; 2
+<pre class="src src-scheme"><code>(call/cc (lambda (k) (+ 1 (continue k 2)))) --&gt; 2</code>
 </pre>
 </div>
 
@@ -678,25 +678,25 @@ Here is <code>fact</code>, implemented via <code>call/cc</code>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(define (fact n)
-  (let ((r 1))
-    (let ((k (call/cc (lambda (c) c))))
-      (set! r (* r n))
-      (set! n (- n 1))
-      (if (= n 1) r (k k)))))
+<pre class="src src-scheme"><code>(define (fact n)</code>
+<code>  (let ((r 1))</code>
+<code>    (let ((k (call/cc (lambda (c) c))))</code>
+<code>      (set! r (* r n))</code>
+<code>      (set! n (- n 1))</code>
+<code>      (if (= n 1) r (k k)))))</code>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org57cdd48" class="outline-3">
-<h3 id="actors-in-a-computation"><a id="org57cdd48"></a>§ 3.2 Actors in a Computation</h3>
+<div id="outline-container-org04f6d1b" class="outline-3">
+<h3 id="actors-in-a-computation">§ 3.2 Actors in a Computation</h3>
 <div class="outline-text-3" id="text-actors-in-a-computation">
 </div>
 
-<div id="outline-container-orgf342201" class="outline-4">
-<h4 id="sequence"><a id="orgf342201"></a>§ 3.2.5 Sequence</h4>
+<div id="outline-container-org31d03b9" class="outline-4">
+<h4 id="sequence">§ 3.2.5 Sequence</h4>
 <div class="outline-text-4" id="text-sequence">
 <p>
 A little implementation hack for <code>begin</code> forms in the continuation-based
@@ -704,11 +704,11 @@ interpreter.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(define (evaluate-begin e* r k)
-  ...(evaluate (car e*) r (make-begin-cont k e* r))...)
-
-(define-method (resume (k begin-cont) v)
-  (evaluate-begin (cdr (begin-cont-e* k)) ...))
+<pre class="src src-scheme"><code>(define (evaluate-begin e* r k)</code>
+<code>  ...(evaluate (car e*) r (make-begin-cont k e* r))...)</code>
+<code></code>
+<code>(define-method (resume (k begin-cont) v)</code>
+<code>  (evaluate-begin (cdr (begin-cont-e* k)) ...))</code>
 </pre>
 </div>
 
@@ -721,8 +721,8 @@ continuation.
 </div>
 </div>
 
-<div id="outline-container-org8f91da0" class="outline-3">
-<h3 id="initializing-the-interpreter"><a id="org8f91da0"></a>§ 3.3 Initializing the Interpreter</h3>
+<div id="outline-container-org820239e" class="outline-3">
+<h3 id="initializing-the-interpreter">§ 3.3 Initializing the Interpreter</h3>
 <div class="outline-text-3" id="text-initializing-the-interpreter">
 <p>
 Is this sarcasm? I doubt it, but it got a chuckle out of me nonetheless.
@@ -741,13 +741,13 @@ whatever is needed to open a lot of little windows everywhere.
 </div>
 </div>
 
-<div id="outline-container-org76c47f9" class="outline-3">
-<h3 id="implementing-control-forms"><a id="org76c47f9"></a>§ 3.4 Implementing Control Forms</h3>
+<div id="outline-container-orgbaaef7a" class="outline-3">
+<h3 id="implementing-control-forms">§ 3.4 Implementing Control Forms</h3>
 <div class="outline-text-3" id="text-implementing-control-forms">
 </div>
 
-<div id="outline-container-org2328e2d" class="outline-4">
-<h4 id="implementation-of-unwind-protect"><a id="org2328e2d"></a>§ 3.4.4 Implementation of <code>unwind-protect</code></h4>
+<div id="outline-container-org0f50b49" class="outline-4">
+<h4 id="implementation-of-unwind-protect">§ 3.4.4 Implementation of <code>unwind-protect</code></h4>
 <div class="outline-text-4" id="text-implementation-of-unwind-protect">
 <p>
 Curious bit of trivia, CLtL2 introduced the restriction that an escape
@@ -756,12 +756,12 @@ underway. In other words, the following was an error:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(catch 1
-  (catch 2
-    (unwind-protect (throw 1 'foo)
-      (throw 2 'bar))))
-
---&gt; error
+<pre class="src src-lisp"><code>(catch 1</code>
+<code>  (catch 2</code>
+<code>    (unwind-protect (throw 1 'foo)</code>
+<code>      (throw 2 'bar))))</code>
+<code></code>
+<code>--&gt; error</code>
 </pre>
 </div>
 
@@ -773,8 +773,8 @@ hyperspec doesn't mention it, and SBCL happily returns <code>BAR</code>).
 </div>
 </div>
 
-<div id="outline-container-org454444c" class="outline-3">
-<h3 id="comparing-callcc-to-catch"><a id="org454444c"></a>§ 3.5 Comparing <code>call/cc</code> to <code>catch</code></h3>
+<div id="outline-container-org5f903ca" class="outline-3">
+<h3 id="comparing-callcc-to-catch">§ 3.5 Comparing <code>call/cc</code> to <code>catch</code></h3>
 <div class="outline-text-3" id="text-comparing-callcc-to-catch">
 <blockquote>
 <p>
@@ -790,8 +790,8 @@ the continuation is thus this very copy of the stack.
 </div>
 </div>
 
-<div id="outline-container-org9ba62c5" class="outline-3">
-<h3 id="partial-continuations"><a id="org9ba62c5"></a>§ 3.7 Partial Continuations</h3>
+<div id="outline-container-org8fad15f" class="outline-3">
+<h3 id="partial-continuations">§ 3.7 Partial Continuations</h3>
 <div class="outline-text-3" id="text-partial-continuations">
 <p>
 This section describes a variant called partial continuations, which are
@@ -800,10 +800,10 @@ their value to the current continuation. With standard continuations:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(+ 1 (call/cc (lambda (k) (set! foo k) 2)))
---&gt; 3
-(foo (foo 4))
---&gt; 5
+<pre class="src src-scheme"><code>(+ 1 (call/cc (lambda (k) (set! foo k) 2)))</code>
+<code>--&gt; 3</code>
+<code>(foo (foo 4))</code>
+<code>--&gt; 5</code>
 </pre>
 </div>
 
@@ -814,40 +814,40 @@ be 6, not 5.
 </div>
 </div>
 
-<div id="outline-container-org86c524a" class="outline-3">
-<h3 id="exercises"><a id="org86c524a"></a>§ 3.9 Exercises</h3>
+<div id="outline-container-org6198169" class="outline-3">
+<h3 id="exercises">§ 3.9 Exercises</h3>
 <div class="outline-text-3" id="text-exercises">
 </div>
 
-<div id="outline-container-orgff06681" class="outline-4">
-<h4 id="exercise-3.10"><a id="orgff06681"></a>Exercise 3.10</h4>
+<div id="outline-container-org3e1abba" class="outline-4">
+<h4 id="exercise-3.10">Exercise 3.10</h4>
 <div class="outline-text-4" id="text-exercise-3.10">
 <p>
 Meditate on the following:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(define (make-box value)
-  (let ((box
-	 (call/cc
-	  (lambda (exit)
-	    (letrec
-	       ((behavior
-		 (call/cc
-		  (lambda (store)
-		    (exit (lambda (msg . new)
-			    (call/cc
-			     (lambda (caller)
-			       (case msg
-				 ((get) (store (cons (car behavior)
-						     caller)))
-				 ((set)
-				  (store
-				   (cons (car new)
-					 caller))))))))))))
-	      ((cdr behavior) (car behavior)))))))
-    (box 'set value)
-    box))
+<pre class="src src-scheme"><code>(define (make-box value)</code>
+<code>  (let ((box</code>
+<code>	 (call/cc</code>
+<code>	  (lambda (exit)</code>
+<code>	    (letrec</code>
+<code>	       ((behavior</code>
+<code>		 (call/cc</code>
+<code>		  (lambda (store)</code>
+<code>		    (exit (lambda (msg . new)</code>
+<code>			    (call/cc</code>
+<code>			     (lambda (caller)</code>
+<code>			       (case msg</code>
+<code>				 ((get) (store (cons (car behavior)</code>
+<code>						     caller)))</code>
+<code>				 ((set)</code>
+<code>				  (store</code>
+<code>				   (cons (car new)</code>
+<code>					 caller))))))))))))</code>
+<code>	      ((cdr behavior) (car behavior)))))))</code>
+<code>    (box 'set value)</code>
+<code>    box))</code>
 </pre>
 </div>
 </div>
@@ -855,13 +855,13 @@ Meditate on the following:
 </div>
 </div>
 
-<div id="outline-container-orgcf7fc24" class="outline-2">
-<h2 id="ch.-4-assignment-and-side-effects"><a id="orgcf7fc24"></a>Ch. 4 Assignment and Side Effects</h2>
+<div id="outline-container-org455d90b" class="outline-2">
+<h2 id="ch.-4-assignment-and-side-effects">Ch. 4 Assignment and Side Effects</h2>
 <div class="outline-text-2" id="text-ch.-4-assignment-and-side-effects">
 </div>
 
-<div id="outline-container-org242510c" class="outline-3">
-<h3 id="semantics-of-quotations"><a id="org242510c"></a>§ 4.5 Semantics of Quotations</h3>
+<div id="outline-container-orgc818441" class="outline-3">
+<h3 id="semantics-of-quotations">§ 4.5 Semantics of Quotations</h3>
 <div class="outline-text-3" id="text-semantics-of-quotations">
 <p>
 The following quote is essentially a continuation on the theme first
@@ -888,8 +888,8 @@ it's needed.
 </div>
 </div>
 
-<div id="outline-container-org6ef4e1c" class="outline-2">
-<h2 id="ch.-5-denotational-semantics"><a id="org6ef4e1c"></a>Ch. 5 Denotational Semantics</h2>
+<div id="outline-container-orgfdf294f" class="outline-2">
+<h2 id="ch.-5-denotational-semantics">Ch. 5 Denotational Semantics</h2>
 <div class="outline-text-2" id="text-ch.-5-denotational-semantics">
 <p>
 The introduction lists a variety of ways to specify the semantics of a
@@ -928,8 +928,8 @@ means of rewrite rules."</li>
 </ul>
 </div>
 
-<div id="outline-container-orgfe61a82" class="outline-3">
-<h3 id="a-brief-review-of-lambda-calculus"><a id="orgfe61a82"></a>§ 5.1 A Brief Review of &lambda;-Calculus</h3>
+<div id="outline-container-orgd41830b" class="outline-3">
+<h3 id="a-brief-review-of-lambda-calculus">§ 5.1 A Brief Review of &lambda;-Calculus</h3>
 <div class="outline-text-3" id="text-a-brief-review-of-lambda-calculus">
 <p>
 The set of terms in the &lambda;-calculus is given by &Lambda;, which
@@ -994,8 +994,8 @@ Scheme, the \((\omega \, \omega)\) term causes an infinite loop.
 </div>
 </div>
 
-<div id="outline-container-org35e75a4" class="outline-3">
-<h3 id="semantics-of-scheme"><a id="org35e75a4"></a>§ 5.2 Semantics of Scheme</h3>
+<div id="outline-container-org70ed61b" class="outline-3">
+<h3 id="semantics-of-scheme">§ 5.2 Semantics of Scheme</h3>
 <div class="outline-text-3" id="text-semantics-of-scheme">
 \begin{align*}
 \textrm{evaluate}&: \textbf{Program} \times \textbf{Environment} \times
@@ -1080,18 +1080,18 @@ For comparison, here is the denotation given for the &lambda;-calculus.
 </div>
 </div>
 
-<div id="outline-container-org544090e" class="outline-2">
-<h2 id="ch.-6-fast-interpretation"><a id="org544090e"></a>Ch. 6 Fast Interpretation</h2>
+<div id="outline-container-org4755a01" class="outline-2">
+<h2 id="ch.-6-fast-interpretation">Ch. 6 Fast Interpretation</h2>
 <div class="outline-text-2" id="text-ch.-6-fast-interpretation">
 </div>
 
-<div id="outline-container-org43c83f4" class="outline-3">
-<h3 id="a-fast-interpreter"><a id="org43c83f4"></a>§ 6.1 A Fast Interpreter</h3>
+<div id="outline-container-orgc2f78ac" class="outline-3">
+<h3 id="a-fast-interpreter">§ 6.1 A Fast Interpreter</h3>
 <div class="outline-text-3" id="text-a-fast-interpreter">
 </div>
 
-<div id="outline-container-org48ae6b4" class="outline-4">
-<h4 id="migration-of-denotations"><a id="org48ae6b4"></a>6.1.1 Migration of Denotations</h4>
+<div id="outline-container-org0675f1c" class="outline-4">
+<h4 id="migration-of-denotations">6.1.1 Migration of Denotations</h4>
 <div class="outline-text-4" id="text-migration-of-denotations">
 <p>
 <i>&lambda;-hoisting</i> or <i>&lambda;-drifting</i> means migrating code out of
@@ -1105,13 +1105,13 @@ values every time the function is called. Not to be confused with
 </div>
 </div>
 
-<div id="outline-container-org83c35fe" class="outline-2">
-<h2 id="ch.-10-compiling-into-c"><a id="org83c35fe"></a>Ch. 10 Compiling into C</h2>
+<div id="outline-container-org3c32ec3" class="outline-2">
+<h2 id="ch.-10-compiling-into-c">Ch. 10 Compiling into C</h2>
 <div class="outline-text-2" id="text-ch.-10-compiling-into-c">
 </div>
 
-<div id="outline-container-org355c40e" class="outline-3">
-<h3 id="eliminating-nested-functions"><a id="org355c40e"></a>§ 10.4 Eliminating Nested Functions</h3>
+<div id="outline-container-org5d09f50" class="outline-3">
+<h3 id="eliminating-nested-functions">§ 10.4 Eliminating Nested Functions</h3>
 <div class="outline-text-3" id="text-eliminating-nested-functions">
 <blockquote>
 <p>
@@ -1132,7 +1132,7 @@ way that there are no remaining <code>lambda</code> forms in the interior.
 <div id="postamble" class="status">
 <hr>
 <p class="date">Created: 2014-09-19</p>
-<p class="date">Last modified: 2020-05-26</p>
+<p class="date">Last modified: 2021-02-20</p>
 <p class="validation"></p>
 </div>
 </body>
