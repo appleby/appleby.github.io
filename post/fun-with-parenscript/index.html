@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2021-02-20 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 2024-04-12 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Fun with Parenscript</title>
-<meta name="generator" content="Org mode">
-<meta name="description" content="A stream-of-consciousness rambling as I kick the tires of Parenscript"
->
-<meta name="keywords" content="parenscript, lisp, javascript">
+<meta name="description" content="A stream-of-consciousness rambling as I kick the tires of Parenscript" />
+<meta name="keywords" content="parenscript, lisp, javascript" />
+<meta name="generator" content="Org Mode" />
 <link rel="icon" type="image/png" href="/img/icon.png">
 <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
 <style type="text/css">
@@ -20,12 +19,12 @@
 </style>
 </head>
 <body>
-<div id="content">
+<div id="content" class="content">
 <header>
 <h1 class="title">Fun with Parenscript</h1>
-</header><nav id="table-of-contents">
+</header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#about-this-post">About this post</a></li>
 <li><a href="#about-parenscript">About Parenscript</a></li>
@@ -45,7 +44,7 @@
 </li>
 <li><a href="#bugs-oddities">Bugs &amp; Oddities</a>
 <ul>
-<li><a href="#reduce-sometimes-ignores-its-init-argument"><code>reduce</code> sometimes ignores it's <code>init</code> argument</a></li>
+<li><a href="#reduce-sometimes-ignores-its-init-argument"><code>reduce</code> sometimes ignores its <code>init</code> argument</a></li>
 <li><a href="#let-ignores-garbage-in-binding-forms"><code>let</code> ignores garbage in binding forms</a></li>
 <li><a href="#psencode-js-identifier-deprecation-warnings"><code>ps::encode-js-identifier</code> deprecation warnings</a></li>
 <li><a href="#array-argument-punning">Array argument punning</a></li>
@@ -62,7 +61,7 @@
 </div>
 </nav>
 
-<div id="outline-container-org0848c2b" class="outline-2">
+<div id="outline-container-about-this-post" class="outline-2">
 <h2 id="about-this-post">About this post</h2>
 <div class="outline-text-2" id="text-about-this-post">
 <p>
@@ -75,7 +74,7 @@ any lisp implementation that Parenscript supports.
 </div>
 </div>
 
-<div id="outline-container-org4572fd8" class="outline-2">
+<div id="outline-container-about-parenscript" class="outline-2">
 <h2 id="about-parenscript">About Parenscript</h2>
 <div class="outline-text-2" id="text-about-parenscript">
 <p>
@@ -108,7 +107,7 @@ but, honestly, #1 was enough to make me want to try it out.
 </div>
 </div>
 
-<div id="outline-container-org9096689" class="outline-2">
+<div id="outline-container-a-parenscript-crash-course" class="outline-2">
 <h2 id="a-parenscript-crash-course">A Parenscript crash course</h2>
 <div class="outline-text-2" id="text-a-parenscript-crash-course">
 <p>
@@ -128,7 +127,7 @@ clarification. Parenscript comments are not actually copied to the
 compiled JavaScript.
 </p>
 
-<pre class="example">
+<pre class="example" id="orgd43dec7">
 <code>;; Parenscript                        /* JavaScript */</code>
 <code>(defvar *my-global* 1234)             var MYGLOBAL = 1234;</code>
 <code></code>
@@ -161,7 +160,7 @@ English explanation of what these do, since they should be obvious
 from the examples below. See the <a href="https://common-lisp.net/project/parenscript/reference.html">Parenscript reference</a> for details.
 </p>
 
-<pre class="example">
+<pre class="example" id="orgc40eec8">
 <code>;; Parenscript                        /* JavaScript */</code>
 <code>(defvar *my-array* [])                var MYARRAY = [];</code>
 <code></code>
@@ -197,7 +196,7 @@ from the examples below. See the <a href="https://common-lisp.net/project/parens
 </div>
 </div>
 
-<div id="outline-container-org56dfaa3" class="outline-2">
+<div id="outline-container-pre-compiling-parenscript-for-static-sites" class="outline-2">
 <h2 id="pre-compiling-parenscript-for-static-sites">Pre-compiling Parenscript for static sites</h2>
 <div class="outline-text-2" id="text-pre-compiling-parenscript-for-static-sites">
 <p>
@@ -248,7 +247,7 @@ build-time. Thankfully, Parenscript includes the function
 <code>  (let ((outpath (or output (uiop:make-pathname* :defaults input :type "js"))))</code>
 <code>    (uiop:with-enough-pathname (enough-outpath :pathname outpath)</code>
 <code>      (with-open-file (*parenscript-stream* enough-outpath :direction :output :if-exists :supersede)</code>
-<code>	(ps-compile-file input)))))</code>
+<code>        (ps-compile-file input)))))</code>
 </pre>
 </div>
 
@@ -289,12 +288,12 @@ code, I can start hacking.
 </div>
 </div>
 
-<div id="outline-container-org9117592" class="outline-2">
+<div id="outline-container-three-easy-pieces" class="outline-2">
 <h2 id="three-easy-pieces">Three easy pieces</h2>
 <div class="outline-text-2" id="text-three-easy-pieces">
 </div>
 
-<div id="outline-container-org0757346" class="outline-3">
+<div id="outline-container-example-1-toggling-dom-content" class="outline-3">
 <h3 id="example-1-toggling-dom-content">Example 1: Toggling DOM content</h3>
 <div class="outline-text-3" id="text-example-1-toggling-dom-content">
 <p>
@@ -328,15 +327,15 @@ toggling some DOM content with a link.
 <code>(defun toggle-content (id-a id-b id-link)</code>
 <code>  "Toggle the display of the elements given by `id-a' and `id-b'."</code>
 <code>  (let* ((link (chain document (get-element-by-id id-link)))</code>
-<code>	 (element-a (chain document (get-element-by-id id-a)))</code>
-<code>	 (element-b (chain document (get-element-by-id id-b)))</code>
-<code>	 (a-display (normalize-display (@ element-a style display)))</code>
-<code>	 (b-display (normalize-display (@ element-b style display)))</code>
-<code>	 (link-text (concatenate 'string "Show "</code>
-<code>				 (if (equal a-display "block") id-a id-b)))</code>
-<code>	 (state (concatenate 'string a-display "," b-display)))</code>
+<code>         (element-a (chain document (get-element-by-id id-a)))</code>
+<code>         (element-b (chain document (get-element-by-id id-b)))</code>
+<code>         (a-display (normalize-display (@ element-a style display)))</code>
+<code>         (b-display (normalize-display (@ element-b style display)))</code>
+<code>         (link-text (concatenate 'string "Show "</code>
+<code>                                 (if (equal a-display "block") id-a id-b)))</code>
+<code>         (state (concatenate 'string a-display "," b-display)))</code>
 <code>    (when (not (or (equal state "block,none")</code>
-<code>		   (equal state "none,block")))</code>
+<code>                   (equal state "none,block")))</code>
 <code>      (throw (concatenate 'string "Invalid state: " state)))</code>
 <code>    (swap (@ element-a style display) (@ element-b style display))</code>
 <code>    (setf (@ link inner-h-t-m-l) link-text)))</code>
@@ -344,10 +343,10 @@ toggling some DOM content with a link.
 <code>(chain document</code>
 <code>       (get-element-by-id "toggle-link")</code>
 <code>       (add-event-listener</code>
-<code>	"click"</code>
-<code>	(lambda (event)</code>
-<code>	  (chain event (prevent-default))</code>
-<code>	  (toggle-content "toggle-jelly" "toggle-cat" "toggle-link"))))</code>
+<code>        "click"</code>
+<code>        (lambda (event)</code>
+<code>          (chain event (prevent-default))</code>
+<code>          (toggle-content "toggle-jelly" "toggle-cat" "toggle-link"))))</code>
 </pre>
 </div>
 
@@ -384,7 +383,7 @@ macros.
 </p>
 
 <p>
-Finally, here is the working example in all it's glory. Scroll down a
+Finally, here is the working example in all its glory. Scroll down a
 bit to get the full effect.
 </p>
 
@@ -467,7 +466,7 @@ Parenscript. Isn't she glorious?
 </div>
 </div>
 
-<div id="outline-container-org7832532" class="outline-3">
+<div id="outline-container-example-2-fun-with-svg" class="outline-3">
 <h3 id="example-2-fun-with-svg">Example 2: Fun with SVG</h3>
 <div class="outline-text-3" id="text-example-2-fun-with-svg">
 <p>
@@ -524,7 +523,7 @@ kind of like a comma inside a back-quoted expression.
 <p>
 Next, I define some small utilities. In addition to functional
 stand-bys like <code>curry</code>, <code>flip</code>, <code>take</code>, and <code>zip</code>, there is the
-<code>array</code> function which just returns it's arguments as a JS array. Note
+<code>array</code> function which just returns its arguments as a JS array. Note
 that Parenscript already defines <code>array</code> as a special form that
 compiles down to a JavaScript array literal, and a macro <code>list</code> which
 expands to <code>array</code>. However, it's useful to define a real function for
@@ -559,7 +558,7 @@ create a JS object from a sequence of key-value pairs
 <code>(defun numeric-sort-by! (key table)</code>
 <code>  "Numerically sort `table' on `key' in descending order."</code>
 <code>  (chain table (sort (lambda (a b)</code>
-<code>		       (- (+ (getprop b key)) (+ (getprop a key)))))))</code>
+<code>                       (- (+ (getprop b key)) (+ (getprop a key)))))))</code>
 <code></code>
 <code>(defun take (n array)</code>
 <code>  "Take the first `n' items from `array'."</code>
@@ -592,8 +591,8 @@ API, since they are just regular objects and/or function calls.
 <pre class="src src-lisp"><code>(defun fetch-text (url)</code>
 <code>  "Fetch `url' and return the response body as text."</code>
 <code>  (chain (fetch url)</code>
-<code>	 (then (lambda (response) (chain response (text))))</code>
-<code>	 (catch (lambda (error) (throw error)))))</code>
+<code>         (then (lambda (response) (chain response (text))))</code>
+<code>         (catch (lambda (error) (throw error)))))</code>
 <code></code>
 <code>(defun parse-csv (csv-string &amp;optional (numeric-columns (array)))</code>
 <code>  "Parse `csv-string' into an array of objects.</code>
@@ -609,19 +608,19 @@ API, since they are just regular objects and/or function calls.
 <code>(parse-csv \"a,b,c\n1,2,3\n4,5,6\" '(\"a\" \"b\"))</code>
 <code>-&gt; [{a: 1, b: 2, c: \"3\"}, {a: 4, b: 5, c: \"6\"}]"</code>
 <code>  (flet ((convert (alist)</code>
-<code>	   ;; Note that alist is not a true a-list, since JavaScript</code>
-<code>	   ;; doesn't have conses. It's just a two-element array.</code>
-<code>	   (map (lambda (kv)</code>
-<code>		  (destructuring-bind (key value) kv</code>
-<code>		    (if (member key numeric-columns)</code>
-<code>			(list key (+ value))</code>
-<code>			kv)))</code>
-<code>		alist)))</code>
+<code>           ;; Note that alist is not a true a-list, since JavaScript</code>
+<code>           ;; doesn't have conses. It's just a two-element array.</code>
+<code>           (map (lambda (kv)</code>
+<code>                  (destructuring-bind (key value) kv</code>
+<code>                    (if (member key numeric-columns)</code>
+<code>                        (list key (+ value))</code>
+<code>                        kv)))</code>
+<code>                alist)))</code>
 <code>    (let* ((lines (chain csv-string (split #\newline)))</code>
-<code>	   (columns (chain lines (shift) (split #\,))))</code>
+<code>           (columns (chain lines (shift) (split #\,))))</code>
 <code>      (map (lambda (line)</code>
-<code>	     (make-object-from (convert (zip columns (chain line (split #\,))))))</code>
-<code>	   lines))))</code>
+<code>             (make-object-from (convert (zip columns (chain line (split #\,))))))</code>
+<code>           lines))))</code>
 </pre>
 </div>
 
@@ -711,47 +710,47 @@ info on the <code>reduce</code> bug.
 <code>  "Draw a bar chart from the data in `table' on the svg element given</code>
 <code>by `svg-id'."</code>
 <code>  (let* ((svg-element (chain document (get-element-by-id svg-id)))</code>
-<code>	 (svg-height 100)</code>
-<code>	 (svg-width 500)</code>
-<code>	 (view-box (chain (list 0 0 svg-width svg-height) (join " ")))</code>
-<code>	 ;; Reserve h-offset pixels at the top for a title and</code>
-<code>	 ;; w-offset pixels on the left for the y-axis and label.</code>
-<code>	 (h-offset 20)</code>
-<code>	 (w-offset 50)</code>
-<code>	 (max-height (- svg-height h-offset))</code>
-<code>	 ;; Cannot use 0 as the init value since 0 is falsey in</code>
-<code>	 ;; JavaScript! See the implementation of reduce for why. Note</code>
-<code>	 ;; that reduce is defined in *ps-lisp-library*.</code>
-<code>	 (max-value (reduce (lambda (acc row)</code>
-<code>			      (max acc (getprop row "total exports")))</code>
-<code>			    table -1)))</code>
+<code>         (svg-height 100)</code>
+<code>         (svg-width 500)</code>
+<code>         (view-box (chain (list 0 0 svg-width svg-height) (join " ")))</code>
+<code>         ;; Reserve h-offset pixels at the top for a title and</code>
+<code>         ;; w-offset pixels on the left for the y-axis and label.</code>
+<code>         (h-offset 20)</code>
+<code>         (w-offset 50)</code>
+<code>         (max-height (- svg-height h-offset))</code>
+<code>         ;; Cannot use 0 as the init value since 0 is falsey in</code>
+<code>         ;; JavaScript! See the implementation of reduce for why. Note</code>
+<code>         ;; that reduce is defined in *ps-lisp-library*.</code>
+<code>         (max-value (reduce (lambda (acc row)</code>
+<code>                              (max acc (getprop row "total exports")))</code>
+<code>                            table -1)))</code>
 <code>    (set-attr svg-element "viewBox" view-box)</code>
 <code>    (flet ((svg-append-all (&amp;rest elements)</code>
-<code>	     (dolist (element elements)</code>
-<code>	       (append-child. svg-element element))))</code>
+<code>             (dolist (element elements)</code>
+<code>               (append-child. svg-element element))))</code>
 <code>      (svg-append-all</code>
 <code>       ;; Y-axis goes first so grid lines are layered at the bottom.</code>
 <code>       (make-y-axis</code>
-<code>	:w-offset w-offset</code>
-<code>	:width svg-width</code>
-<code>	:height svg-height</code>
-<code>	:tick-scale (/ max-value max-height))</code>
+<code>        :w-offset w-offset</code>
+<code>        :width svg-width</code>
+<code>        :height svg-height</code>
+<code>        :tick-scale (/ max-value max-height))</code>
 <code>       (make-plot-title</code>
-<code>	"Top 25 US States by Agriculture Exports (2011)"</code>
-<code>	;; Title is centered on the x position.</code>
-<code>	:x (+ w-offset (/ (- svg-width w-offset) 2))</code>
-<code>	:y h-offset)</code>
+<code>        "Top 25 US States by Agriculture Exports (2011)"</code>
+<code>        ;; Title is centered on the x position.</code>
+<code>        :x (+ w-offset (/ (- svg-width w-offset) 2))</code>
+<code>        :y h-offset)</code>
 <code>       (make-y-label</code>
-<code>	"Millions USD"</code>
-<code>	;; Label is rotated 90 deg, so x and y are "swapped"</code>
-<code>	:x (- (/ svg-height 2))</code>
-<code>	:y h-offset)</code>
+<code>        "Millions USD"</code>
+<code>        ;; Label is rotated 90 deg, so x and y are "swapped"</code>
+<code>        :x (- (/ svg-height 2))</code>
+<code>        :y h-offset)</code>
 <code>       (make-bars</code>
-<code>	"code" "state" "total exports" table</code>
-<code>	:width (- svg-width w-offset)</code>
-<code>	:height svg-height</code>
-<code>	:value-scale (/ max-height max-value)</code>
-<code>	:x w-offset)))))</code>
+<code>        "code" "state" "total exports" table</code>
+<code>        :width (- svg-width w-offset)</code>
+<code>        :height svg-height</code>
+<code>        :value-scale (/ max-height max-value)</code>
+<code>        :x w-offset)))))</code>
 </pre>
 </div>
 
@@ -793,7 +792,7 @@ Finally, here is the Promise chain to string it all together.
 </div>
 </div>
 
-<div id="outline-container-org3e89979" class="outline-3">
+<div id="outline-container-example-3-fun-with-plotly.js" class="outline-3">
 <h3 id="example-3-fun-with-plotly.js">Example 3: Fun with Plotly.js</h3>
 <div class="outline-text-3" id="text-example-3-fun-with-plotly.js">
 <p>
@@ -811,7 +810,7 @@ Plotly.js, like so:
 </div>
 </div>
 
-<div id="outline-container-org6c2f6cc" class="outline-4">
+<div id="outline-container-example-3.1-plotly-bar-chart" class="outline-4">
 <h4 id="example-3.1-plotly-bar-chart">Example 3.1: Plotly bar chart</h4>
 <div class="outline-text-4" id="text-example-3.1-plotly-bar-chart">
 <script src="https://cdn.plot.ly/plotly-1.36.1.min.js"></script>
@@ -843,10 +842,10 @@ it.
 <code>(defmacro {}. (&amp;rest args)</code>
 <code>  "Create nested object literals."</code>
 <code>  `(create ,@(mapcar (lambda (arg)</code>
-<code>		       (if (and (consp arg) (not (equal '{}. (car arg))))</code>
-<code>			   (cons '{}. arg)</code>
-<code>			   arg))</code>
-<code>		     args)))</code>
+<code>                       (if (and (consp arg) (not (equal '{}. (car arg))))</code>
+<code>                           (cons '{}. arg)</code>
+<code>                           arg))</code>
+<code>                     args)))</code>
 <code></code>
 <code>(defun extract-column (column table)</code>
 <code>  "Return an array of the values for `column' in `table'."</code>
@@ -854,11 +853,11 @@ it.
 <code></code>
 <code>(defun draw-plotly-bar-chart (chart-id table)</code>
 <code>  (let ((layout ({}. :title "Top 25 US States by Agriculture Exports (2011)"</code>
-<code>		     :yaxis (:title "Millions USD")))</code>
-<code>	(data (list (create :x (extract-column "code" table)</code>
-<code>			    :y (extract-column "total exports" table)</code>
-<code>			    :text (extract-column "state" table)</code>
-<code>			    :type "bar"))))</code>
+<code>                     :yaxis (:title "Millions USD")))</code>
+<code>        (data (list (create :x (extract-column "code" table)</code>
+<code>                            :y (extract-column "total exports" table)</code>
+<code>                            :text (extract-column "state" table)</code>
+<code>                            :type "bar"))))</code>
 <code>    (chain -plotly (plot chart-id data layout))))</code>
 <code></code>
 <code>(chain (fetch-text "2011_us_ag_exports.csv")</code>
@@ -886,7 +885,7 @@ macro.
 </div>
 </div>
 
-<div id="outline-container-org6738a24" class="outline-4">
+<div id="outline-container-example-3.2-plotly-choropleth" class="outline-4">
 <h4 id="example-3.2-plotly-choropleth">Example 3.2: Plotly choropleth</h4>
 <div class="outline-text-4" id="text-example-3.2-plotly-choropleth">
 <p>
@@ -902,26 +901,26 @@ of the plotly.js docs.
 <div class="org-src-container">
 <pre class="src src-lisp"><code>(defun draw-plotly-choropleth (chart-id table)</code>
 <code>  (let ((layout ({}. :title "US Agriculture Exports by State (2011)"</code>
-<code>		     :geo (:scope "usa"</code>
-<code>				  :showlakes t</code>
-<code>				  :lakecolor "rgb(255,255,255)")))</code>
-<code>	(data (list (create :type "choropleth"</code>
-<code>			    :locationmode "USA-states"</code>
-<code>			    :locations (extract-column "code" table)</code>
-<code>			    :z (extract-column "total exports" table)</code>
-<code>			    :text (extract-column "state" table)</code>
-<code>			    :zmin 0</code>
-<code>			    :zmax 17000</code>
-<code>			    :colorbar ({}. :title "Millions USD"</code>
-<code>					   :thickness 0.2)</code>
-<code>			    :colorscale ([] (0 "rgb(242,240,247)")</code>
-<code>					    (0.2 "rgb(218,218,235)")</code>
-<code>					    (0.4 "rgb(188,189,220)")</code>
-<code>					    (0.6 "rgb(158,154,200)")</code>
-<code>					    (0.8 "rgb(117,107,177)")</code>
-<code>					    (1 "rgb(84,39,143)"))</code>
-<code>			    :marker ({}. :line (:color "rgb(255,255,255)"</code>
-<code>						       :width 2))))))</code>
+<code>                     :geo (:scope "usa"</code>
+<code>                                  :showlakes t</code>
+<code>                                  :lakecolor "rgb(255,255,255)")))</code>
+<code>        (data (list (create :type "choropleth"</code>
+<code>                            :locationmode "USA-states"</code>
+<code>                            :locations (extract-column "code" table)</code>
+<code>                            :z (extract-column "total exports" table)</code>
+<code>                            :text (extract-column "state" table)</code>
+<code>                            :zmin 0</code>
+<code>                            :zmax 17000</code>
+<code>                            :colorbar ({}. :title "Millions USD"</code>
+<code>                                           :thickness 0.2)</code>
+<code>                            :colorscale ([] (0 "rgb(242,240,247)")</code>
+<code>                                            (0.2 "rgb(218,218,235)")</code>
+<code>                                            (0.4 "rgb(188,189,220)")</code>
+<code>                                            (0.6 "rgb(158,154,200)")</code>
+<code>                                            (0.8 "rgb(117,107,177)")</code>
+<code>                                            (1 "rgb(84,39,143)"))</code>
+<code>                            :marker ({}. :line (:color "rgb(255,255,255)"</code>
+<code>                                                       :width 2))))))</code>
 <code>    (chain -plotly (plot chart-id data layout ({}. :show-link false)))))</code>
 <code></code>
 <code>(chain (fetch-text "2011_us_ag_exports.csv")</code>
@@ -939,7 +938,7 @@ Parenscript is frictionless and requires zero boilerplate.
 </div>
 </div>
 
-<div id="outline-container-org74cacc4" class="outline-2">
+<div id="outline-container-bugs-oddities" class="outline-2">
 <h2 id="bugs-oddities">Bugs &amp; Oddities</h2>
 <div class="outline-text-2" id="text-bugs-oddities">
 <p>
@@ -950,8 +949,8 @@ github. Others aren't really bugs, just things I found interesting.
 </p>
 </div>
 
-<div id="outline-container-orgc5aa078" class="outline-3">
-<h3 id="reduce-sometimes-ignores-its-init-argument"><code>reduce</code> sometimes ignores it's <code>init</code> argument</h3>
+<div id="outline-container-reduce-sometimes-ignores-its-init-argument" class="outline-3">
+<h3 id="reduce-sometimes-ignores-its-init-argument"><code>reduce</code> sometimes ignores its <code>init</code> argument</h3>
 <div class="outline-text-3" id="text-reduce-sometimes-ignores-its-init-argument">
 <p>
 Update(May 2019): this now <a href="https://github.com/vsedach/Parenscript/issues/40">fixed</a>.
@@ -996,7 +995,7 @@ bug:
 </div>
 </div>
 
-<div id="outline-container-org6e558e6" class="outline-3">
+<div id="outline-container-let-ignores-garbage-in-binding-forms" class="outline-3">
 <h3 id="let-ignores-garbage-in-binding-forms"><code>let</code> ignores garbage in binding forms</h3>
 <div class="outline-text-3" id="text-let-ignores-garbage-in-binding-forms">
 <p>
@@ -1004,7 +1003,7 @@ Parenscript's implementation of <code>let</code> ignores extra garbage at the en
 of each binding form. For example:
 </p>
 
-<pre class="example">
+<pre class="example" id="org1227c80">
 <code>;; Parenscript         /* JavaScript */</code>
 <code>(let ((x 4 (/ 0 0)))   (function () {</code>
 <code>  x)                      var x = 4;</code>
@@ -1022,7 +1021,7 @@ implementation. Besides, who's to say this is a bug and not a feature!
 </div>
 </div>
 
-<div id="outline-container-org224e4e1" class="outline-3">
+<div id="outline-container-psencode-js-identifier-deprecation-warnings" class="outline-3">
 <h3 id="psencode-js-identifier-deprecation-warnings"><code>ps::encode-js-identifier</code> deprecation warnings</h3>
 <div class="outline-text-3" id="text-psencode-js-identifier-deprecation-warnings">
 <p>
@@ -1050,7 +1049,7 @@ An example might help clarify. In the following SLIME-REPL session,
 I'd expect <code>"foo.bar"</code> and <code>"foobar[3]"</code> to also generate warnings.
 </p>
 
-<pre class="example">
+<pre class="example" id="orgfeafd57">
 <code>FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar")</code>
 <code>"FOO.BAR"</code>
 <code>FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar?")</code>
@@ -1076,15 +1075,15 @@ Here is the relevant portion of <code>ps::encode-js-identifier</code>.
 <code>following transformation heuristics case conversion. For example,</code>
 <code>paren-script becomes parenScript, *some-global* becomes SOMEGLOBAL."</code>
 <code>    (or (gethash identifier cache)</code>
-<code>	(setf (gethash identifier cache)</code>
-<code>	      (cond ((some (lambda (c) (find c "-*+!?#@%/=:&lt;&gt;^")) identifier)</code>
-<code>		     (let ((lowercase t)</code>
-<code>			   (all-uppercase nil))</code>
-<code>		       (when (and (not (string= identifier "[]")) ;; HACK</code>
-<code>				  (find-if (lambda (x) (find x '(#\. #\[ #\]))) identifier))</code>
-<code>			 (warn "Symbol ~A contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!"</code>
-<code>			       identifier))</code>
-<code>			 ...</code>
+<code>        (setf (gethash identifier cache)</code>
+<code>              (cond ((some (lambda (c) (find c "-*+!?#@%/=:&lt;&gt;^")) identifier)</code>
+<code>                     (let ((lowercase t)</code>
+<code>                           (all-uppercase nil))</code>
+<code>                       (when (and (not (string= identifier "[]")) ;; HACK</code>
+<code>                                  (find-if (lambda (x) (find x '(#\. #\[ #\]))) identifier))</code>
+<code>                         (warn "Symbol ~A contains one of '.[]' - this compound naming convention is no longer supported by Parenscript!"</code>
+<code>                               identifier))</code>
+<code>                         ...</code>
 </pre>
 </div>
 
@@ -1105,7 +1104,7 @@ one of the characters <code>-*+!?#@%/=:&lt;&gt;^</code></li>
 </div>
 </div>
 
-<div id="outline-container-org29b3cad" class="outline-3">
+<div id="outline-container-array-argument-punning" class="outline-3">
 <h3 id="array-argument-punning">Array argument punning</h3>
 <div class="outline-text-3" id="text-array-argument-punning">
 <p>
@@ -1115,7 +1114,7 @@ identical syntax to JavaScript arrays, just without the commas. For
 example:
 </p>
 
-<pre class="example">
+<pre class="example" id="org5a67b6c">
 <code>;; Parenscript             /* JavaScript */</code>
 <code>(some-fn [a b 1 2])        someFn([a, b, 1, 2]);</code>
 </pre>
@@ -1129,7 +1128,7 @@ clearly if we place spaces around the square brackets, in which case
 we get:
 </p>
 
-<pre class="example">
+<pre class="example" id="org65ea5fe">
 <code>;; Parenscript             /* JavaScript */</code>
 <code>(some-fn [ a b 1 2 ])      someFn([, a, b, 1, 2, ]);</code>
 </pre>
@@ -1143,7 +1142,7 @@ argument is <code>[</code> and the last is <code>]</code>.
 This hack works for nested arrays as well:
 </p>
 
-<pre class="example">
+<pre class="example" id="org0d84ed9">
 <code>;; Parenscript               /* JavaScript */</code>
 <code>(some-fn [[a b] 2 [c d] e])  someFn([[a, b], 2, [c, d], e]);</code>
 <code>(some-fn [[a [b [c]]]]))     someFn([[a, [b, [c]]]]);</code>
@@ -1159,7 +1158,7 @@ section) for creating nested arrays.
 </div>
 </div>
 
-<div id="outline-container-org026ca16" class="outline-3">
+<div id="outline-container-vs" class="outline-3">
 <h3 id="vs"><code>[]</code> vs <code>{}</code></h3>
 <div class="outline-text-3" id="text-vs">
 <p>
@@ -1167,7 +1166,7 @@ There are a couple of little asymmetries with respect to <code>[]</code> and <co
 that caught me off guard, summarized in the following examples:
 </p>
 
-<pre class="example">
+<pre class="example" id="org9ff2546">
 <code>;; Parenscript               /* JavaScript */</code>
 <code>(defvar *my-array* [])       var MYARRAY = [];</code>
 <code>(defvar *also-array* '[])    var ALSOARRAY = [];</code>
@@ -1213,7 +1212,7 @@ JavaScript identifier, and treating it like one allows for nonsense
 like:
 </p>
 
-<pre class="example">
+<pre class="example" id="org1e25d51">
 <code>;; Parenscript          /* JavaScript */</code>
 <code>(let (([] 'huh))        (function () {</code>
 <code>   [])                     var [] = 'huh';</code>
@@ -1230,7 +1229,7 @@ ignored, as far as I can tell. Replacing <code>[]</code> with <code>{}</code> in
 two examples results in the following:
 </p>
 
-<pre class="example">
+<pre class="example" id="orgd70a15e">
 <code>;; Parenscript          /* JavaScript */</code>
 <code>(let (({} 'huh))        (function () {</code>
 <code>   {})                     var {}1 = 'huh';</code>
@@ -1258,11 +1257,11 @@ finds <code>{}</code> in <code>*symbol-macro-env*</code>, and replaces it with a
 <div class="org-src-container">
 <pre class="src src-lisp"><code>(defun maybe-rename-lexical-var (x symbols-in-bindings)</code>
 <code>  (when (or (member x *enclosing-lexicals*)</code>
-<code>	    (member x *enclosing-function-arguments*)</code>
-<code>	    (when (boundp '*used-up-names*)</code>
-<code>	      (member x *used-up-names*))</code>
-<code>	    (lookup-macro-def x *symbol-macro-env*)</code>
-<code>	    (member x symbols-in-bindings))</code>
+<code>            (member x *enclosing-function-arguments*)</code>
+<code>            (when (boundp '*used-up-names*)</code>
+<code>              (member x *used-up-names*))</code>
+<code>            (lookup-macro-def x *symbol-macro-env*)</code>
+<code>            (member x symbols-in-bindings))</code>
 <code>    (ps-gensym (symbol-name x))))</code>
 </pre>
 </div>
@@ -1293,11 +1292,11 @@ objects, and that's just what I did in <a href="#org5b904e3">Example 3.1</a>, ab
 </div>
 </div>
 
-<div id="outline-container-org8c95530" class="outline-2">
+<div id="outline-container-takeaways" class="outline-2">
 <h2 id="takeaways">Takeaways</h2>
 <div class="outline-text-2" id="text-takeaways">
 <p>
-Despite a few small bugs and rough edges, Parenscript delivers on it's
+Despite a few small bugs and rough edges, Parenscript delivers on its
 promise of providing a Common Lisp-ish syntax for writing JavaScript,
 complete with the full power of macros for your JavaScripting
 enjoyment.  Alas, it's only subset of Common Lisp, so it feels more
@@ -1317,7 +1316,7 @@ now ramble off a list of Parenscript pros and cons.
 </p>
 </div>
 
-<div id="outline-container-org33178f6" class="outline-3">
+<div id="outline-container-pros" class="outline-3">
 <h3 id="pros">Pros</h3>
 <div class="outline-text-3" id="text-pros">
 <ul class="org-ul">
@@ -1341,7 +1340,7 @@ avoid JavaScript fatigue.</li>
 </div>
 </div>
 
-<div id="outline-container-org6709aa9" class="outline-3">
+<div id="outline-container-cons" class="outline-3">
 <h3 id="cons">Cons</h3>
 <div class="outline-text-3" id="text-cons">
 <ul class="org-ul">
@@ -1361,7 +1360,7 @@ pitfalls that usually entails.</li>
 <div id="postamble" class="status">
 <hr>
 <p class="date">Created: 2018-05-04</p>
-<p class="date">Last modified: 2021-02-20</p>
+<p class="date">Last modified: 2024-04-11</p>
 <p class="validation"></p>
 </div>
 </body>

@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2021-02-20 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 2024-04-12 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lisp Tidbits: How the reader treats package-prefixed symbols</title>
-<meta name="generator" content="Org mode">
-<meta name="description" content="a fun lil tidbit relating to differences in the way the lisp reader handles single and double package markers."
->
-<meta name="keywords" content="common lisp, lisp, reader, symbols, package marker, package prefix">
+<meta name="description" content="a fun lil tidbit relating to differences in the way the lisp reader handles single and double package markers." />
+<meta name="keywords" content="common lisp, lisp, reader, symbols, package marker, package prefix" />
+<meta name="generator" content="Org Mode" />
 <link rel="icon" type="image/png" href="/img/icon.png">
 <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
 <style type="text/css">
@@ -20,7 +19,7 @@
 </style>
 </head>
 <body>
-<div id="content">
+<div id="content" class="content">
 <header>
 <h1 class="title">Lisp Tidbits: How the reader treats package-prefixed symbols</h1>
 </header><p>
@@ -82,7 +81,7 @@ As a result, if <code>FOO</code> is not accessible in <code>MY-PACKAGE</code>, y
 following distinct errors out of SBCL.
 </p>
 
-<pre class="example">
+<pre class="example" id="orgc5e391a">
 <code>CL-USER&gt; my-package:foo</code>
 <code>; Evaluation aborted on #&lt;SB-INT:SIMPLE-READER-PACKAGE-ERROR "Symbol ~S not found in the ~A package." {1008E446B3}&gt;.</code>
 <code>CL-USER&gt; my-package::foo</code>
@@ -196,7 +195,7 @@ This concludes the pre-Common-Lisp history portion of today's tidbit.
 A final morsel. A tidbit of a tidbit. A tiny tid (just a bit). When
 reading a package-prefixed symbol, the reader does not special-case
 the current package or symbols that are already otherwise
-accessible<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. If you type <code>MY-PACKAGE:FOO</code>, then <code>FOO</code> must be
+accessible<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. If you type <code>MY-PACKAGE:FOO</code>, then <code>FOO</code> must be
 external in <code>MY-PACKAGE</code> even if <code>MY-PACKAGE</code> is the current
 package. In other words, despite the syntactic similarity, Common
 Lisp's package markers and external/internal symbols are only
@@ -219,7 +218,7 @@ corresponding <a href="http://www.lispworks.com/documentation/HyperSpec/Body/02_
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 For example, if you <code>import</code> an internal symbol from another
 package.
 </p></div></div>

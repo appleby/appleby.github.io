@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2021-02-20 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 2024-04-12 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Uniprocessor Garbage Collection Techniques</title>
-<meta name="generator" content="Org mode">
-<meta name="description" content="Notes on the paper &quot;Uniprocessor Garbage Collection Techniques&quot;, by Paul R. Wilson."
->
-<meta name="keywords" content="notes, garbage-collection, gc">
+<meta name="description" content="Notes on the paper &quot;Uniprocessor Garbage Collection Techniques&quot;, by Paul R. Wilson." />
+<meta name="keywords" content="notes, garbage-collection, gc" />
+<meta name="generator" content="Org Mode" />
 <link rel="icon" type="image/png" href="/img/icon.png">
 <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
 <style type="text/css">
@@ -20,12 +19,12 @@
 </style>
 </head>
 <body>
-<div id="content">
+<div id="content" class="content">
 <header>
 <h1 class="title">Uniprocessor Garbage Collection Techniques</h1>
-</header><nav id="table-of-contents">
+</header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#basic-garbage-collection-techniques">§ 2 Basic Garbage Collection Techniques</a>
@@ -59,7 +58,7 @@
 </div>
 </nav>
 
-<div id="outline-container-org41147c9" class="outline-2">
+<div id="outline-container-overview" class="outline-2">
 <h2 id="overview">Overview</h2>
 <div class="outline-text-2" id="text-overview">
 <p>
@@ -69,17 +68,17 @@ Techniques" by Paul R. Wilson [Wil92].
 </div>
 </div>
 
-<div id="outline-container-org3240b4a" class="outline-2">
+<div id="outline-container-basic-garbage-collection-techniques" class="outline-2">
 <h2 id="basic-garbage-collection-techniques">§ 2 Basic Garbage Collection Techniques</h2>
 <div class="outline-text-2" id="text-basic-garbage-collection-techniques">
 </div>
 
-<div id="outline-container-org99c724a" class="outline-3">
+<div id="outline-container-reference-counting" class="outline-3">
 <h3 id="reference-counting">§ 2.1 Reference Counting</h3>
 <div class="outline-text-3" id="text-reference-counting">
 </div>
 
-<div id="outline-container-org7c66896" class="outline-4">
+<div id="outline-container-pros" class="outline-4">
 <h4 id="pros">Pros</h4>
 <div class="outline-text-4" id="text-pros">
 <ul class="org-ul">
@@ -95,7 +94,7 @@ object finalizers.</li>
 </div>
 </div>
 
-<div id="outline-container-org808bff4" class="outline-4">
+<div id="outline-container-cons" class="outline-4">
 <h4 id="cons">Cons</h4>
 <div class="outline-text-4" id="text-cons">
 <ul class="org-ul">
@@ -139,12 +138,12 @@ deal with cyclic structures.</li>
 </div>
 </div>
 
-<div id="outline-container-org1da182f" class="outline-3">
+<div id="outline-container-mark-sweep-collection" class="outline-3">
 <h3 id="mark-sweep-collection">§ 2.2 Mark-Sweep Collection</h3>
 <div class="outline-text-3" id="text-mark-sweep-collection">
 </div>
 
-<div id="outline-container-org0be67d7" class="outline-4">
+<div id="outline-container-pros-1" class="outline-4">
 <h4 id="pros-1">Pros</h4>
 <div class="outline-text-4" id="text-pros-1">
 <ul class="org-ul">
@@ -155,7 +154,7 @@ collectors.</li>
 </div>
 </div>
 
-<div id="outline-container-org93690c7" class="outline-4">
+<div id="outline-container-cons-1" class="outline-4">
 <h4 id="cons-1">Cons</h4>
 <div class="outline-text-4" id="text-cons-1">
 <ul class="org-ul">
@@ -187,12 +186,12 @@ objects are often allocated/destroyed together.</li>
 </div>
 </div>
 
-<div id="outline-container-orgccb7333" class="outline-3">
+<div id="outline-container-mark-compact-collection" class="outline-3">
 <h3 id="mark-compact-collection">§ 2.3 Mark-Compact Collection</h3>
 <div class="outline-text-3" id="text-mark-compact-collection">
 </div>
 
-<div id="outline-container-orgbae34a2" class="outline-4">
+<div id="outline-container-pros-2" class="outline-4">
 <h4 id="pros-2">Pros</h4>
 <div class="outline-text-4" id="text-pros-2">
 <ul class="org-ul">
@@ -203,7 +202,7 @@ objects are often allocated/destroyed together.</li>
 </div>
 </div>
 
-<div id="outline-container-org32396af" class="outline-4">
+<div id="outline-container-cons-2" class="outline-4">
 <h4 id="cons-2">Cons</h4>
 <div class="outline-text-4" id="text-cons-2">
 <ul class="org-ul">
@@ -213,12 +212,12 @@ objects are often allocated/destroyed together.</li>
 </div>
 </div>
 
-<div id="outline-container-orgafcaef9" class="outline-3">
+<div id="outline-container-copying-garage-collection" class="outline-3">
 <h3 id="copying-garage-collection">§ 2.4 Copying Garage Collection</h3>
 <div class="outline-text-3" id="text-copying-garage-collection">
 </div>
 
-<div id="outline-container-orge6eaf31" class="outline-4">
+<div id="outline-container-a-simple-copying-collector-stop-and-copy-using-semispaces" class="outline-4">
 <h4 id="a-simple-copying-collector-stop-and-copy-using-semispaces">A Simple Copying Collector: "Stop-and-Copy" Using Semispaces</h4>
 <div class="outline-text-4" id="text-a-simple-copying-collector-stop-and-copy-using-semispaces">
 <p>
@@ -250,7 +249,7 @@ of reference.</li>
 </ul>
 </div>
 
-<div id="outline-container-orgcb8ff3d" class="outline-4">
+<div id="outline-container-efficiency-of-copying-collection" class="outline-4">
 <h4 id="efficiency-of-copying-collection">Efficiency of Copying Collection</h4>
 <div class="outline-text-4" id="text-efficiency-of-copying-collection">
 <p>
@@ -263,7 +262,7 @@ required.
 </div>
 </div>
 
-<div id="outline-container-orge8c5290" class="outline-3">
+<div id="outline-container-non-copying-implicit-collection" class="outline-3">
 <h3 id="non-copying-implicit-collection">§ 2.5 Non-Copying Implicit Collection</h3>
 <div class="outline-text-3" id="text-non-copying-implicit-collection">
 <blockquote>
@@ -289,7 +288,7 @@ list and their space flag is flipped to indicate they have been "moved".
 </p>
 </div>
 
-<div id="outline-container-org9eedf5a" class="outline-4">
+<div id="outline-container-pros-4" class="outline-4">
 <h4 id="pros-4">Pros</h4>
 <div class="outline-text-4" id="text-pros-4">
 <ul class="org-ul">
@@ -300,7 +299,7 @@ collector (since objects aren't copied).</li>
 </div>
 </div>
 
-<div id="outline-container-org2f47fbb" class="outline-4">
+<div id="outline-container-cons-4" class="outline-4">
 <h4 id="cons-4">Cons</h4>
 <div class="outline-text-4" id="text-cons-4">
 <ul class="org-ul">
@@ -311,7 +310,7 @@ collector (since objects aren't copied).</li>
 </div>
 </div>
 
-<div id="outline-container-orgfca84cf" class="outline-3">
+<div id="outline-container-choosing-among-basic-techniques" class="outline-3">
 <h3 id="choosing-among-basic-techniques">§ 2.6 Choosing Among Basic Techniques</h3>
 <div class="outline-text-3" id="text-choosing-among-basic-techniques">
 <p>
@@ -332,7 +331,7 @@ and on various constant factors for a particular implementation.
 </div>
 </div>
 
-<div id="outline-container-org8f9683c" class="outline-3">
+<div id="outline-container-problems-with-a-simple-garbage-collector" class="outline-3">
 <h3 id="problems-with-a-simple-garbage-collector">§ 2.7 Problems with a Simple Garbage Collector</h3>
 <div class="outline-text-3" id="text-problems-with-a-simple-garbage-collector">
 <ul class="org-ul">
@@ -352,7 +351,7 @@ the memory.</li>
 </div>
 </div>
 
-<div id="outline-container-org875b16a" class="outline-2">
+<div id="outline-container-incremental-tracing-collectors" class="outline-2">
 <h2 id="incremental-tracing-collectors">§ 3 Incremental Tracing Collectors</h2>
 <div class="outline-text-2" id="text-incremental-tracing-collectors">
 <blockquote>
@@ -374,7 +373,7 @@ garbage collection.
 </blockquote>
 </div>
 
-<div id="outline-container-orgfdb5dbd" class="outline-3">
+<div id="outline-container-tricolor-marking" class="outline-3">
 <h3 id="tricolor-marking">§ 3.1 Tricolor Marking</h3>
 <div class="outline-text-3" id="text-tricolor-marking">
 <blockquote>
@@ -410,7 +409,7 @@ bookkeeping is brought up to date.
 </blockquote>
 </div>
 
-<div id="outline-container-orgd40b678" class="outline-4">
+<div id="outline-container-incremental-approaches" class="outline-4">
 <h4 id="incremental-approaches">Incremental approaches</h4>
 <div class="outline-text-4" id="text-incremental-approaches">
 <p>
@@ -443,7 +442,7 @@ immediately greyed.</li>
 </div>
 </div>
 
-<div id="outline-container-org5477594" class="outline-3">
+<div id="outline-container-bakers-incremental-copying" class="outline-3">
 <h3 id="bakers-incremental-copying">§ 3.2 Baker's Incremental Copying</h3>
 <div class="outline-text-3" id="text-bakers-incremental-copying">
 <p>
@@ -484,7 +483,7 @@ but still expensive compared to normal pointer access.
 </div>
 </div>
 
-<div id="outline-container-org62bd100" class="outline-3">
+<div id="outline-container-the-treadmill" class="outline-3">
 <h3 id="the-treadmill">§ 3.3 The Treadmill</h3>
 <div class="outline-text-3" id="text-the-treadmill">
 <p>
@@ -506,7 +505,7 @@ cycle.
 </p>
 
 
-<figure>
+<figure id="orga1e51a6">
 <img src="treadmill-gc.png" alt="treadmill gc">
 
 </figure>
@@ -517,7 +516,7 @@ See also: <a href="http://www.pipeline.com/~hbaker1/NoMotionGC.html">http://www.
 </div>
 </div>
 
-<div id="outline-container-orgde43635" class="outline-3">
+<div id="outline-container-snapshot-at-beginning-write-barrier-algorithms" class="outline-3">
 <h3 id="snapshot-at-beginning-write-barrier-algorithms">§ 3.4 Snapshot-at-Beginning Write-Barrier Algorithms</h3>
 <div class="outline-text-3" id="text-snapshot-at-beginning-write-barrier-algorithms">
 <p>
@@ -538,7 +537,7 @@ marking stack for later examination.
 </p>
 </div>
 
-<div id="outline-container-orgb33a120" class="outline-4">
+<div id="outline-container-pros-5" class="outline-4">
 <h4 id="pros-5">Pros</h4>
 <div class="outline-text-4" id="text-pros-5">
 <ul class="org-ul">
@@ -549,7 +548,7 @@ because pointer reads are much more common than pointer writes.</li>
 </div>
 </div>
 
-<div id="outline-container-orgb4a4920" class="outline-4">
+<div id="outline-container-cons-5" class="outline-4">
 <h4 id="cons-5">Cons</h4>
 <div class="outline-text-4" id="text-cons-5">
 <ul class="org-ul">
@@ -562,7 +561,7 @@ are preserved).</li>
 </div>
 </div>
 
-<div id="outline-container-orgd1fb689" class="outline-3">
+<div id="outline-container-incremental-update-write-barrier-algorithms" class="outline-3">
 <h3 id="incremental-update-write-barrier-algorithms">§ 3.5 Incremental Update Write-Barrier Algorithms</h3>
 <div class="outline-text-3" id="text-incremental-update-write-barrier-algorithms">
 <p>
@@ -599,7 +598,7 @@ when the set of roots is traversed.
 </p>
 </div>
 
-<div id="outline-container-org41a8d2e" class="outline-4">
+<div id="outline-container-pros-6" class="outline-4">
 <h4 id="pros-6">Pros</h4>
 <div class="outline-text-4" id="text-pros-6">
 <ul class="org-ul">
@@ -611,7 +610,7 @@ short-lived objects.</li>
 </div>
 </div>
 
-<div id="outline-container-orge2b28c6" class="outline-4">
+<div id="outline-container-cons-6" class="outline-4">
 <h4 id="cons-6">Cons</h4>
 <div class="outline-text-4" id="text-cons-6">
 <ul class="org-ul">
@@ -624,7 +623,7 @@ reachable).</li>
 </div>
 </div>
 
-<div id="outline-container-orgc40ba90" class="outline-3">
+<div id="outline-container-choosing-among-incremental-techniques" class="outline-3">
 <h3 id="choosing-among-incremental-techniques">§ 3.6 Choosing Among Incremental Techniques</h3>
 <div class="outline-text-3" id="text-choosing-among-incremental-techniques">
 <blockquote>
@@ -663,7 +662,7 @@ software) for small areas of memory&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgc7a2b2d" class="outline-2">
+<div id="outline-container-generational-garbage-collection" class="outline-2">
 <h2 id="generational-garbage-collection">§ 4 Generational Garbage Collection</h2>
 <div class="outline-text-2" id="text-generational-garbage-collection">
 <blockquote>
@@ -699,7 +698,7 @@ orthogonal to the issue of generation collection&#x2026;
 </blockquote>
 </div>
 
-<div id="outline-container-orgc216ddc" class="outline-3">
+<div id="outline-container-detecting-intergenerational-references" class="outline-3">
 <h3 id="detecting-intergenerational-references">§ 4.2 Detecting Intergenerational References</h3>
 <div class="outline-text-3" id="text-detecting-intergenerational-references">
 <p>
