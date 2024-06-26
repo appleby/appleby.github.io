@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-04-12 -->
+<!-- 2024-06-25 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lisp Tidbits: How the reader treats package-prefixed symbols</title>
@@ -81,7 +81,7 @@ As a result, if <code>FOO</code> is not accessible in <code>MY-PACKAGE</code>, y
 following distinct errors out of SBCL.
 </p>
 
-<pre class="example" id="orgc5e391a">
+<pre class="example" id="orgc940e30">
 <code>CL-USER&gt; my-package:foo</code>
 <code>; Evaluation aborted on #&lt;SB-INT:SIMPLE-READER-PACKAGE-ERROR "Symbol ~S not found in the ~A package." {1008E446B3}&gt;.</code>
 <code>CL-USER&gt; my-package::foo</code>

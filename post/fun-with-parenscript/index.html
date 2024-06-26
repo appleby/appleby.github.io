@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-04-12 -->
+<!-- 2024-06-25 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Fun with Parenscript</title>
@@ -127,7 +127,7 @@ clarification. Parenscript comments are not actually copied to the
 compiled JavaScript.
 </p>
 
-<pre class="example" id="orgd43dec7">
+<pre class="example" id="org3069516">
 <code>;; Parenscript                        /* JavaScript */</code>
 <code>(defvar *my-global* 1234)             var MYGLOBAL = 1234;</code>
 <code></code>
@@ -160,7 +160,7 @@ English explanation of what these do, since they should be obvious
 from the examples below. See the <a href="https://common-lisp.net/project/parenscript/reference.html">Parenscript reference</a> for details.
 </p>
 
-<pre class="example" id="orgc40eec8">
+<pre class="example" id="orgedcf787">
 <code>;; Parenscript                        /* JavaScript */</code>
 <code>(defvar *my-array* [])                var MYARRAY = [];</code>
 <code></code>
@@ -1003,7 +1003,7 @@ Parenscript's implementation of <code>let</code> ignores extra garbage at the en
 of each binding form. For example:
 </p>
 
-<pre class="example" id="org1227c80">
+<pre class="example" id="org90def93">
 <code>;; Parenscript         /* JavaScript */</code>
 <code>(let ((x 4 (/ 0 0)))   (function () {</code>
 <code>  x)                      var x = 4;</code>
@@ -1049,7 +1049,7 @@ An example might help clarify. In the following SLIME-REPL session,
 I'd expect <code>"foo.bar"</code> and <code>"foobar[3]"</code> to also generate warnings.
 </p>
 
-<pre class="example" id="orgfeafd57">
+<pre class="example" id="org1c98fb2">
 <code>FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar")</code>
 <code>"FOO.BAR"</code>
 <code>FUN-WITH-PS&gt; (ps::encode-js-identifier "foo.bar?")</code>
@@ -1114,7 +1114,7 @@ identical syntax to JavaScript arrays, just without the commas. For
 example:
 </p>
 
-<pre class="example" id="org5a67b6c">
+<pre class="example" id="orgbfa9154">
 <code>;; Parenscript             /* JavaScript */</code>
 <code>(some-fn [a b 1 2])        someFn([a, b, 1, 2]);</code>
 </pre>
@@ -1128,7 +1128,7 @@ clearly if we place spaces around the square brackets, in which case
 we get:
 </p>
 
-<pre class="example" id="org65ea5fe">
+<pre class="example" id="orgbfb1352">
 <code>;; Parenscript             /* JavaScript */</code>
 <code>(some-fn [ a b 1 2 ])      someFn([, a, b, 1, 2, ]);</code>
 </pre>
@@ -1142,7 +1142,7 @@ argument is <code>[</code> and the last is <code>]</code>.
 This hack works for nested arrays as well:
 </p>
 
-<pre class="example" id="org0d84ed9">
+<pre class="example" id="org81e604c">
 <code>;; Parenscript               /* JavaScript */</code>
 <code>(some-fn [[a b] 2 [c d] e])  someFn([[a, b], 2, [c, d], e]);</code>
 <code>(some-fn [[a [b [c]]]]))     someFn([[a, [b, [c]]]]);</code>
@@ -1166,7 +1166,7 @@ There are a couple of little asymmetries with respect to <code>[]</code> and <co
 that caught me off guard, summarized in the following examples:
 </p>
 
-<pre class="example" id="org9ff2546">
+<pre class="example" id="org7abbba1">
 <code>;; Parenscript               /* JavaScript */</code>
 <code>(defvar *my-array* [])       var MYARRAY = [];</code>
 <code>(defvar *also-array* '[])    var ALSOARRAY = [];</code>
@@ -1212,7 +1212,7 @@ JavaScript identifier, and treating it like one allows for nonsense
 like:
 </p>
 
-<pre class="example" id="org1e25d51">
+<pre class="example" id="org41387a5">
 <code>;; Parenscript          /* JavaScript */</code>
 <code>(let (([] 'huh))        (function () {</code>
 <code>   [])                     var [] = 'huh';</code>
@@ -1229,7 +1229,7 @@ ignored, as far as I can tell. Replacing <code>[]</code> with <code>{}</code> in
 two examples results in the following:
 </p>
 
-<pre class="example" id="orgd70a15e">
+<pre class="example" id="orga9aad37">
 <code>;; Parenscript          /* JavaScript */</code>
 <code>(let (({} 'huh))        (function () {</code>
 <code>   {})                     var {}1 = 'huh';</code>
